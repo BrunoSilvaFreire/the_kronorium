@@ -1,0 +1,179 @@
+{
+  "name": "For The Good Of All",
+  "map": "Revelations",
+  "thumbnail": "https://static.wikia.nocookie.net/callofduty/images/d/de/Revelations_Menu_Selection_BO3.png/revision/latest/scale-to-width-down/1000",
+  "steps": [
+    {
+      "name": "step1",
+      "summary": "Tombstones - Shoot the tombstones in the correct order.",
+      "dependencies": [],
+      "notes": [
+        "Sequence is 2-3-1-4, representing each character's death.",
+        "Reset by starting from Richtofen's tombstone if the sequence is incorrect.",
+        "Listen for the thunder sound as confirmation of completion."
+      ]
+    },
+
+    {
+      "name": "getApothiconServant",
+      "summary": "Obtain the Apothicon Servant from the Mystery Box.",
+      "dependencies": [],
+      "notes": [
+        "May require multiple Mystery Box uses. Plan for potential high expense.",
+        "Crucial for several Easter Egg steps, especially for dealing with zombies."
+      ]
+    },
+    {
+      "name": "audioReel1",
+      "summary": "Collect the first Audio Reel after completing the tombstone step.",
+      "dependencies": [
+        "step1"
+      ],
+      "notes": [
+        "The Keeper Protector needs to chant for three minutes at a specific Jump Pad.",
+        "Protect the Keeper Protector from zombies during the ritual.",
+        "The first Audio Reel appears near the Jump Pad after the ritual."
+      ]
+    },
+    {
+      "name": "audioReel2",
+      "summary": "Obtain the second Audio Reel by using Li'l Arnies in the Apothicon.",
+      "dependencies": [
+        "audioReel1",
+        "getLilArnies"
+      ],
+      "notes": [
+        "Throw Li'l Arnies into holes within the Apothicon to summon Margwas.",
+        "Each set of three holes used spawns a different type of Margwa.",
+        "The second Audio Reel spawns after defeating all summoned Margwas."
+      ]
+    },
+    {
+      "name": "audioReel3",
+      "summary": "Collect the third Audio Reel by gathering skeleton parts around the map.",
+      "dependencies": [
+        "audioReel2",
+        "upgradeApothiconServant"
+      ],
+      "notes": [
+        "Shoot specific rocks with a Pack-a-Punched weapon to reveal skeleton parts.",
+        "Use the upgraded Apothicon Servant to collect the parts.",
+        "The third Audio Reel appears after collecting all skeleton parts."
+      ]
+    },
+    {
+      "name": "step3",
+      "summary": "Materializing S.O.P.H.I.A - Use turrets at the Corruption Engines to shoot four floating blue 115 rocks.",
+      "dependencies": [
+        "audioReel3"
+      ],
+      "notes": [
+        "Each turret activation costs 2000 points. Plan your finances.",
+        "Shoot the left-side rock from each turret's perspective towards Nacht der Untoten.",
+        "S.O.P.H.I.A becomes fully visible after all four rocks are hit."
+      ]
+    },
+    {
+      "name": "step4",
+      "summary": "Obtaining the Kronorium - Teleport to Samantha's bedroom and pick up the Kronorium.",
+      "dependencies": [
+        "step3"
+      ],
+      "notes": [
+        "All players must be in the teleporter to initiate the teleport.",
+        "Kronorium is placed on the podium in Kino der Toten upon return.",
+        "This step is crucial for narrative progression."
+      ]
+    },
+    {
+      "name": "step5",
+      "summary": "Acquiring the Apothicon Eggs - Find and fill Apothicon Eggs with zombie souls.",
+      "dependencies": [
+        "step4"
+      ],
+      "notes": [
+        "Eggs are spread across the map. Each has multiple spawn points.",
+        "Killing zombies near the Eggs will fill them up.",
+        "Filled Eggs turn into Gateworms, needed for later steps."
+      ]
+    },
+    {
+      "name": "step6",
+      "summary": "Retrieving the Runes of Creation - Use the Gateworms to find Runes of Creation.",
+      "dependencies": [
+        "step5"
+      ],
+      "notes": [
+        "Listen for the beeping noise to find the Runes' invisible spawn points.",
+        "Gateworms are used to reveal and collect the Runes of Creation.",
+        "The beeping gets faster as you approach the correct location."
+      ]
+    },
+    {
+      "name": "step7",
+      "summary": "Recovering the Summoning Key - Complete the challenges in the boss arena.",
+      "dependencies": [
+        "step6",
+        "getHelmetOfTheKing"
+      ],
+      "notes": [
+        "Prepare for intense combat—bring powerful weapons and ammo.",
+        "The Helmet of the King provides extra protection against enemies.",
+        "Completing the symbol sequence correctly is crucial to progress."
+      ]
+    },
+    {
+      "name": "step8",
+      "summary": "Gathering the Objects - Throw the Summoning Key at several items related to previous Easter Eggs.",
+      "dependencies": [
+        "step7"
+      ],
+      "notes": [
+        "Be cautious of the Summoning Key's glitches; follow suggested precautions.",
+        "Each successful hit is indicated by an audio cue and visual effect.",
+        "Collecting all objects progresses the Easter Egg towards the final battle."
+      ]
+    },
+    {
+      "name": "step9",
+      "summary": "Defeating the Shadowman - Final battle against the Shadowman.",
+      "dependencies": [
+        "step8"
+      ],
+      "notes": [
+        "Use the charged Summoning Key on S.O.P.H.I.A to break the Shadowman's shield.",
+        "Concentrate fire on the Shadowman when his shield is down.",
+        "Success unlocks significant rewards and concludes the Easter Egg."
+      ]
+    },
+    {
+      "name": "upgradeApothiconServant",
+      "summary": "Upgrade the Apothicon Servant via the Pack-a-Punch.",
+      "dependencies": [
+        "getApothiconServant"
+      ],
+      "notes": [
+        "The upgrade enhances its effectiveness significantly.",
+        "Necessary for completing specific Easter Egg steps."
+      ]
+    },
+    {
+      "name": "getLilArnies",
+      "summary": "Obtain the Li'l Arnies from the Mystery Box.",
+      "dependencies": [],
+      "notes": [
+        "Useful for distracting zombies and managing large groups.",
+        "Required for collecting the second Audio Reel."
+      ]
+    },
+    {
+      "name": "getHelmetOfTheKing",
+      "summary": "Obtain the Helmet of the King for extra protection.",
+      "dependencies": [],
+      "notes": [
+        "Provides a significant defensive boost.",
+        "Highly recommended for surviving in later steps."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,107 @@
+{
+  "name": "Apocalypse Averted",
+  "map": "Shadows Of Evil",
+  "thumbnail": "https://static.wikia.nocookie.net/callofduty/images/1/14/Shadows_of_Evil_Menu_Selection_BO3.png/revision/latest/scale-to-width-down/1000",
+  "steps": [
+    {
+      "name": "prerequisites",
+      "summary": "Complete these actions before starting the Easter Egg steps",
+      "dependencies": []
+    },
+    {
+      "name": "step1",
+      "summary": "Tombstones - Shoot the tombstones in the correct order.",
+      "dependencies": [
+        "prerequisites"
+      ]
+    },
+    {
+      "name": "step2",
+      "summary": "The Audio Reels - Collect and place audio reels in the correct order.",
+      "dependencies": [
+        "step1",
+        "getApothiconServant",
+        "upgradeApothiconServant",
+        "getLilArnies"
+      ]
+    },
+    {
+      "name": "step3",
+      "summary": "Materializing S.O.P.H.I.A - Use turrets at the Corruption Engines to shoot four floating blue 115 rocks.",
+      "dependencies": [
+        "step2"
+      ]
+    },
+    {
+      "name": "step4",
+      "summary": "Obtaining the Kronorium - Teleport to Samantha's bedroom and pick up the Kronorium.",
+      "dependencies": [
+        "step3"
+      ]
+    },
+    {
+      "name": "step5",
+      "summary": "Acquiring the Apothicon Eggs - Find and fill Apothicon Eggs with zombie souls.",
+      "dependencies": [
+        "step4"
+      ]
+    },
+    {
+      "name": "step6",
+      "summary": "Retrieving the Runes of Creation - Use the Gateworms to find Runes of Creation.",
+      "dependencies": [
+        "step5"
+      ]
+    },
+    {
+      "name": "step7",
+      "summary": "Recovering the Summoning Key - Complete the challenges in the boss arena.",
+      "dependencies": [
+        "step6",
+        "getHelmetOfTheKing"
+      ]
+    },
+    {
+      "name": "step8",
+      "summary": "Gathering the Objects - Throw the Summoning Key at several items related to previous Easter Eggs.",
+      "dependencies": [
+        "step7"
+      ]
+    },
+    {
+      "name": "step9",
+      "summary": "Defeating the Shadowman - Final battle against the Shadowman.",
+      "dependencies": [
+        "step8"
+      ]
+    },
+    {
+      "name": "getApothiconServant",
+      "summary": "Obtain the Apothicon Servant from the Mystery Box.",
+      "dependencies": [
+        "prerequisites"
+      ]
+    },
+    {
+      "name": "upgradeApothiconServant",
+      "summary": "Upgrade the Apothicon Servant via the Pack-a-Punch.",
+      "dependencies": [
+        "getApothiconServant"
+      ]
+    },
+    {
+      "name": "getLilArnies",
+      "summary": "Obtain the Li'l Arnies from the Mystery Box.",
+      "dependencies": [
+        "prerequisites"
+      ]
+    },
+    {
+      "name": "getHelmetOfTheKing",
+      "summary": "Obtain the Helmet of the King for extra protection.",
+      "dependencies": [
+        "prerequisites"
+      ]
+    }
+  ]
+}
