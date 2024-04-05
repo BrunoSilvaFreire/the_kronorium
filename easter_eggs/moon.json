@@ -1,16 +1,26 @@
 {
   "name": "Richtofen's Grand Scheme",
   "map": "Moon",
+  "color": "deepPurple",
   "thumbnail": "https://static.wikia.nocookie.net/callofduty/images/4/4a/Moon_Menu_Selection_BO3.png/revision/latest/scale-to-width-down/1000",
   "steps": [
     {
       "name": "turnOnPower",
       "summary": "Turn on the power",
-      "icon": "power"
+      "icon": "power",
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/1/17/Moon_MPD_BO3.png/revision/latest/scale-to-width-down/1000",
+          "notes": [
+            "The power switch is located near to the power room"
+          ]
+        }
+      ]
     },
     {
       "name": "minNumPlayersPostCryogenicSlumberParty",
       "summary": "Have two or more players in an online party.",
+      "icon": "accountMultiple",
       "validIn": [
         "blackOps1"
       ]
@@ -22,6 +32,11 @@
       "dependencies": [],
       "notes": [
         "Required for several steps, particularly for moving the Vril Sphere."
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/6/63/Wave_Gun_Third_Person_BO3.png/revision/latest"
+        }
       ]
     },
     {
@@ -31,6 +46,11 @@
       "dependencies": [],
       "notes": [
         "Used for hacking terminals and panels in the Laboratory."
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/a/ac/Hacker.PNG/revision/latest"
+        }
       ]
     },
     {
@@ -40,6 +60,11 @@
       "icon": "atom",
       "notes": [
         "Needed for specific steps following the Cryogenic Slumber Party achievement."
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/0/0f/QED_Third_Person_BO3.png/revision/latest"
+        }
       ]
     },
     {
@@ -49,6 +74,11 @@
       "dependencies": [],
       "notes": [
         "Required for moving certain objects and completing steps post-Cryogenic Slumber Party."
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/3/38/Gersh_Device_third_person_BO3.jpg/revision/latest/scale-to-width-down/1000"
+        }
       ]
     },
     {
@@ -60,6 +90,11 @@
       ],
       "notes": [
         "Involves pressing computers in sequence according to their flashing colors."
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/4/41/Moon_receiving_bay_outside_BO3.png/revision/latest/scale-to-width-down/1000"
+        }
       ]
     },
     {
@@ -72,6 +107,11 @@
       ],
       "notes": [
         "Find and hack four white panel boxes with bright green lights within a time limit."
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/4/4a/Richtofen%27s_Grand_Scheme_step_2_BO3.png/revision/latest/scale-to-width-down/1000"
+        }
       ]
     },
     {
@@ -80,6 +120,11 @@
       "icon": "arrowUp",
       "dependencies": [
         "gershDevice"
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/2/2b/Richtofen%27s_Grand_Scheme_step_5_BO3.png/revision/latest/scale-to-width-down/1000"
+        }
       ]
     },
     {
@@ -114,14 +159,20 @@
       "icon": "lightningBolt",
       "dependencies": [
         "buildComputer"
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/1/12/Richtofen%27s_Grand_Scheme_step_8_BO3.png/revision/latest/scale-to-width-down/1000"
+        }
       ]
     },
     {
       "name": "placeVrilDevice",
-      "summary": "Take the charged Vril Device and place it in the ",
+      "summary": "Take the charged Vril Device and place it in the pyramid",
       "icon": "lightningBolt",
       "dependencies": [
-        "buildComputer"
+        "openMPD",
+        "chargeVrilDevice"
       ]
     },
     {
@@ -129,7 +180,7 @@
       "summary": "Switch Souls between Samantha and Richtofen",
       "icon": "swapHorizontal",
       "dependencies": [
-        "buildComputer"
+        "placeVrilDevice"
       ]
     },
 

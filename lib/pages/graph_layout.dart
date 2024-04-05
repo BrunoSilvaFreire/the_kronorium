@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:the_kronorium/easter_eggs.dart';
 import 'package:the_kronorium/pages/easter_egg_page.dart';
+import 'package:the_kronorium/widgets/easter_egg_step_card.dart';
 import 'package:widget_arrows/widget_arrows.dart';
 
 class GraphLayoutAlgorithm {
@@ -56,6 +57,9 @@ class GraphLayoutAlgorithm {
   }
 
   Iterable<Widget> getChildren(
+    int? selectedIndex,
+    Color color,
+    void Function(int index) onClicked,
     double cardWidth,
     double levelSpacing,
     double siblingSpacing,
@@ -71,7 +75,7 @@ class GraphLayoutAlgorithm {
               id: step.name,
               bow: 0,
               stretch: 0,
-              color: Colors.red,
+              color: color,
               targetAnchor: Alignment.centerLeft,
               sourceAnchor: Alignment.centerRight,
               straights: true,
@@ -85,6 +89,11 @@ class GraphLayoutAlgorithm {
                 width: cardWidth,
                 child: EasterEggStepCard(
                   step: step,
+                  isSelected: index == selectedIndex,
+                  maxImageHeight: cardWidth * (9.0 / 16.0),
+                  onTap: () {
+                    onClicked(index);
+                  },
                 ),
               ),
             ),

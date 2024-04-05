@@ -1,3 +1,6 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
 extension Interleave<T> on Iterable<T> {
   Iterable<T> interleave(T Function(T element) selector) sync* {
     var list = toList(growable: false);
@@ -7,5 +10,48 @@ extension Interleave<T> on Iterable<T> {
       yield selector(element);
     }
     yield list.last;
+  }
+}
+
+extension IconUtility on IconData {
+  Icon asIcon() {
+    return Icon(this);
+  }
+}
+var _defaultColors = {
+  "red": 0,
+  "pink": 1,
+  "purple": 2,
+  "deepPurple": 3,
+  "indigo": 4,
+  "blue": 5,
+  "lightBlue": 6,
+  "cyan": 7,
+  "teal": 8,
+  "green": 9,
+  "lightGreen": 10,
+  "lime": 11,
+  "yellow": 12,
+  "amber": 13,
+  "orange": 14,
+  "deepOrange": 15,
+  "brown": 16,
+  "blueGrey": 17,
+};
+Color parseColor(String string) {
+  if (string.startsWith('0x')) {
+    // The string is in hexadecimal format, parse it as before
+    String valueString = string.split('(0x')[1].split(')')[0];
+    int value = int.parse(valueString, radix: 16);
+    return Color(value);
+  } else {
+    // The string is a raw color name, attempt to retrieve it from primaryColorsMap
+    Color? color = Colors.primaries[_defaultColors[string]!];
+    if (color != null) {
+      return color;
+    } else {
+      // Handle the case where the color name is not found. This might throw an error or return a default color.
+      throw ArgumentError('Color "$string" not found in primaryColorsMap.');
+    }
   }
 }

@@ -1,9 +1,12 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:the_kronorium/graphs/adjacency_list.dart';
 import 'package:the_kronorium/serialization.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:the_kronorium/utils.dart';
 
 part 'easter_eggs.g.dart';
 
@@ -40,6 +43,7 @@ class EasterEgg {
   final String map;
   final String thumbnailURL;
   final List<EasterEggStep> steps;
+  final Color color;
   EasterEggStepGraph? _cachedGraph;
 
   EasterEgg({
@@ -47,6 +51,7 @@ class EasterEgg {
     required this.map,
     required this.thumbnailURL,
     required this.steps,
+    required this.color,
   });
 
   EasterEggStepGraph asGraph() {
@@ -87,6 +92,11 @@ class EasterEgg {
       name: map.require<String>("name"),
       map: map.require<String>("map"),
       thumbnailURL: map.require<String>("thumbnail"),
+      color: map.optionalOrDefault<Color>(
+        "color",
+        parseColor,
+        Colors.red,
+      ),
       steps: steps,
     );
   }
@@ -118,12 +128,30 @@ enum ZombiesEdition { all, blackOps1, blackOps3 }
 
 enum EasterEggStepKind { requirement, suggestion }
 
+class EasterEggGalleryEntry {
+  final Uri image;
+  final List<String> notes;
+
+  EasterEggGalleryEntry({
+    required this.image,
+    required this.notes,
+  });
+
+  factory EasterEggGalleryEntry.fromMap(Map<String, dynamic> serialized) {
+    return EasterEggGalleryEntry(
+      image: Uri.parse(serialized.require<String>("image")),
+      notes: serialized.optionalList("notes") ?? [],
+    );
+  }
+}
+
 class EasterEggStep {
   final String name;
   final String summary;
   final String? iconName;
   final List<int> dependencies;
   final List<String> notes;
+  final List<EasterEggGalleryEntry> gallery;
   final List<ZombiesEdition> validIn;
   final EasterEggStepKind kind;
 
@@ -133,6 +161,7 @@ class EasterEggStep {
     required this.iconName,
     required this.dependencies,
     required this.notes,
+    required this.gallery,
     required this.validIn,
     required this.kind,
   });
@@ -158,14 +187,28 @@ class EasterEggStep {
       EasterEggStepKind.requirement,
     );
 
+    var serializedGallery = map.optionalList("gallery") ?? [];
+    var gallery = serializedGallery
+        .cast<Map<String, dynamic>>()
+        .map(EasterEggGalleryEntry.fromMap)
+        .toList();
     return EasterEggStep(
       name: map.require("name"),
       summary: map.require("summary"),
       iconName: map.optional("icon"),
       notes: map.optionalList("notes") ?? [],
+      gallery: gallery,
       validIn: validIn,
       dependencies: dependencies,
       kind: kind,
     );
+  }
+
+  IconData? tryFindIcon() {
+    var name = iconName;
+    if (name != null) {
+      return MdiIcons.fromString(name);
+    }
+    return null;
   }
 }
