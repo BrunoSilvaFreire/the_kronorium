@@ -1,16 +1,25 @@
-# the_kronorium
+# The Kronorium
+Making your easter egg life easier
+This project is in a very early stage of life.
 
-A new Flutter project.
+Quick preview of the idea:
+![](assets/super_very_early_prototype.gif)
 
-## Getting Started
+# Contributing
+The project is built using Flutter and will currently target only flutter web for actual releases. However, building
+in Windows and Linux is supported for better developer iteration.
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Issues
+  * I'm trying to maintain a relatively updated backlog of issues
+  * If you have a suggestion, please open a new issue with the best level of detail that you can provide
+  * As always, pull requests are greatly appreciated
+## Easter Egg JSONs
+  * The guides are defined as json files stored in [easter_eggs/](easter_eggs/).
+  * In the current prototyping phase of the project, all the guides are incomplete and are mainly
+    just placeholders for previewing the app. They were generated using ChatGPT and are currently incorrect.
+  * If you are not a developer, but would like to help. Making improvements to the current guides and/or creating guides
+    for missing maps is **HUGELY** appreciated.
+  * Moon is the "kinda" most updated guide
+## Tips:
+[This repository](https://github.com/shiversoftdev/t7-source) contains decompiled sources for the scripts of Black Ops 1.
+It can be used for validating guides and actual easter egg behaviours.
