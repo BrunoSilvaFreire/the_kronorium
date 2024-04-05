@@ -84,7 +84,7 @@ class EasterEgg {
 
     var steps = serializedSteps.map((serialized) {
       List<int> dependencies =
-      _extractDependencies(serialized, serializedSteps);
+          _extractDependencies(serialized, serializedSteps);
       return EasterEggStep.fromMap(serialized, dependencies);
     }).toList();
 
@@ -101,8 +101,10 @@ class EasterEgg {
     );
   }
 
-  static List<int> _extractDependencies(Map<String, dynamic> serializedStep,
-      List<Map<String, dynamic>> allSteps,) {
+  static List<int> _extractDependencies(
+    Map<String, dynamic> serializedStep,
+    List<Map<String, dynamic>> allSteps,
+  ) {
     var dependencyNames = serializedStep.optionalList<String>("dependencies");
     if (dependencyNames == null) {
       return List<int>.empty();
@@ -113,14 +115,48 @@ class EasterEgg {
         .toList();
   }
 
-  static int _findIndexOfStep(List<Map<String, dynamic>> allSteps,
-      String stepName,) {
+  static int _findIndexOfStep(
+    List<Map<String, dynamic>> allSteps,
+    String stepName,
+  ) {
     var indexWhere = allSteps
         .indexWhere((element) => element.require<String>("name") == stepName);
     if (indexWhere == -1) {
       throw Exception("Unable to find step named $stepName");
     }
     return indexWhere;
+  }
+
+  EasterEgg copy() {
+    return EasterEgg(
+      name: name,
+      map: map,
+      thumbnailURL: thumbnailURL,
+      steps: steps.map((e) => e.copy()).toList(),
+      color: color,
+    );
+  }
+
+  void remove(EasterEggStep step) {
+    var index = steps.indexWhere(
+      (element) => element.name == step.name,
+    );
+    steps.removeAt(index);
+    for (var (i, step) in steps.indexed) {
+      var patchedDependencies = <int>[];
+      for (var dependency in step.dependencies) {
+        if (dependency == index) {
+          continue;
+        }
+        if (dependency > index) {
+          patchedDependencies.add(dependency - 1);
+        } else {
+          patchedDependencies.add(dependency);
+        }
+      }
+      step.dependencies = patchedDependencies;
+    }
+    _cachedGraph = null;
   }
 }
 
@@ -143,13 +179,17 @@ class EasterEggGalleryEntry {
       notes: serialized.optionalList("notes") ?? [],
     );
   }
+
+  EasterEggGalleryEntry copy() {
+    return EasterEggGalleryEntry(image: image, notes: [...notes]);
+  }
 }
 
 class EasterEggStep {
   final String name;
   final String summary;
   final String? iconName;
-  final List<int> dependencies;
+  List<int> dependencies;
   final List<String> notes;
   final List<EasterEggGalleryEntry> gallery;
   final List<ZombiesEdition> validIn;
@@ -166,8 +206,10 @@ class EasterEggStep {
     required this.kind,
   });
 
-  factory EasterEggStep.fromMap(Map<String, dynamic> map,
-      List<int> dependencies,) {
+  factory EasterEggStep.fromMap(
+    Map<String, dynamic> map,
+    List<int> dependencies,
+  ) {
     List<ZombiesEdition> validIn;
     var editionLimits = map.optionalList<String>("validIn");
     if (editionLimits != null) {
@@ -181,7 +223,7 @@ class EasterEggStep {
 
     var kind = map.optionalOrDefault(
       "kind",
-          (name) => enumByName(name, EasterEggStepKind.values),
+      (name) => enumByName(name, EasterEggStepKind.values),
       EasterEggStepKind.requirement,
     );
 
@@ -208,5 +250,18 @@ class EasterEggStep {
       return MdiIcons.fromString(name);
     }
     return null;
+  }
+
+  EasterEggStep copy() {
+    return EasterEggStep(
+      name: name,
+      summary: summary,
+      iconName: iconName,
+      dependencies: [...dependencies],
+      notes: [...notes],
+      gallery: gallery.map((e) => e.copy()).toList(),
+      validIn: [...validIn],
+      kind: kind,
+    );
   }
 }

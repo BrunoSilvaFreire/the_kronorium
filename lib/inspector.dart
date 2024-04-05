@@ -5,14 +5,13 @@ import 'package:the_kronorium/easter_eggs.dart';
 import 'package:the_kronorium/utils.dart';
 
 class Inspector extends ConsumerStatefulWidget {
-  static final double maxWidth = 512;
-  static final double minWidth = 256;
+  static const double maxWidth = 512;
+  static const double minWidth = 256;
   final Provider<EasterEggStep?> selected;
+  final List<Widget> bottom;
 
-  const Inspector({
-    super.key,
-    required this.selected,
-  });
+  const Inspector(
+      {super.key, required this.selected, this.bottom = const <Widget>[]});
 
   @override
   ConsumerState<Inspector> createState() => _InspectorState();
@@ -57,14 +56,20 @@ class _InspectorState extends ConsumerState<Inspector> {
         minWidth: Inspector.minWidth,
       ),
       child: Card.filled(
-        margin: EdgeInsets.all(32),
+        margin: EdgeInsets.all(16),
         child: Column(
           children: [
             ListTile(
               leading: step?.tryFindIcon()?.asIcon(),
               title: Text(step?.summary ?? "Inspector"),
             ),
-            ...children
+            ...children,
+            if (widget.bottom.isNotEmpty) ...[
+              const Spacer(),
+              ButtonBar(
+                children: widget.bottom,
+              )
+            ]
           ],
         ),
       ),
