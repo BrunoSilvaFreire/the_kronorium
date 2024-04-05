@@ -1,107 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:the_kronorium/easter_eggs.dart';
-import 'package:widget_arrows/arrows.dart';
+import 'package:the_kronorium/pages/graph_layout.dart';
+import 'package:the_kronorium/utils.dart';
 import 'package:widget_arrows/widget_arrows.dart';
-
-class GraphLayoutAlgorithm {
-  final EasterEggStepGraph graph;
-  final _verticesGroupedByLevel = <int, List<(int, EasterEggStep)>>{};
-  final _vertexToLevel = <int, int>{};
-
-  Iterable<(int, EasterEggStep)> getAllIndependentVertices(
-      EasterEggStepGraph graph) sync* {
-    for (int i = 0; i < graph.size; i++) {
-      bool hasDependency = graph.edgesFrom(i).any((element) {
-        var (_, edge) = element;
-        return edge == StepEdgeKind.dependency;
-      });
-      if (!hasDependency) {
-        yield (i, graph.vertex(i)!);
-      }
-    }
-  }
-
-  GraphLayoutAlgorithm({required this.graph}) {
-    for (var (index, step) in getAllIndependentVertices(graph)) {
-      _recurse(0, index, step);
-    }
-  }
-
-  void _recurse(int level, int index, EasterEggStep step) {
-    var levelNodes = _verticesGroupedByLevel[level];
-    if (levelNodes == null) {
-      _verticesGroupedByLevel[level] = levelNodes = <(int,EasterEggStep)>[];
-
-    }
-
-    var preExistingLevel = _vertexToLevel[index];
-
-    bool best = true;
-    if (preExistingLevel != null) {
-      if (preExistingLevel >= level) {
-        best = false;
-      }
-    }
-    if (best) {
-      if (preExistingLevel != null) {
-        _verticesGroupedByLevel[preExistingLevel]!.remove((index, step));
-      }
-      levelNodes.add((index, step));
-      _vertexToLevel[index] = level;
-    }
-    for (var (neighbor, edge) in graph.edgesFrom(index)) {
-      if (edge == StepEdgeKind.dependant) {
-        _recurse(level + 1, neighbor, graph.vertex(neighbor)!);
-      }
-    }
-  }
-
-  Iterable<Widget> getChildren(
-    double cardWidth,
-    double levelSpacing,
-    double siblingSpacing,
-  ) sync* {
-    for (var pair in _verticesGroupedByLevel.entries) {
-      int level = pair.key;
-      yield Positioned(
-        top: 0,
-        bottom: 0,
-        left: level * (cardWidth + levelSpacing),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            for (var (index, step) in pair.value)
-
-              ArrowElement(
-                show: true,
-                id: step.name,
-                color: Colors.red,
-                targetAnchor: Alignment.centerLeft,
-                sourceAnchor: Alignment.centerRight,
-                straights: true,
-                targetIds: [
-                  ...graph
-                      .edgesFrom(index)
-                      .where((element) {
-                        var (_, edge) = element;
-                        return edge == StepEdgeKind.dependant;
-                      })
-                      .map((e) => graph.vertex(e.$1)!.name)
-                ],
-                child: SizedBox(
-                  width: cardWidth,
-                  child: EasterEggStepCard(
-                    step: step,
-                  ),
-                ),
-              ),
-          ],
-        ),
-      );
-    }
-  }
-}
+import 'dart:developer' as developer;
 
 class EasterEggPage extends StatefulWidget {
   final EasterEgg easterEgg;
@@ -121,6 +24,7 @@ class _EasterEggPageState extends State<EasterEggPage> {
     EasterEggStepGraph graph = widget.easterEgg.asGraph();
     var layout = GraphLayoutAlgorithm(graph: graph);
 
+    double spacing = 32;
     return Scaffold(
       appBar: AppBar(
         flexibleSpace: FlexibleSpaceBar(
@@ -133,13 +37,21 @@ class _EasterEggPageState extends State<EasterEggPage> {
       ),
       body: ArrowContainer(
         child: InteractiveViewer(
-          child: Stack(
+          boundaryMargin: const EdgeInsets.all(8),
+          constrained: false,
+          child: Row(
             children: [
-              ...layout.getChildren(
+              ...layout
+                  .getChildren(
                 256,
-                32,
+                spacing,
                 256,
-              ),
+              )
+                  .interleave((element) {
+                return SizedBox(
+                  width: spacing,
+                );
+              }),
             ],
           ),
         ),
@@ -156,14 +68,35 @@ class EasterEggStepCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    return Card.filled(
-      clipBehavior: Clip.antiAlias,
-      child: ExpansionTile(
+    Widget child = Text(
+      step.summary,
+      style: theme.textTheme.titleMedium,
+    );
+
+    Widget? leading;
+    Widget? subtitle;
+
+    var iconName = step.iconName;
+    if (iconName != null) {
+      var icon = MdiIcons.fromString(iconName);
+      if (icon != null) {
+        leading = Icon(icon);
+      } else {
+        developer.log(
+            "Step ${step.name} specified icon ${step.iconName}, but it was not found.",
+            level: 2);
+      }
+    }
+    if(step.validIn.isNotEmpty){
+      var applicableIn = step.validIn.map((e) => e.name).join(", ");
+      subtitle = Text("Only applicable in: ${applicableIn}");
+    }
+    if (step.notes.isNotEmpty) {
+      child = ExpansionTile(
         shape: Border.all(color: Colors.transparent),
-        title: Text(
-          step.summary,
-          style: theme.textTheme.titleMedium,
-        ),
+        leading: leading,
+        title: child,
+        subtitle: subtitle,
         children: [
           for (var note in step.notes)
             Card(
@@ -176,7 +109,18 @@ class EasterEggStepCard extends StatelessWidget {
               ),
             )
         ],
-      ),
+      );
+    } else {
+      child = ListTile(
+        title: child,
+        leading: leading,
+        subtitle: subtitle,
+      );
+    }
+
+    return Card.filled(
+      clipBehavior: Clip.antiAlias,
+      child: child,
     );
   }
 }

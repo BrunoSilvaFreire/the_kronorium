@@ -56,13 +56,10 @@ class AdjacencyList<TVertex, TEdge> {
       yield (node.key, node.value);
     }
   }
-
-// Additional methods like edgesFrom can be implemented as needed,
-// following the structure and functionality of the original C++ code.
 }
 
 class AdjacencyNode<TVertex, TEdge> {
-  Map<int, TEdge> _map = {};
+  final Map<int, TEdge> _map = {};
   TVertex data;
 
   AdjacencyNode(this.data);

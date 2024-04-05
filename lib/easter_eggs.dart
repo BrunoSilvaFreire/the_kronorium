@@ -114,20 +114,26 @@ class EasterEgg {
   }
 }
 
+enum ZombiesEdition { all, blackOps1, blackOps3 }
+
 enum EasterEggStepKind { requirement, suggestion }
 
 class EasterEggStep {
   final String name;
   final String summary;
+  final String? iconName;
   final List<int> dependencies;
   final List<String> notes;
+  final List<ZombiesEdition> validIn;
   final EasterEggStepKind kind;
 
   EasterEggStep({
     required this.name,
     required this.summary,
+    required this.iconName,
     required this.dependencies,
     required this.notes,
+    required this.validIn,
     required this.kind,
   });
 
@@ -135,19 +141,31 @@ class EasterEggStep {
     Map<String, dynamic> map,
     List<int> dependencies,
   ) {
+    List<ZombiesEdition> validIn;
+    var editionLimits = map.optionalList<String>("validIn");
+    if (editionLimits != null) {
+      validIn = editionLimits
+          .map((e) => enumByName(e, ZombiesEdition.values))
+          .nonNulls
+          .toList();
+    } else {
+      validIn = List.empty();
+    }
+
+    var kind = map.optionalOrDefault(
+      "kind",
+      (name) => enumByName(name, EasterEggStepKind.values),
+      EasterEggStepKind.requirement,
+    );
+
     return EasterEggStep(
       name: map.require("name"),
       summary: map.require("summary"),
+      iconName: map.optional("icon"),
       notes: map.optionalList("notes") ?? [],
+      validIn: validIn,
       dependencies: dependencies,
-      kind: _getStepKind(map),
+      kind: kind,
     );
-  }
-
-  static EasterEggStepKind _getStepKind(Map<String, dynamic> map) {
-    final type = map['type'] as String? ?? 'requirement';
-    return type == 'suggestion'
-        ? EasterEggStepKind.suggestion
-        : EasterEggStepKind.requirement;
   }
 }

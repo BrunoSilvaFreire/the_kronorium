@@ -1,0 +1,117 @@
+{
+  "name": "Ensemble Cast",
+  "map": "Call of the Dead",
+  "thumbnail": "https://static.wikia.nocookie.net/callofduty/images/7/78/Call_of_the_Dead_Menu_Selection_BO.png/revision/latest",
+  "steps": [
+    {
+      "name": "turnOnPower",
+      "summary": "Turn on the power to start the easter egg.",
+      "dependencies": [],
+      "notes": []
+    },
+    {
+      "name": "findFuse",
+      "summary": "Find a fuse next to the PhD Flopper or nearby locations.",
+      "dependencies": [
+        "turnOnPower"
+      ],
+      "notes": [
+        "Possible locations include next to a locker, behind batteries next to the 115 meteorite, on the table beside PhD Flopper."
+      ]
+    },
+    {
+      "name": "placeFuse",
+      "summary": "Place the fuse beside the door to lighten the room.",
+      "dependencies": [
+        "findFuse"
+      ],
+      "notes": []
+    },
+    {
+      "name": "destroyGenerators",
+      "summary": "Destroy four generators signaled by glowing red orbs.",
+      "dependencies": [
+        "placeFuse"
+      ],
+      "notes": [
+        "Generators are located across from the locked door, outside the left window in the Stamin-Up building, over the left railing of the ship near Double Tap Root Beer, and in between the second ship and the spawn area."
+      ]
+    },
+    {
+      "name": "findVodka",
+      "summary": "Find and catch the vodka for Nikolai.",
+      "dependencies": [
+        "destroyGenerators"
+      ],
+      "notes": [
+        "Vodka appears in multiple locations stuck into ice. It needs to be knifed and caught by another player."
+      ]
+    },
+    {
+      "name": "activateRadios",
+      "summary": "Activate four Morse Code radios in the correct order.",
+      "dependencies": [
+        "findVodka"
+      ],
+      "notes": [
+        "Radios are located under the power room, next to Stamin-Up, near the back of the second ship, and under the steps going to the locked door."
+      ]
+    },
+    {
+      "name": "setSteeringWheelAndLevers",
+      "summary": "Set the steering wheel and levers in the power room to signal a submarine.",
+      "dependencies": [
+        "activateRadios"
+      ],
+      "notes": []
+    },
+    {
+      "name": "matchFoghornSounds",
+      "summary": "Match the foghorn sounds using the foghorns around the lighthouse.",
+      "dependencies": [
+        "setSteeringWheelAndLevers"
+      ],
+      "notes": [
+        "The correct order of foghorns must be used."
+      ]
+    },
+    {
+      "name": "setSecurityDials",
+      "summary": "Set the security dials in the lighthouse to its proper code.",
+      "dependencies": [
+        "matchFoghornSounds"
+      ],
+      "notes": [
+        "The code is 2746 from top to bottom."
+      ]
+    },
+    {
+      "name": "shootZombieWithVrill",
+      "summary": "Shoot a zombie with the V-R11 and kill it before it reaches the top of the lighthouse.",
+      "dependencies": [
+        "setSecurityDials"
+      ],
+      "notes": [
+        "Use high-damage weapons to kill the zombie inside the green light."
+      ]
+    },
+    {
+      "name": "collectGoldenRod",
+      "summary": "Collect the Golden Rod that appears at the bottom of the lighthouse.",
+      "dependencies": [
+        "shootZombieWithVrill"
+      ],
+      "notes": []
+    },
+    {
+      "name": "completeEasterEgg",
+      "summary": "Complete the easter egg and earn the achievement.",
+      "dependencies": [
+        "collectGoldenRod"
+      ],
+      "notes": [
+        "Knife the fuse box to fix it after hearing Richtofen's dialogue."
+      ]
+    }
+  ]
+}

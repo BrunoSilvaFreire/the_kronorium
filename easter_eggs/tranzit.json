@@ -1,0 +1,126 @@
+{
+  "name": "Tower of Babble",
+  "map": "TranZit",
+  "thumbnail": "https://static.wikia.nocookie.net/callofduty/images/a/a8/Green_Run_loading_screen_BOII.png/revision/latest?cb=20121113205347",
+  "steps": [
+    {
+      "name": "accessPowerLab",
+      "summary": "Access the Power Lab by getting off the bus at the Power Station.",
+      "dependencies": [],
+      "notes": [
+        "Can access through teleporting near a lamp post or running through the fog.",
+        "Find the secret entrance in the outhouse."
+      ]
+    },
+    {
+      "name": "buildPowerSwitch",
+      "summary": "Collect parts and assemble the power switch at the blueprint.",
+      "dependencies": [
+        "accessPowerLab"
+      ],
+      "notes": [
+        "Parts: Circuit, severed arm, lever.",
+        "Locations vary within the Power Station area."
+      ]
+    },
+    {
+      "name": "turnOnPower",
+      "summary": "Turn on the power using the assembled switch.",
+      "dependencies": [
+        "buildPowerSwitch"
+      ],
+      "notes": []
+    },
+    {
+      "name": "obtainTurbine",
+      "summary": "Acquire a Turbine.",
+      "dependencies": [],
+      "notes": [
+        "Parts found in the Bus Depot.",
+        "Required for both Maxis and Richtofen paths."
+      ]
+    },
+    {
+      "name": "powerOffForMaxis",
+      "summary": "Turn off the power as requested by Dr. Maxis.",
+      "dependencies": [
+        "turnOnPower"
+      ],
+      "notes": [
+        "Progression for Dr. Maxis' path."
+      ]
+    },
+    {
+      "name": "obtainEMP",
+      "summary": "Obtain EMP Grenades from the Mystery Box.",
+      "dependencies": [],
+      "notes": [
+        "Required for key steps in both paths."
+      ]
+    },
+    {
+      "name": "killAvogadroUnderPylon",
+      "summary": "Kill the Avogadro under the Pylon with EMP Grenades.",
+      "dependencies": [
+        "powerOffForMaxis",
+        "obtainTurbine",
+        "obtainEMP"
+      ],
+      "notes": [
+        "Requires timing and placement of Turbines."
+      ]
+    },
+    {
+      "name": "placeTurbinesAtLampsForMaxis",
+      "summary": "Place Turbines at two different street lamp locations.",
+      "dependencies": [
+        "killAvogadroUnderPylon"
+      ],
+      "notes": [
+        "Final step for Dr. Maxis' path."
+      ]
+    },
+    {
+      "name": "assembleJetGun",
+      "summary": "Assemble the Thrustodyne Aeronautics Model 23 (Jet Gun).",
+      "dependencies": [
+        "turnOnPower"
+      ],
+      "notes": [
+        "Parts located in various specific locations across the map.",
+        "Essential for Richtofen's path."
+      ]
+    },
+    {
+      "name": "useJetGunUnderTower",
+      "summary": "Use the Jet Gun under the Transmission Tower until it breaks.",
+      "dependencies": [
+        "assembleJetGun"
+      ],
+      "notes": [
+        "Initial step for Richtofen's path after assembling the Jet Gun."
+      ]
+    },
+    {
+      "name": "killZombiesUnderTower",
+      "summary": "Kill 25 zombies with explosives under the tower.",
+      "dependencies": [
+        "useJetGunUnderTower"
+      ],
+      "notes": [
+        "Explosives include the Ray Gun and Ray Gun Mark II."
+      ]
+    },
+    {
+      "name": "throwEMPsAtLampsForRichtofen",
+      "summary": "Throw EMP Grenades at four different green lamp posts emitting electricity.",
+      "dependencies": [
+        "killZombiesUnderTower",
+        "obtainEMP"
+      ],
+      "notes": [
+        "Final step for Richtofen's path. Requires coordination and timing."
+      ]
+    }
+  ]
+}

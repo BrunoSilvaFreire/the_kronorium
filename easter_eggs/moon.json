@@ -1,0 +1,178 @@
+{
+  "name": "Richtofen's Grand Scheme",
+  "map": "Moon",
+  "thumbnail": "https://static.wikia.nocookie.net/callofduty/images/4/4a/Moon_Menu_Selection_BO3.png/revision/latest/scale-to-width-down/1000",
+  "steps": [
+    {
+      "name": "turnOnPower",
+      "summary": "Turn on the power",
+      "icon": "power"
+    },
+    {
+      "name": "minNumPlayersPostCryogenicSlumberParty",
+      "summary": "Have two or more players in an online party.",
+      "validIn": [
+        "blackOps1"
+      ]
+    },
+    {
+      "name": "waveGun",
+      "summary": "Obtain the Wave Gun.",
+      "icon": "diceMultiple",
+      "dependencies": [],
+      "notes": [
+        "Required for several steps, particularly for moving the Vril Sphere."
+      ]
+    },
+    {
+      "name": "hacker",
+      "summary": "Obtain the Hacker device.",
+      "icon": "bookCog",
+      "dependencies": [],
+      "notes": [
+        "Used for hacking terminals and panels in the Laboratory."
+      ]
+    },
+    {
+      "name": "quantumEntanglementDevice",
+      "summary": "Obtain the Quantum Entanglement Device.",
+      "dependencies": [],
+      "icon": "atom",
+      "notes": [
+        "Needed for specific steps following the Cryogenic Slumber Party achievement."
+      ]
+    },
+    {
+      "name": "gershDevice",
+      "summary": "Obtain the Gersh Device.",
+      "icon": "atomVariant",
+      "dependencies": [],
+      "notes": [
+        "Required for moving certain objects and completing steps post-Cryogenic Slumber Party."
+      ]
+    },
+    {
+      "name": "simonSays",
+      "summary": "Complete the Simon Says game outside the Receiving Bay.",
+      "icon": "monitorShimmer",
+      "dependencies": [
+        "turnOnPower"
+      ],
+      "notes": [
+        "Involves pressing computers in sequence according to their flashing colors."
+      ]
+    },
+    {
+      "name": "hackingLaboratory",
+      "summary": "Hack terminals and panels in the Laboratory.",
+      "icon": "bookCog",
+      "dependencies": [
+        "hacker",
+        "simonSays"
+      ],
+      "notes": [
+        "Find and hack four white panel boxes with bright green lights within a time limit."
+      ]
+    },
+    {
+      "name": "getPlates",
+      "summary": "Teleport Casimir Plates to Moon's Spawn Room",
+      "icon": "arrowUp",
+      "dependencies": [
+        "gershDevice"
+      ]
+    },
+    {
+      "name": "movePlates",
+      "summary": "Move Casimir Plates to right side of the room by throwing QED",
+      "icon": "arrowRight",
+      "dependencies": [
+        "getPlates",
+        "quantumEntanglementDevice"
+      ]
+    },
+    {
+      "name": "getWire",
+      "summary": "Get Curved Lead Wire",
+      "icon": "cableData",
+      "dependencies": [
+        "movePlates"
+      ]
+    },
+
+    {
+      "name": "buildComputer",
+      "summary": "Build the computer on the spawn room to charge the vril device",
+      "icon": "wrench",
+      "dependencies": [
+        "getWire"
+      ]
+    },
+    {
+      "name": "chargeVrilDevice",
+      "summary": "Charge the Vril device",
+      "icon": "lightningBolt",
+      "dependencies": [
+        "buildComputer"
+      ]
+    },
+    {
+      "name": "placeVrilDevice",
+      "summary": "Take the charged Vril Device and place it in the ",
+      "icon": "lightningBolt",
+      "dependencies": [
+        "buildComputer"
+      ]
+    },
+    {
+      "name": "switchSouls",
+      "summary": "Switch Souls between Samantha and Richtofen",
+      "icon": "swapHorizontal",
+      "dependencies": [
+        "buildComputer"
+      ]
+    },
+
+    {
+      "name": "letExcavatorBreachTunnel6",
+      "summary": "Let excavator Pi breach Tunnel 6 to reveal Vril Sphere.",
+      "icon": "excavator",
+      "dependencies": [
+        "hackingLaboratory"
+      ],
+      "notes": [
+        "A necessary step to move the Vril Sphere."
+      ]
+    },
+    {
+      "name": "moveVrilSphereToPyramid",
+      "summary": "Move the Vril Sphere to the pyramid using the Wave Gun.",
+      "dependencies": [
+        "waveGun",
+        "letExcavatorBreachTunnel6"
+      ],
+      "notes": [
+        "Knifing or shooting the Vril Sphere makes it move; use the Wave Gun for specific parts."
+      ]
+    },
+
+    {
+      "name": "fillContainerWithZombieSouls",
+      "summary": "Kill zombies near the cylindrical glass container to fill it with souls.",
+      "dependencies": [
+        "moveVrilSphereToPyramid"
+      ],
+      "notes": [
+        "25 zombie souls are required to fill the container."
+      ]
+    },
+    {
+      "name": "openMPD",
+      "summary": "Open the Moon Pyramid Device.",
+      "icon": "pyramid",
+      "dependencies": [
+        "fillContainerWithZombieSouls"
+      ]
+    }
+  ]
+}
