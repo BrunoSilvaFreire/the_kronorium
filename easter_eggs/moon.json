@@ -114,17 +114,24 @@
         }
       ]
     },
+
+    {
+      "name": "revealPlates",
+      "summary": "Throw a grenade at this spot in Area 51 to reveal Casimir Plates",
+      "icon": "nuke",
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/2/2b/Richtofen%27s_Grand_Scheme_step_5_BO3.png/revision/latest/scale-to-width-down/1000"
+        }
+      ]
+    },
     {
       "name": "getPlates",
       "summary": "Teleport Casimir Plates to Moon's Spawn Room",
       "icon": "arrowUp",
       "dependencies": [
-        "gershDevice"
-      ],
-      "gallery": [
-        {
-          "image": "https://static.wikia.nocookie.net/callofduty/images/2/2b/Richtofen%27s_Grand_Scheme_step_5_BO3.png/revision/latest/scale-to-width-down/1000"
-        }
+        "gershDevice",
+        "revealPlates"
       ]
     },
     {
@@ -223,6 +230,44 @@
       "icon": "pyramid",
       "dependencies": [
         "fillContainerWithZombieSouls"
+      ]
+    },
+    {
+      "name": "simonSaysThrice",
+      "summary": "Complete the Simon Says game again thrice.",
+      "icon": "monitorShimmer",
+      "dependencies": [
+        "switchSouls"
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/4/41/Moon_receiving_bay_outside_BO3.png/revision/latest/scale-to-width-down/1000"
+        }
+      ]
+    },
+    {
+      "name": "throwQEDAtVrilSphere",
+      "summary": "Retrieve the Vril Sphere by throwing a QED on it",
+      "dependencies": [
+        "switchSouls",
+        "quantumEntanglementDevice"
+      ]
+    },
+    {
+      "name": "throwGerschAtVrilSphere",
+      "summary": "Retrieve the Vril Sphere by throwing a QED on it",
+      "dependencies": [
+        "throwQEDAtVrilSphere",
+        "gershDevice"
+      ]
+    },
+    {
+      "name": "finale",
+      "summary": "Launch the rockets",
+      "icon": "partyPopper",
+      "dependencies": [
+        "throwGerschAtVrilSphere",
+        "simonSaysThrice"
       ]
     }
   ]

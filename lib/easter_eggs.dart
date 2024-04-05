@@ -84,7 +84,7 @@ class EasterEgg {
 
     var steps = serializedSteps.map((serialized) {
       List<int> dependencies =
-          _extractDependencies(serialized, serializedSteps);
+      _extractDependencies(serialized, serializedSteps);
       return EasterEggStep.fromMap(serialized, dependencies);
     }).toList();
 
@@ -101,10 +101,8 @@ class EasterEgg {
     );
   }
 
-  static List<int> _extractDependencies(
-    Map<String, dynamic> serializedStep,
-    List<Map<String, dynamic>> allSteps,
-  ) {
+  static List<int> _extractDependencies(Map<String, dynamic> serializedStep,
+      List<Map<String, dynamic>> allSteps,) {
     var dependencyNames = serializedStep.optionalList<String>("dependencies");
     if (dependencyNames == null) {
       return List<int>.empty();
@@ -115,12 +113,14 @@ class EasterEgg {
         .toList();
   }
 
-  static int _findIndexOfStep(
-    List<Map<String, dynamic>> allSteps,
-    String stepName,
-  ) {
-    return allSteps
+  static int _findIndexOfStep(List<Map<String, dynamic>> allSteps,
+      String stepName,) {
+    var indexWhere = allSteps
         .indexWhere((element) => element.require<String>("name") == stepName);
+    if (indexWhere == -1) {
+      throw Exception("Unable to find step named $stepName");
+    }
+    return indexWhere;
   }
 }
 
@@ -166,10 +166,8 @@ class EasterEggStep {
     required this.kind,
   });
 
-  factory EasterEggStep.fromMap(
-    Map<String, dynamic> map,
-    List<int> dependencies,
-  ) {
+  factory EasterEggStep.fromMap(Map<String, dynamic> map,
+      List<int> dependencies,) {
     List<ZombiesEdition> validIn;
     var editionLimits = map.optionalList<String>("validIn");
     if (editionLimits != null) {
@@ -183,7 +181,7 @@ class EasterEggStep {
 
     var kind = map.optionalOrDefault(
       "kind",
-      (name) => enumByName(name, EasterEggStepKind.values),
+          (name) => enumByName(name, EasterEggStepKind.values),
       EasterEggStepKind.requirement,
     );
 
