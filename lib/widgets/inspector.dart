@@ -42,37 +42,29 @@ class _InspectorState extends ConsumerState<Inspector> {
         ];
       } else {
         children = [
-          const Expanded(
-            child: Center(
+          const Center(
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.0),
               child: Text("No additional notes added."),
             ),
           )
         ];
       }
     }
-    return ConstrainedBox(
-      constraints: BoxConstraints(
-        maxWidth: Inspector.maxWidth,
-        minWidth: Inspector.minWidth,
-      ),
-      child: Card.filled(
-        margin: EdgeInsets.all(16),
-        child: Column(
-          children: [
-            ListTile(
-              leading: step?.tryFindIcon()?.asIcon(),
-              title: Text(step?.summary ?? "Inspector"),
-            ),
-            ...children,
-            if (widget.bottom.isNotEmpty) ...[
-              const Spacer(),
-              ButtonBar(
-                children: widget.bottom,
-              )
-            ]
-          ],
+    return  Column(
+      children: [
+        ListTile(
+          leading: step?.tryFindIcon()?.asIcon(),
+          title: Text(step?.summary ?? "Inspector"),
         ),
-      ),
+        ...children,
+        if (widget.bottom.isNotEmpty) ...[
+          const Spacer(),
+          ButtonBar(
+            children: widget.bottom,
+          )
+        ]
+      ],
     );
   }
 }

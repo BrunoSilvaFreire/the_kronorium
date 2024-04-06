@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:the_kronorium/easter_eggs.dart';
-import 'package:the_kronorium/pages/easter_egg_page.dart';
 import 'package:the_kronorium/widgets/easter_egg_step_card.dart';
 import 'package:widget_arrows/widget_arrows.dart';
 
@@ -8,6 +7,12 @@ class GraphLayoutAlgorithm {
   final EasterEggStepGraph graph;
   final _verticesGroupedByLevel = <int, List<(int, EasterEggStep)>>{};
   final _vertexToLevel = <int, int>{};
+
+  Color color;
+  final Widget Function(int index, Widget child)? transformer;
+  double cardWidth;
+  double levelSpacing;
+  double siblingSpacing;
 
   Iterable<(int, EasterEggStep)> getAllIndependentVertices(
       EasterEggStepGraph graph) sync* {
@@ -22,7 +27,14 @@ class GraphLayoutAlgorithm {
     }
   }
 
-  GraphLayoutAlgorithm({required this.graph}) {
+  GraphLayoutAlgorithm({
+    required this.graph,
+    required this.color,
+    required this.cardWidth,
+    required this.levelSpacing,
+    required this.siblingSpacing,
+    this.transformer,
+  }) {
     for (var (index, step) in getAllIndependentVertices(graph)) {
       _recurse(0, index, step);
     }
@@ -58,11 +70,7 @@ class GraphLayoutAlgorithm {
 
   Iterable<Widget> getChildren(
     int? selectedIndex,
-    Color color,
     void Function(int index) onClicked,
-    double cardWidth,
-    double levelSpacing,
-    double siblingSpacing,
   ) sync* {
     for (var pair in _verticesGroupedByLevel.entries) {
       yield Column(
