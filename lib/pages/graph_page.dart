@@ -10,18 +10,17 @@ class GraphPage extends StatefulWidget {
     BuildContext context,
     InteractiveEasterEggMap map,
   ) builder;
-  final StateProvider<int?> selectedProvider;
+  final StateProvider<Set<int>> selectedProvider;
   final EdgeInsets mapMargin;
   final List<Widget>? actions;
 
-  const GraphPage({
-    super.key,
-    required this.easterEgg,
-    required this.builder,
-    required this.selectedProvider,
-    this.actions = const [],
-    this.mapMargin = const EdgeInsets.all(8)
-  });
+  const GraphPage(
+      {super.key,
+      required this.easterEgg,
+      required this.builder,
+      required this.selectedProvider,
+      this.actions = const [],
+      this.mapMargin = const EdgeInsets.all(8)});
 
   @override
   State<GraphPage> createState() => _BaseGraphPageState();
@@ -30,9 +29,12 @@ class GraphPage extends StatefulWidget {
 class _BaseGraphPageState extends State<GraphPage> {
   @override
   Widget build(BuildContext context) {
-    var theme = Theme.of(context).copyWith(
+    var baseTheme = Theme.of(context);
+    var theme = baseTheme.copyWith(
       colorScheme: ColorScheme.fromSeed(
-          seedColor: widget.easterEgg.color, brightness: Brightness.dark),
+        seedColor: widget.easterEgg.color,
+        brightness: baseTheme.brightness,
+      ),
     );
     double spacing = 32;
     EasterEggStepGraph graph = widget.easterEgg.asGraph();
@@ -96,5 +98,4 @@ class _BaseGraphPageState extends State<GraphPage> {
       actions: widget.actions,
     );
   }
-
 }

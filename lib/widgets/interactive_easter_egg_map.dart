@@ -16,7 +16,7 @@ class InteractiveEasterEggMap extends ConsumerStatefulWidget {
   final double spacing;
   final EdgeInsets margin;
   final GraphLayoutAlgorithm layout;
-  final StateProvider<int?> selected;
+  final StateProvider<Set<int>> selected;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
@@ -46,11 +46,15 @@ class _InteractiveEasterEggMapState
     );
   }
 
-  Iterable<Widget> _buildChildren(int? selected) {
+  Iterable<Widget> _buildChildren(Set<int> selected) {
     return widget.layout.getChildren(
       selected,
       (index) {
-        ref.read(widget.selected.notifier).state = index;
+        var newSet = {...selected};
+        if (!newSet.remove(index)) {
+          newSet.add(index);
+        }
+        ref.read(widget.selected.notifier).state = newSet;
       },
     ).interleave((element) {
       return SizedBox(

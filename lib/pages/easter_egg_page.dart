@@ -3,11 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:the_kronorium/easter_eggs.dart';
 import 'package:the_kronorium/pages/edit_graph_page.dart';
-import 'package:the_kronorium/pages/graph_layout.dart';
 import 'package:the_kronorium/pages/graph_page.dart';
 import 'package:the_kronorium/widgets/container_card.dart';
 import 'package:the_kronorium/widgets/inspector.dart';
-import 'package:the_kronorium/widgets/interactive_easter_egg_map.dart';
 
 class EasterEggPage extends ConsumerStatefulWidget {
   final EasterEgg easterEgg;
@@ -22,8 +20,8 @@ class EasterEggPage extends ConsumerStatefulWidget {
 }
 
 class _EasterEggPageState extends ConsumerState<EasterEggPage> {
-  late final _selected = StateProvider<int?>(
-    (ref) => null,
+  late final _selected = StateProvider<Set<int>>(
+    (ref) => <int>{},
   );
 
   @override
@@ -50,6 +48,7 @@ class _EasterEggPageState extends ConsumerState<EasterEggPage> {
         )
       ],
       builder: (context, map) {
+        var selected = ref.watch(_selected);
         return Stack(
           children: [
             Positioned.fill(
@@ -58,23 +57,18 @@ class _EasterEggPageState extends ConsumerState<EasterEggPage> {
             Positioned(
               top: 0,
               bottom: 0,
+              width: 512,
               right: 0,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
+              child: ListView(
                 children: [
-                  ContainerCard(
-                    child: Inspector(
-                      selected: Provider(
-                        (ref) {
-                          var selected = ref.watch(_selected);
-                          if (selected == null) {
-                            return null;
-                          }
-                          return widget.easterEgg.steps[selected];
-                        },
+                  for (var sel in selected)
+                    ContainerCard(
+                      child: Inspector(
+                        selected: Provider(
+                          (ref) => widget.easterEgg.steps[sel],
+                        ),
                       ),
                     ),
-                  ),
                 ],
               ),
             )

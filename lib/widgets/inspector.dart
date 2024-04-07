@@ -7,7 +7,7 @@ import 'package:the_kronorium/utils.dart';
 class Inspector extends ConsumerStatefulWidget {
   static const double maxWidth = 512;
   static const double minWidth = 256;
-  final Provider<EasterEggStep?> selected;
+  final Provider<EasterEggStep> selected;
   final List<Widget> bottom;
 
   const Inspector(
@@ -22,44 +22,39 @@ class _InspectorState extends ConsumerState<Inspector> {
   Widget build(BuildContext context) {
     var step = ref.watch(widget.selected);
     List<Widget> children;
-    if (step == null) {
-      children = [Text("Please click on a step to inspect it")];
-    } else {
-      var theme = Theme.of(context);
-      if (step.notes.isNotEmpty) {
-        children = [
-          for (var note in step.notes)
-            Card.outlined(
-              margin: const EdgeInsets.all(16),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  note,
-                  style: theme.textTheme.bodySmall,
-                ),
-              ),
-            )
-        ];
-      } else {
-        children = [
-          const Center(
+    var theme = Theme.of(context);
+    if (step.notes.isNotEmpty) {
+      children = [
+        for (var note in step.notes)
+          Card.outlined(
+            margin: const EdgeInsets.all(16),
             child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 8.0),
-              child: Text("No additional notes added."),
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                note,
+                style: theme.textTheme.bodySmall,
+              ),
             ),
           )
-        ];
-      }
+      ];
+    } else {
+      children = [
+        const Center(
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 8.0),
+            child: Text("No additional notes added."),
+          ),
+        )
+      ];
     }
-    return  Column(
+      return  Column(
       children: [
         ListTile(
-          leading: step?.tryFindIcon()?.asIcon(),
+          leading: step.tryFindIcon()?.asIcon(),
           title: Text(step?.summary ?? "Inspector"),
         ),
         ...children,
         if (widget.bottom.isNotEmpty) ...[
-          const Spacer(),
           ButtonBar(
             children: widget.bottom,
           )

@@ -1,13 +1,15 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:the_kronorium/easter_eggs.dart';
+import 'package:the_kronorium/editing/command.dart';
 import 'package:the_kronorium/pages/graph_page.dart';
 import 'package:the_kronorium/widgets/container_card.dart';
 import 'package:the_kronorium/widgets/editor.dart';
 
-class EditEasterEggPage extends StatefulWidget {
+class EditEasterEggPage extends ConsumerStatefulWidget {
   final EasterEgg easterEgg;
 
   const EditEasterEggPage({
@@ -16,19 +18,39 @@ class EditEasterEggPage extends StatefulWidget {
   });
 
   @override
-  State<EditEasterEggPage> createState() => _EditEasterEggPageState();
+  ConsumerState<EditEasterEggPage> createState() => _EditEasterEggPageState();
 }
 
-class _EditEasterEggPageState extends State<EditEasterEggPage> {
-  late final _selected = StateProvider<int?>(
-    (ref) => null,
+class _EditEasterEggPageState extends ConsumerState<EditEasterEggPage> {
+  late final _selected = StateProvider<Set<int>>(
+    (ref) => {},
   );
+  late final _commander = Commander();
+
+  void doCommand(Command command) {
+    setState(() {
+      _commander.addCommand(command, widget.easterEgg);
+    });
+  }
+
+  void undoCommand() {
+    setState(() {
+      _commander.undoCurrentlyPointedCommand(widget.easterEgg);
+    });
+  }
+
+  void redoCommand() {
+    setState(() {
+      _commander.redoOneCommand(widget.easterEgg);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     const leftContainerWidth = 256.0;
     const rightContainerWidth = 512.0;
     const marginSpacing = 32.0;
+    var selected = ref.watch(_selected);
     return GraphPage(
       easterEgg: widget.easterEgg,
       selectedProvider: _selected,
@@ -40,6 +62,9 @@ class _EditEasterEggPageState extends State<EditEasterEggPage> {
       ),
       builder: (context, map) {
         var theme = Theme.of(context);
+        var deleteAllLabel = selected.isEmpty
+            ? const Text("Delete selected")
+            : Text("Delete selected (${selected.length})");
         return Stack(
           children: [
             Positioned.fill(
@@ -73,12 +98,25 @@ class _EditEasterEggPageState extends State<EditEasterEggPage> {
                         children: [
                           FloatingActionButton.extended(
                             elevation: 0,
-                            backgroundColor:
-                                theme.colorScheme.onPrimaryContainer,
+                            backgroundColor: theme.colorScheme.primary,
                             foregroundColor: theme.colorScheme.onPrimary,
                             onPressed: () {},
                             icon: Icon(MdiIcons.plusCircle),
                             label: const Text("Add Step"),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(top: 8),
+                            child: ElevatedButton.icon(
+                              onPressed: selected.isEmpty
+                                  ? null
+                                  : () {
+                                      ref.read(_selected.notifier).state =
+                                          Set.identity();
+                                      doCommand(DeleteStepsCommand(selected));
+                                    },
+                              icon: Icon(MdiIcons.delete),
+                              label: deleteAllLabel,
+                            ),
                           ),
                           const Divider(),
                           ListTile(
@@ -88,17 +126,47 @@ class _EditEasterEggPageState extends State<EditEasterEggPage> {
                             title:
                                 Text("Steps: ${widget.easterEgg.steps.length}"),
                           ),
-                          const Divider(),
                           TextButton.icon(
                             onPressed: () {},
                             icon: Icon(MdiIcons.contentCopy),
                             label: const Text("Copy JSON"),
                           ),
-                          TextButton.icon(
-                            onPressed: () {},
-                            icon: Icon(MdiIcons.fileDownload),
-                            label: const Text("Save to file"),
-                          )
+                          const Divider(),
+                          Container(
+                            margin: const EdgeInsets.only(top: 8),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                IconButton.filled(
+                                  onPressed: _commander.canUndoCommand()
+                                      ? () {
+                                          undoCommand();
+                                        }
+                                      : null,
+                                  icon: Icon(MdiIcons.undo),
+                                ),
+                                IconButton.filled(
+                                  onPressed: _commander.canRedoCommand()
+                                      ? () {
+                                          redoCommand();
+                                        }
+                                      : null,
+                                  icon: Icon(MdiIcons.redo),
+                                ),
+                              ],
+                            ),
+                          ),
+                          for (var (index, command)
+                              in _commander.commands.indexed)
+                            ListTile(
+                              selected: index == _commander.index,
+                              subtitle: Text(
+                                "#$index: $command",
+                              ),
+                              onTap: () {
+
+                              },
+                            )
                         ],
                       ),
                     ),
@@ -110,28 +178,82 @@ class _EditEasterEggPageState extends State<EditEasterEggPage> {
               top: 0,
               bottom: 0,
               right: 0,
-              child: ContainerCard(
-                child: Editor(
-                  selected: Provider(
-                    (ref) {
-                      var selected = ref.watch(_selected);
-                      if (selected == null) {
-                        return null;
-                      }
-                      return widget.easterEgg.steps[selected];
-                    },
-                  ),
-                  onDelete: (EasterEggStep step) {
-                    setState(() {
-                      widget.easterEgg.remove(step);
-                    });
-                  },
-                ),
+              width: 512,
+              child: ListView(
+                children: [
+                  for (var sel in selected)
+                    ContainerCard(
+                      child: Editor(
+                        selected: Provider(
+                          (ref) {
+                            return widget.easterEgg.steps[sel];
+                          },
+                        ),
+                        onDelete: (EasterEggStep step) {},
+                      ),
+                    ),
+                ],
               ),
             )
           ],
         );
       },
     );
+  }
+}
+
+class Commander {
+  int? _commandPointer;
+  final _commandQueue = Queue<Command>();
+
+  Iterable<Command> get commands => _commandQueue;
+
+  int? get index => _commandPointer;
+
+  void addCommand(Command command, EasterEgg easterEgg) {
+    command.apply(easterEgg);
+    _commandPointer = _commandQueue.length;
+    _commandQueue.add(command);
+  }
+
+  void undoCurrentlyPointedCommand(EasterEgg easterEgg) {
+    var ptr = _commandPointer;
+    if (ptr == null) {
+      return;
+    }
+    _commandQueue.elementAt(ptr).undo(easterEgg);
+    _commandPointer = ptr - 1;
+  }
+
+  bool canUndoCommand() {
+    if (_commandQueue.isEmpty) {
+      return false;
+    }
+    var ptr = _commandPointer;
+    if (ptr == null) {
+      return false;
+    }
+
+    return ptr >= 0 && ptr < _commandQueue.length;
+  }
+
+  bool canRedoCommand() {
+    if (_commandQueue.isEmpty) {
+      return false;
+    }
+    var ptr = _commandPointer;
+    if (ptr == null) {
+      return false;
+    }
+    return ptr < _commandQueue.length - 1;
+  }
+
+  void redoOneCommand(EasterEgg easterEgg) {
+    var ptr = _commandPointer;
+    if (ptr == null) {
+      return;
+    }
+    _commandQueue.elementAt(ptr + 1).apply(easterEgg);
+    _commandPointer = ptr + 1;
   }
 }

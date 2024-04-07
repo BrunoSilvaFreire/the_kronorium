@@ -83,8 +83,11 @@ class EasterEgg {
     var serializedSteps = map.requireList<Map<String, dynamic>>("steps");
 
     var steps = serializedSteps.map((serialized) {
-      List<int> dependencies =
-          _extractDependencies(serialized, serializedSteps);
+      List<int> dependencies = _extractDependencies(
+        serialized,
+        serializedSteps,
+      );
+
       return EasterEggStep.fromMap(serialized, dependencies);
     }).toList();
 
@@ -115,12 +118,37 @@ class EasterEgg {
         .toList();
   }
 
+  static List<int> extractDependencies(
+    Map<String, dynamic> serializedStep,
+    List<EasterEggStep> allSteps,
+  ) {
+    var dependencyNames = serializedStep.optionalList<String>("dependencies");
+    if (dependencyNames == null) {
+      return List<int>.empty();
+    }
+
+    return dependencyNames
+        .map((stepName) => findIndexOfStep(allSteps, stepName))
+        .toList();
+  }
+
   static int _findIndexOfStep(
     List<Map<String, dynamic>> allSteps,
     String stepName,
   ) {
     var indexWhere = allSteps
         .indexWhere((element) => element.require<String>("name") == stepName);
+    if (indexWhere == -1) {
+      throw Exception("Unable to find step named $stepName");
+    }
+    return indexWhere;
+  }
+
+  static int findIndexOfStep(
+    List<EasterEggStep> allSteps,
+    String stepName,
+  ) {
+    var indexWhere = allSteps.indexWhere((step) => step.name == stepName);
     if (indexWhere == -1) {
       throw Exception("Unable to find step named $stepName");
     }
@@ -137,10 +165,14 @@ class EasterEgg {
     );
   }
 
-  void remove(EasterEggStep step) {
+  void removeStep(EasterEggStep step) {
     var index = steps.indexWhere(
       (element) => element.name == step.name,
     );
+    removeByIndex(index);
+  }
+
+  void removeByIndex(int index) {
     steps.removeAt(index);
     for (var (i, step) in steps.indexed) {
       var patchedDependencies = <int>[];
@@ -157,6 +189,23 @@ class EasterEgg {
       step.dependencies = patchedDependencies;
     }
     _cachedGraph = null;
+  }
+
+  void removeAll(Set<int> selected) {
+    var toRemove = selected.toList();
+    toRemove.sort(
+      (a, b) => b - a,
+    );
+    for (int index in toRemove) {
+      removeByIndex(index);
+    }
+  }
+
+  int addStep(EasterEggStep step) {
+    var index = steps.length;
+    steps.add(step);
+    _cachedGraph = null;
+    return index;
   }
 }
 
@@ -182,6 +231,13 @@ class EasterEggGalleryEntry {
 
   EasterEggGalleryEntry copy() {
     return EasterEggGalleryEntry(image: image, notes: [...notes]);
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'image': image.toString(),
+      'notes': notes,
+    };
   }
 }
 
@@ -242,6 +298,19 @@ class EasterEggStep {
       dependencies: dependencies,
       kind: kind,
     );
+  }
+
+  Map<String, dynamic> toMap(EasterEgg easterEgg) {
+    return {
+      'name': name,
+      'summary': summary,
+      'iconName': iconName,
+      'dependencies': dependencies.map((e) => easterEgg.steps[e].name).toList(),
+      'notes': notes,
+      'gallery': gallery.map((e) => e.toMap()).toList(),
+      'validIn': validIn.map((e) => e.name).toList(),
+      'kind': kind.name,
+    };
   }
 
   IconData? tryFindIcon() {

@@ -69,7 +69,7 @@ class GraphLayoutAlgorithm {
   }
 
   Iterable<Widget> getChildren(
-    int? selectedIndex,
+    Set<int> selectedIndex,
     void Function(int index) onClicked,
   ) sync* {
     for (var pair in _verticesGroupedByLevel.entries) {
@@ -97,7 +97,7 @@ class GraphLayoutAlgorithm {
                 width: cardWidth,
                 child: EasterEggStepCard(
                   step: step,
-                  isSelected: index == selectedIndex,
+                  isSelected: selectedIndex.contains(index),
                   maxImageHeight: cardWidth * (9.0 / 16.0),
                   onTap: () {
                     onClicked(index);
