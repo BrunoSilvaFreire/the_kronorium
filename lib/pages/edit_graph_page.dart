@@ -1,12 +1,15 @@
 import 'dart:collection';
 
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:the_kronorium/easter_eggs.dart';
 import 'package:the_kronorium/editing/command.dart';
+import 'package:the_kronorium/editing/commander.dart';
 import 'package:the_kronorium/pages/graph_page.dart';
 import 'package:the_kronorium/widgets/container_card.dart';
+import 'package:the_kronorium/widgets/create_step_dialog.dart';
 import 'package:the_kronorium/widgets/editor.dart';
 
 class EditEasterEggPage extends ConsumerStatefulWidget {
@@ -100,7 +103,19 @@ class _EditEasterEggPageState extends ConsumerState<EditEasterEggPage> {
                             elevation: 0,
                             backgroundColor: theme.colorScheme.primary,
                             foregroundColor: theme.colorScheme.onPrimary,
-                            onPressed: () {},
+                            onPressed: () {
+                              showModal(
+                                  context: context,
+                                  builder: (context) {
+                                    return CreateStepDialog(
+                                      onCreated: (EasterEggStep step) {
+                                        setState(() {
+                                          widget.easterEgg.addStep(step);
+                                        });
+                                      },
+                                    );
+                                  });
+                            },
                             icon: Icon(MdiIcons.plusCircle),
                             label: const Text("Add Step"),
                           ),
@@ -117,6 +132,28 @@ class _EditEasterEggPageState extends ConsumerState<EditEasterEggPage> {
                               icon: Icon(MdiIcons.delete),
                               label: deleteAllLabel,
                             ),
+                          ),
+                          OverflowBar(
+                            children: [
+                              Tooltip(
+                                message: "Do a Richtofen",
+                                child: IconButton.filled(
+                                  onPressed: () {
+                                    ref.read(_selected.notifier).state =
+                                        Set.identity();
+                                    doCommand(
+                                      DeleteStepsCommand(
+                                        List.generate(
+                                          widget.easterEgg.steps.length,
+                                          (index) => index,
+                                        ).toSet(),
+                                      ),
+                                    );
+                                  },
+                                  icon: Icon(MdiIcons.nuke),
+                                ),
+                              ),
+                            ],
                           ),
                           const Divider(),
                           ListTile(
@@ -163,9 +200,7 @@ class _EditEasterEggPageState extends ConsumerState<EditEasterEggPage> {
                               subtitle: Text(
                                 "#$index: $command",
                               ),
-                              onTap: () {
-
-                              },
+                              onTap: () {},
                             )
                         ],
                       ),
@@ -199,61 +234,5 @@ class _EditEasterEggPageState extends ConsumerState<EditEasterEggPage> {
         );
       },
     );
-  }
-}
-
-class Commander {
-  int? _commandPointer;
-  final _commandQueue = Queue<Command>();
-
-  Iterable<Command> get commands => _commandQueue;
-
-  int? get index => _commandPointer;
-
-  void addCommand(Command command, EasterEgg easterEgg) {
-    command.apply(easterEgg);
-    _commandPointer = _commandQueue.length;
-    _commandQueue.add(command);
-  }
-
-  void undoCurrentlyPointedCommand(EasterEgg easterEgg) {
-    var ptr = _commandPointer;
-    if (ptr == null) {
-      return;
-    }
-    _commandQueue.elementAt(ptr).undo(easterEgg);
-    _commandPointer = ptr - 1;
-  }
-
-  bool canUndoCommand() {
-    if (_commandQueue.isEmpty) {
-      return false;
-    }
-    var ptr = _commandPointer;
-    if (ptr == null) {
-      return false;
-    }
-
-    return ptr >= 0 && ptr < _commandQueue.length;
-  }
-
-  bool canRedoCommand() {
-    if (_commandQueue.isEmpty) {
-      return false;
-    }
-    var ptr = _commandPointer;
-    if (ptr == null) {
-      return false;
-    }
-    return ptr < _commandQueue.length - 1;
-  }
-
-  void redoOneCommand(EasterEgg easterEgg) {
-    var ptr = _commandPointer;
-    if (ptr == null) {
-      return;
-    }
-    _commandQueue.elementAt(ptr + 1).apply(easterEgg);
-    _commandPointer = ptr + 1;
   }
 }
