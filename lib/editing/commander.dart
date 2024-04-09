@@ -57,4 +57,24 @@ class Commander {
     _commandQueue.elementAt(ptr + 1).apply(easterEgg);
     _commandPointer = ptr + 1;
   }
+
+  void goTo(int index, EasterEgg easterEgg) {
+    var ptr = _commandPointer;
+    if (ptr == null) {
+      return;
+    }
+    if (index > ptr) {
+      // Go Forward
+      for (int i = ptr; i != index; i++) {
+        _commandQueue.elementAt(_commandQueue.length-index).apply(easterEgg);
+      }
+    }
+    if (index < ptr) {
+      // Go Backward
+      for (int i = ptr; i != index; i--) {
+        _commandQueue.elementAt(_commandQueue.length-index).undo(easterEgg);
+      }
+      _commandPointer = index;
+    }
+  }
 }

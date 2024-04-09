@@ -79,6 +79,20 @@ class EasterEgg {
     return graph;
   }
 
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'map': map,
+      'thumbnail': thumbnailURL,
+      'steps': steps
+          .map(
+            (e) => e.toMap(this),
+          )
+          .toList(),
+      'color': color.value.toRadixString(16).padLeft(8, '0'),
+    };
+  }
+
   factory EasterEgg.fromMap(Map<String, dynamic> map) {
     var serializedSteps = map.requireList<Map<String, dynamic>>("steps");
 

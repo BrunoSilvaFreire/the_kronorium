@@ -1,6 +1,7 @@
 import 'dart:collection';
-
+import 'dart:convert';
 import 'package:animations/animations.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -50,7 +51,7 @@ class _EditEasterEggPageState extends ConsumerState<EditEasterEggPage> {
 
   @override
   Widget build(BuildContext context) {
-    const leftContainerWidth = 256.0;
+    const leftContainerWidth = 352.0;
     const rightContainerWidth = 512.0;
     const marginSpacing = 32.0;
     var selected = ref.watch(_selected);
@@ -65,9 +66,6 @@ class _EditEasterEggPageState extends ConsumerState<EditEasterEggPage> {
       ),
       builder: (context, map) {
         var theme = Theme.of(context);
-        var deleteAllLabel = selected.isEmpty
-            ? const Text("Delete selected")
-            : Text("Delete selected (${selected.length})");
         return Stack(
           children: [
             Positioned.fill(
@@ -109,9 +107,7 @@ class _EditEasterEggPageState extends ConsumerState<EditEasterEggPage> {
                                   builder: (context) {
                                     return CreateStepDialog(
                                       onCreated: (EasterEggStep step) {
-                                        setState(() {
-                                          widget.easterEgg.addStep(step);
-                                        });
+                                        doCommand(CreateStepCommand(step));
                                       },
                                     );
                                   });
@@ -119,41 +115,17 @@ class _EditEasterEggPageState extends ConsumerState<EditEasterEggPage> {
                             icon: Icon(MdiIcons.plusCircle),
                             label: const Text("Add Step"),
                           ),
-                          Container(
-                            margin: const EdgeInsets.only(top: 8),
-                            child: ElevatedButton.icon(
-                              onPressed: selected.isEmpty
-                                  ? null
-                                  : () {
-                                      ref.read(_selected.notifier).state =
-                                          Set.identity();
-                                      doCommand(DeleteStepsCommand(selected));
-                                    },
-                              icon: Icon(MdiIcons.delete),
-                              label: deleteAllLabel,
-                            ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: _buildButtonBar(selected),
                           ),
-                          OverflowBar(
-                            children: [
-                              Tooltip(
-                                message: "Do a Richtofen",
-                                child: IconButton.filled(
-                                  onPressed: () {
-                                    ref.read(_selected.notifier).state =
-                                        Set.identity();
-                                    doCommand(
-                                      DeleteStepsCommand(
-                                        List.generate(
-                                          widget.easterEgg.steps.length,
-                                          (index) => index,
-                                        ).toSet(),
-                                      ),
-                                    );
-                                  },
-                                  icon: Icon(MdiIcons.nuke),
-                                ),
-                              ),
-                            ],
+                          TextButton.icon(
+                            onPressed: () async {
+                              var content = jsonEncode(widget.easterEgg.toMap());
+                              await Clipboard.setData(ClipboardData(text: content));
+                            },
+                            icon: Icon(MdiIcons.contentCopy),
+                            label: const Text("Copy JSON"),
                           ),
                           const Divider(),
                           ListTile(
@@ -163,44 +135,18 @@ class _EditEasterEggPageState extends ConsumerState<EditEasterEggPage> {
                             title:
                                 Text("Steps: ${widget.easterEgg.steps.length}"),
                           ),
-                          TextButton.icon(
-                            onPressed: () {},
-                            icon: Icon(MdiIcons.contentCopy),
-                            label: const Text("Copy JSON"),
-                          ),
                           const Divider(),
-                          Container(
-                            margin: const EdgeInsets.only(top: 8),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                IconButton.filled(
-                                  onPressed: _commander.canUndoCommand()
-                                      ? () {
-                                          undoCommand();
-                                        }
-                                      : null,
-                                  icon: Icon(MdiIcons.undo),
-                                ),
-                                IconButton.filled(
-                                  onPressed: _commander.canRedoCommand()
-                                      ? () {
-                                          redoCommand();
-                                        }
-                                      : null,
-                                  icon: Icon(MdiIcons.redo),
-                                ),
-                              ],
-                            ),
-                          ),
                           for (var (index, command)
                               in _commander.commands.indexed)
                             ListTile(
                               selected: index == _commander.index,
-                              subtitle: Text(
-                                "#$index: $command",
-                              ),
-                              onTap: () {},
+                              leading: Icon(command.getLabel().icon),
+                              title: Text(command.getLabel().label),
+                              onTap:  index == _commander.index ? null : () {
+                                setState(() {
+                                  _commander.goTo(index, widget.easterEgg);
+                                });
+                              },
                             )
                         ],
                       ),
@@ -233,6 +179,69 @@ class _EditEasterEggPageState extends ConsumerState<EditEasterEggPage> {
           ],
         );
       },
+    );
+  }
+
+  OverflowBar _buildButtonBar(Set<int> selected) {
+    var deleteAllLabel = selected.isEmpty
+        ? "Delete selected"
+        : "Delete selected (${selected.length})";
+    return OverflowBar(
+      alignment: MainAxisAlignment.spaceEvenly,
+      spacing: 8,
+      children: [
+        Tooltip(
+          message: "Undo",
+          child: IconButton.filled(
+            onPressed: _commander.canUndoCommand()
+                ? () {
+                    undoCommand();
+                  }
+                : null,
+            icon: Icon(MdiIcons.undo),
+          ),
+        ),
+        Tooltip(
+          message: "Redo",
+          child: IconButton.filled(
+            onPressed: _commander.canRedoCommand()
+                ? () {
+                    redoCommand();
+                  }
+                : null,
+            icon: Icon(MdiIcons.redo),
+          ),
+        ),
+        Tooltip(
+          message: deleteAllLabel,
+          child: IconButton.filled(
+            onPressed: selected.isEmpty
+                ? null
+                : () {
+                    ref.read(_selected.notifier).state = Set.identity();
+                    doCommand(DeleteStepsCommand(selected));
+                  },
+            icon: Icon(MdiIcons.delete),
+          ),
+        ),
+        Tooltip(
+          message: "Do a Richtofen",
+          child: IconButton.filled(
+            onPressed: () {
+              ref.read(_selected.notifier).state = Set.identity();
+              doCommand(
+                DeleteStepsCommand(
+                  List.generate(
+                    widget.easterEgg.steps.length,
+                    (index) => index,
+                  ).toSet(),
+                ),
+              );
+            },
+            icon: Icon(MdiIcons.nuke),
+          ),
+        ),
+      ],
     );
   }
 }

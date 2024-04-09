@@ -47,7 +47,7 @@ class _InteractiveEasterEggMapState
   }
 
   Iterable<Widget> _buildChildren(Set<int> selected) {
-    return widget.layout.getChildren(
+    var children = widget.layout.getChildren(
       selected,
       (index) {
         var newSet = {...selected};
@@ -56,7 +56,11 @@ class _InteractiveEasterEggMapState
         }
         ref.read(widget.selected.notifier).state = newSet;
       },
-    ).interleave((element) {
+    );
+    if(children.isEmpty){
+      return [];
+    }
+    return children.interleave((element) {
       return SizedBox(
         width: widget.spacing,
       );

@@ -1,9 +1,14 @@
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:the_kronorium/easter_eggs.dart';
+import 'package:the_kronorium/label.dart';
+import 'package:the_kronorium/utils.dart';
 
 abstract class Command {
   void apply(EasterEgg easterEgg);
 
   void undo(EasterEgg easterEgg);
+
+  Label getLabel();
 }
 
 abstract class SnapshotCommand<T> extends Command {
@@ -57,22 +62,34 @@ class DeleteStepsCommand extends SnapshotCommand<List<DeletionCache>> {
     EasterEgg easterEgg,
     List<DeletionCache> snapshot,
   ) {
-    var newIndices = <int>{};
+    var recreated = <(int, EasterEggStep)>[];
     for (var entry in snapshot) {
-      var dependencies = EasterEgg.extractDependencies(
-        entry.serialized,
+      var step = EasterEggStep.fromMap(entry.serialized, []);
+      recreated.add((
+        easterEgg.addStep(step),
+        step,
+      ));
+    }
+    // Rebuild dependencies
+    for (var (i, step) in recreated) {
+      step.dependencies = EasterEgg.extractDependencies(
+        snapshot[i].serialized,
         easterEgg.steps,
       );
-      var step = EasterEggStep.fromMap(entry.serialized, dependencies);
-      newIndices.add(easterEgg.addStep(step));
     }
-    _toDelete = newIndices;
+    _toDelete = recreated.map(
+      (e) {
+        var (i, _) = e;
+        return i;
+      },
+    ).toSet();
   }
 
   @override
-  String toString() {
-    return 'Delete steps ${_toDelete.join(", ")}';
-  }
+  Label getLabel() => Label(
+        MdiIcons.delete,
+        'Delete steps ${_toDelete.join(", ")}',
+      );
 }
 
 class CreateStepCommand extends SnapshotCommand<int> {
@@ -88,5 +105,13 @@ class CreateStepCommand extends SnapshotCommand<int> {
   @override
   void undoWithSnapshot(EasterEgg easterEgg, int snapshot) {
     easterEgg.removeByIndex(snapshot);
+  }
+
+  @override
+  Label getLabel() {
+    return Label(
+      MdiIcons.tooltipPlus,
+      "Create step ${_step.name} (${clipString(_step.summary, 32)})",
+    );
   }
 }
