@@ -347,4 +347,9 @@ class EasterEggStep {
       kind: kind,
     );
   }
+
+  @override
+  String toString() {
+    return 'EasterEggStep{name: $name, summary: $summary}';
+  }
 }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:the_kronorium/easter_eggs.dart';
-import 'package:the_kronorium/pages/graph_layout.dart';
+import 'package:the_kronorium/graphs/graph_layout.dart';
+import 'package:the_kronorium/graphs/layered_graph_layout.dart';
 import 'package:the_kronorium/widgets/interactive_easter_egg_map.dart';
 
 class GraphPage extends StatefulWidget {
@@ -36,11 +37,11 @@ class _BaseGraphPageState extends State<GraphPage> {
         brightness: baseTheme.brightness,
       ),
     );
-    double spacing = 32;
+    double spacing = 256;
     EasterEggStepGraph graph = widget.easterEgg.asGraph();
-    var layout = GraphLayoutAlgorithm(
-      graph: graph,
-      color: theme.colorScheme.primary,
+    var layout = GraphWidgetBuilder(
+      layout: LayeredGraphLayout(graph: graph),
+      baseColor: theme.colorScheme.primary,
       cardWidth: 256,
       levelSpacing: spacing,
       siblingSpacing: 256,
@@ -58,6 +59,9 @@ class _BaseGraphPageState extends State<GraphPage> {
               selected: widget.selectedProvider,
               spacing: spacing,
               margin: widget.mapMargin,
+              layeredLayout: LayeredGraphLayout(
+                graph: graph,
+              ),
             ),
           );
         }),

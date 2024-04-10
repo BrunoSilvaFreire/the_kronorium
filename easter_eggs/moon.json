@@ -5,6 +5,15 @@
   "thumbnail": "https://static.wikia.nocookie.net/callofduty/images/4/4a/Moon_Menu_Selection_BO3.png/revision/latest/scale-to-width-down/1000",
   "steps": [
     {
+      "name": "minNumPlayersPostCryogenicSlumberParty",
+      "summary": "Have two or more players in an online party.",
+      "icon": "accountMultiple",
+      "validIn": [
+        "blackOps1"
+      ]
+    },
+
+    {
       "name": "turnOnPower",
       "summary": "Turn on the power",
       "icon": "power",
@@ -15,21 +24,18 @@
             "The power switch is located near to the power room"
           ]
         }
-      ]
-    },
-    {
-      "name": "minNumPlayersPostCryogenicSlumberParty",
-      "summary": "Have two or more players in an online party.",
-      "icon": "accountMultiple",
-      "validIn": [
-        "blackOps1"
+      ],
+      "dependencies": [
+        "minNumPlayersPostCryogenicSlumberParty"
       ]
     },
     {
       "name": "waveGun",
       "summary": "Obtain the Wave Gun.",
       "icon": "diceMultiple",
-      "dependencies": [],
+      "dependencies": [
+        "minNumPlayersPostCryogenicSlumberParty"
+      ],
       "notes": [
         "Required for several steps, particularly for moving the Vril Sphere."
       ],
@@ -43,7 +49,9 @@
       "name": "hacker",
       "summary": "Obtain the Hacker device.",
       "icon": "bookCog",
-      "dependencies": [],
+      "dependencies": [
+        "turnOnPower"
+      ],
       "notes": [
         "Used for hacking terminals and panels in the Laboratory."
       ],
@@ -56,7 +64,9 @@
     {
       "name": "quantumEntanglementDevice",
       "summary": "Obtain the Quantum Entanglement Device.",
-      "dependencies": [],
+      "dependencies": [
+        "minNumPlayersPostCryogenicSlumberParty"
+      ],
       "icon": "atom",
       "notes": [
         "Needed for specific steps following the Cryogenic Slumber Party achievement."
@@ -71,7 +81,9 @@
       "name": "gershDevice",
       "summary": "Obtain the Gersh Device.",
       "icon": "atomVariant",
-      "dependencies": [],
+      "dependencies": [
+        "minNumPlayersPostCryogenicSlumberParty"
+      ],
       "notes": [
         "Required for moving certain objects and completing steps post-Cryogenic Slumber Party."
       ],
@@ -119,6 +131,9 @@
       "name": "revealPlates",
       "summary": "Throw a grenade at this spot in Area 51 to reveal Casimir Plates",
       "icon": "nuke",
+      "dependencies": [
+        "minNumPlayersPostCryogenicSlumberParty"
+      ],
       "gallery": [
         {
           "image": "https://static.wikia.nocookie.net/callofduty/images/2/2b/Richtofen%27s_Grand_Scheme_step_5_BO3.png/revision/latest/scale-to-width-down/1000"
@@ -255,7 +270,7 @@
     },
     {
       "name": "throwGerschAtVrilSphere",
-      "summary": "Retrieve the Vril Sphere by throwing a QED on it",
+      "summary": "Throw a Gersch device at the Vril Sphere",
       "dependencies": [
         "throwQEDAtVrilSphere",
         "gershDevice"

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:collection';
 
 class AdjacencyList<TVertex, TEdge> {
@@ -56,6 +57,10 @@ class AdjacencyList<TVertex, TEdge> {
       yield (node.key, node.value);
     }
   }
+
+  bool exists(int fromIndex) {
+    return fromIndex >= 0 && fromIndex < size;
+  }
 }
 
 class AdjacencyNode<TVertex, TEdge> {
@@ -77,5 +82,37 @@ class AdjacencyNode<TVertex, TEdge> {
   void clear() {
     _map.clear();
     data = null as TVertex;
+  }
+}
+
+extension Query<TVertex, TEdge> on AdjacencyList<TVertex, TEdge> {
+  Iterable<int> edgesFromEqualTo(int index, TEdge equalTo) sync* {
+    for (var (index, edge) in edgesFrom(index)) {
+      if (edge == equalTo) {
+        yield index;
+      }
+    }
+  }
+}
+
+extension GraphViz<TVertex, TEdge> on AdjacencyList<TVertex, TEdge> {
+  String toDot(TEdge onlyIncludeEdgeLikeThis) {
+    var builder = StringBuffer();
+    int i=0;
+    builder.writeln("digraph {");
+    for(var vert in allVertices){
+      builder.writeln("    $i [shape=box label=\"#$i: $vert\"]");
+      i++;
+    }
+    for(var i = 0; i < size; i++){
+      for (var (to, edge) in edgesFrom(i)) {
+        if(edge == onlyIncludeEdgeLikeThis){
+
+          builder.writeln("    $i -> $to");
+        }
+      }
+    }
+    builder.writeln("}");
+    return builder.toString();
   }
 }
