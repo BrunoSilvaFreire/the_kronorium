@@ -41,15 +41,12 @@ var _defaultColors = {
 };
 
 Color parseColor(String string) {
-  if (string.startsWith('0x')) {
-    // The string is in hexadecimal format, parse it as before
-    String valueString = string.split('(0x')[1].split(')')[0];
-    int value = int.parse(valueString, radix: 16);
+  var predefined=_defaultColors[string];
+  if (predefined == null) {
+    int value = int.parse(string, radix: 16);
     return Color(value);
   } else {
-    // The string is a raw color name, attempt to retrieve it from primaryColorsMap
-    Color color = Colors.primaries[_defaultColors[string]!];
-    return color;
+    return Colors.primaries[predefined];
     }
 }
 

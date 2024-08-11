@@ -39,9 +39,9 @@ enum StepEdgeKind {
 typedef EasterEggStepGraph = AdjacencyList<EasterEggStep, StepEdgeKind>;
 
 class EasterEgg {
-  final String name;
-  final String map;
-  final String thumbnailURL;
+  String name;
+  String map;
+  String thumbnailURL;
   final List<EasterEggStep> steps;
   final Color color;
   EasterEggStepGraph? _cachedGraph;

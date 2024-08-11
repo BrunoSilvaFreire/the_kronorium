@@ -8,6 +8,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:the_kronorium/easter_eggs.dart';
 import 'package:the_kronorium/editing/command.dart';
 import 'package:the_kronorium/editing/commander.dart';
+import 'package:the_kronorium/editing/editing_fields.dart';
 import 'package:the_kronorium/pages/graph_page.dart';
 import 'package:the_kronorium/widgets/container_card.dart';
 import 'package:the_kronorium/widgets/create_step_dialog.dart';
@@ -30,6 +31,12 @@ class _EditEasterEggPageState extends ConsumerState<EditEasterEggPage> {
     (ref) => {},
   );
   late final _commander = Commander();
+  late final _key = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   void doCommand(Command command) {
     setState(() {
@@ -78,79 +85,65 @@ class _EditEasterEggPageState extends ConsumerState<EditEasterEggPage> {
               width: leftContainerWidth,
               child: Column(
                 children: [
-                  ContainerCard(
-                    elevation: 12,
-                    margin: const EdgeInsets.only(
-                      top: 16,
-                      bottom: 16,
-                      right: 16,
-                    ),
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(12),
-                        bottomRight: Radius.circular(12),
+                  ContainerCard.leftSideContainer(
+                    children: [
+                      FloatingActionButton.extended(
+                        elevation: 0,
+                        backgroundColor: theme.colorScheme.primary,
+                        foregroundColor: theme.colorScheme.onPrimary,
+                        onPressed: () {
+                          showModal(
+                              context: context,
+                              builder: (context) {
+                                return CreateStepDialog(
+                                  onCreated: (EasterEggStep step) {
+                                    doCommand(CreateStepCommand(step));
+                                  },
+                                );
+                              });
+                        },
+                        icon: Icon(MdiIcons.plusCircle),
+                        label: const Text("Add Step"),
                       ),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          FloatingActionButton.extended(
-                            elevation: 0,
-                            backgroundColor: theme.colorScheme.primary,
-                            foregroundColor: theme.colorScheme.onPrimary,
-                            onPressed: () {
-                              showModal(
-                                  context: context,
-                                  builder: (context) {
-                                    return CreateStepDialog(
-                                      onCreated: (EasterEggStep step) {
-                                        doCommand(CreateStepCommand(step));
-                                      },
-                                    );
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: _buildButtonBar(selected),
+                      ),
+                      TextButton.icon(
+                        onPressed: () async {
+                          var content = jsonEncode(widget.easterEgg.toMap());
+                          await Clipboard.setData(ClipboardData(text: content));
+                        },
+                        icon: Icon(MdiIcons.contentCopy),
+                        label: const Text("Copy JSON"),
+                      ),
+                      const Divider(),
+                      ListTile(
+                        leading: Icon(MdiIcons.counter),
+                        title: Text("Steps: ${widget.easterEgg.steps.length}"),
+                      ),
+                      EasterEggFieldsEditor(
+                        formKey: _key,
+                        name: StateProvider((ref) => widget.easterEgg.name),
+                        map: StateProvider((ref) => widget.easterEgg.map),
+                        thumbnail: StateProvider(
+                            (ref) => widget.easterEgg.thumbnailURL),
+                      ),
+                      const Divider(),
+                      for (var (index, command) in _commander.commands.indexed)
+                        ListTile(
+                          selected: index == _commander.index,
+                          leading: Icon(command.getLabel().icon),
+                          title: Text(command.getLabel().label),
+                          onTap: index == _commander.index
+                              ? null
+                              : () {
+                                  setState(() {
+                                    _commander.goTo(index, widget.easterEgg);
                                   });
-                            },
-                            icon: Icon(MdiIcons.plusCircle),
-                            label: const Text("Add Step"),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: _buildButtonBar(selected),
-                          ),
-                          TextButton.icon(
-                            onPressed: () async {
-                              var content = jsonEncode(widget.easterEgg.toMap());
-                              await Clipboard.setData(ClipboardData(text: content));
-                            },
-                            icon: Icon(MdiIcons.contentCopy),
-                            label: const Text("Copy JSON"),
-                          ),
-                          const Divider(),
-                          ListTile(
-                            leading: Icon(
-                              MdiIcons.counter,
-                            ),
-                            title:
-                                Text("Steps: ${widget.easterEgg.steps.length}"),
-                          ),
-                          const Divider(),
-                          for (var (index, command)
-                              in _commander.commands.indexed)
-                            ListTile(
-                              selected: index == _commander.index,
-                              leading: Icon(command.getLabel().icon),
-                              title: Text(command.getLabel().label),
-                              onTap:  index == _commander.index ? null : () {
-                                setState(() {
-                                  _commander.goTo(index, widget.easterEgg);
-                                });
-                              },
-                            )
-                        ],
-                      ),
-                    ),
+                                },
+                        )
+                    ],
                   ),
                 ],
               ),
