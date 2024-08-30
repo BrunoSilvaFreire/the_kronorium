@@ -36,6 +36,10 @@ class _EasterEggFieldsEditorState extends ConsumerState<EasterEggFieldsEditor> {
   @override
   void initState() {
     super.initState();
+  }
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     name.text = ref.watch(widget.name);
     map.text = ref.watch(widget.map);
     thumbnail.text = ref.watch(widget.thumbnail);
