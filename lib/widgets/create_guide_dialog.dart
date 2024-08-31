@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:the_kronorium/easter_eggs.dart';
+import 'package:the_kronorium/providers/easter_eggs.dart';
 import 'package:the_kronorium/editing/editing_fields.dart';
 import 'package:the_kronorium/pages/edit_graph_page.dart';
+import 'package:the_kronorium/providers/local_easter_eggs.dart';
 
 class CreateGuideDialog extends ConsumerWidget {
   const CreateGuideDialog({
@@ -52,18 +53,15 @@ class CreateGuideDialog extends ConsumerWidget {
                 FilledButton.tonal(
                   onPressed: (_key.currentState?.validate() ?? false)
                       ? () {
-                          Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                              builder: (context) => EditEasterEggPage(
-                                easterEgg: EasterEgg(
-                                  steps: [],
-                                  name: name,
-                                  map: map,
-                                  thumbnailURL: thumbnail,
-                                  color: Theme.of(context).primaryColor,
-                                ),
-                              ),
-                            ),
+                          var registry = ref.read(
+                            localEasterEggRegistryProvider.notifier,
+                          );
+                          createEasterEgg(
+                            name,
+                            map,
+                            thumbnail,
+                            context,
+                            registry,
                           );
                         }
                       : null,
@@ -75,6 +73,27 @@ class CreateGuideDialog extends ConsumerWidget {
         ],
       ),
     );
+  }
+
+  void createEasterEgg(
+    String name,
+    String map,
+    String thumbnail,
+    BuildContext context,
+    LocalEasterEggRegistry registry,
+  ) {
+    var easterEgg = EasterEgg(
+      steps: [],
+      name: name,
+      map: map,
+      thumbnailURL: thumbnail,
+      color: Theme.of(context).primaryColor,
+    );
+    registry.saveEasterEgg(easterEgg);
+    // We do a pop instead of replace in order to allow the hero animation of
+    // the FAB to work correctly.
+    Navigator.pop(context);
+    EditEasterEggPage.openForEdit(context, easterEgg);
   }
 }
 

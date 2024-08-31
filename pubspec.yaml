@@ -39,6 +39,7 @@ dependencies:
   riverpod_annotation: ^2.3.5
   animations: ^2.0.11
   url_launcher: ^6.2.5
+  localstorage: ^5.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

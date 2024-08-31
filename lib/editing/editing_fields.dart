@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:the_kronorium/form_validators.dart';
+import 'package:the_kronorium/providers/local_easter_eggs.dart';
 
 class EasterEggFieldsEditor extends ConsumerStatefulWidget {
   final GlobalKey<FormState> formKey;
@@ -17,7 +18,8 @@ class EasterEggFieldsEditor extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<EasterEggFieldsEditor> createState() => _EasterEggFieldsEditorState();
+  ConsumerState<EasterEggFieldsEditor> createState() =>
+      _EasterEggFieldsEditorState();
 }
 
 class _EasterEggFieldsEditorState extends ConsumerState<EasterEggFieldsEditor> {
@@ -37,6 +39,7 @@ class _EasterEggFieldsEditorState extends ConsumerState<EasterEggFieldsEditor> {
   void initState() {
     super.initState();
   }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -47,6 +50,7 @@ class _EasterEggFieldsEditorState extends ConsumerState<EasterEggFieldsEditor> {
 
   @override
   Widget build(BuildContext context) {
+    var easterEggs = ref.watch(localEasterEggRegistryProvider);
     return Form(
       key: widget.formKey,
       autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -59,9 +63,26 @@ class _EasterEggFieldsEditorState extends ConsumerState<EasterEggFieldsEditor> {
             decoration: const InputDecoration(
               labelText: "Easter Egg Name",
             ),
-            validator: FormValidators.notEmpty,
+            validator: (name) {
+              var notEmpty = FormValidators.notEmpty(name);
+              if (notEmpty != null) {
+                return notEmpty;
+              }
+              if (name != null) {
+                var hasWithSameName = easterEggs.maybeWhen(
+                  data: (data) =>
+                      data.any((easterEgg) => easterEgg.name == name),
+                  orElse: () => false,
+                );
+                if (hasWithSameName) {
+                  return "A local easter egg with this name already exists.";
+                }
+              }
+            },
             onChanged: (value) {
-              ref.read(widget.name.notifier).state = value;
+              ref
+                  .read(widget.name.notifier)
+                  .state = value;
             },
             controller: name,
           ),
@@ -71,7 +92,9 @@ class _EasterEggFieldsEditorState extends ConsumerState<EasterEggFieldsEditor> {
             ),
             validator: FormValidators.notEmpty,
             onChanged: (value) {
-              ref.read(widget.map.notifier).state = value;
+              ref
+                  .read(widget.map.notifier)
+                  .state = value;
             },
             controller: map,
           ),
@@ -81,7 +104,9 @@ class _EasterEggFieldsEditorState extends ConsumerState<EasterEggFieldsEditor> {
             ),
             validator: FormValidators.notEmpty,
             onChanged: (value) {
-              ref.read(widget.thumbnail.notifier).state = value;
+              ref
+                  .read(widget.thumbnail.notifier)
+                  .state = value;
             },
             controller: thumbnail,
           ),

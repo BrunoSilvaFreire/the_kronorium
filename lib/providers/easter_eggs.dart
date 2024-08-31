@@ -10,10 +10,19 @@ import 'package:the_kronorium/utils.dart';
 
 part 'easter_eggs.g.dart';
 
-@riverpod
-class EasterEggRegistry extends _$EasterEggRegistry {
-  @override
-  Future<List<EasterEgg>> build() async {
+abstract class AbstractEasterEggRegistry
+    extends AsyncNotifier<List<EasterEgg>> {
+
+  Future<List<EasterEgg>> loadEasterEggsFrom(
+    Stream<Map<String, dynamic>> streams,
+  ) async {
+    return streams.map(EasterEgg.fromMap).toList();
+  }
+}
+
+@Riverpod(keepAlive: true)
+class EasterEggRegistry extends AbstractEasterEggRegistry {
+  Stream<Map<String, dynamic>> loadEasterEggStreams() async* {
     final manifestContent = await rootBundle.loadString('AssetManifest.json');
 
     final Map<String, dynamic> manifestMap = json.decode(manifestContent);
@@ -23,11 +32,14 @@ class EasterEggRegistry extends _$EasterEggRegistry {
         .where((String key) => key.contains('.json'))
         .toList();
 
-    var loaded = await Future.wait(
-      easterEggs.map((e) => rootBundle.loadString(e, cache: false)),
-    );
+    for (var value in easterEggs) {
+      yield json.decode(await rootBundle.loadString(value, cache: false));
+    }
+  }
 
-    return loaded.map((e) => EasterEgg.fromMap(json.decode(e))).toList();
+  @override
+  FutureOr<List<EasterEgg>> build() {
+    return loadEasterEggsFrom(loadEasterEggStreams());
   }
 }
 

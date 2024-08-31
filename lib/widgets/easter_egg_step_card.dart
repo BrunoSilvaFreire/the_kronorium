@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:the_kronorium/easter_eggs.dart';
+import 'package:the_kronorium/providers/easter_eggs.dart';
 
 class EasterEggStepCard extends StatelessWidget {
   final EasterEggStep step;

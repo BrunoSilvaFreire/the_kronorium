@@ -1,5 +1,5 @@
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:the_kronorium/easter_eggs.dart';
+import 'package:the_kronorium/providers/easter_eggs.dart';
 import 'package:the_kronorium/label.dart';
 import 'package:the_kronorium/utils.dart';
 

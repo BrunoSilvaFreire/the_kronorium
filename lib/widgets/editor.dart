@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:the_kronorium/easter_eggs.dart';
+import 'package:the_kronorium/providers/easter_eggs.dart';
 import 'package:the_kronorium/widgets/inspector.dart';
 
 class Editor extends ConsumerWidget {

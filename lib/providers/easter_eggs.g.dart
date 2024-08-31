@@ -6,12 +6,12 @@ part of 'easter_eggs.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$easterEggRegistryHash() => r'ba85acc2365c1e1e6de89ab1d118cdc1254f8127';
+String _$easterEggRegistryHash() => r'dd3c7c8f28c87b27e252dfe5d359f0f96959958d';
 
 /// See also [EasterEggRegistry].
 @ProviderFor(EasterEggRegistry)
-final easterEggRegistryProvider = AutoDisposeAsyncNotifierProvider<
-    EasterEggRegistry, List<EasterEgg>>.internal(
+final easterEggRegistryProvider =
+    AsyncNotifierProvider<EasterEggRegistry, List<EasterEgg>>.internal(
   EasterEggRegistry.new,
   name: r'easterEggRegistryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -21,6 +21,6 @@ final easterEggRegistryProvider = AutoDisposeAsyncNotifierProvider<
   allTransitiveDependencies: null,
 );
 
-typedef _$EasterEggRegistry = AutoDisposeAsyncNotifier<List<EasterEgg>>;
+typedef _$EasterEggRegistry = AsyncNotifier<List<EasterEgg>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

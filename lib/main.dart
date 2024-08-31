@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:the_kronorium/kronorium.dart';
 import 'package:the_kronorium/pages/gallery.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -22,26 +23,9 @@ class TheKronorium extends StatelessWidget {
           ),
           useMaterial3: true,
         ),
-        home: const Home(),
+        home: const Kronorium(),
       ),
     );
   }
 }
 
-class Home extends StatefulWidget {
-  const Home({super.key});
-
-  @override
-  State<Home> createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
-  @override
-  Widget build(BuildContext context) {
-    return ProviderScope(
-      child: Scaffold(
-        body: EasterEggGallery(),
-      ),
-    );
-  }
-}

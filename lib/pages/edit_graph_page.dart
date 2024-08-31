@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:the_kronorium/easter_eggs.dart';
+import 'package:the_kronorium/providers/easter_eggs.dart';
 import 'package:the_kronorium/editing/command.dart';
 import 'package:the_kronorium/editing/commander.dart';
 import 'package:the_kronorium/editing/editing_fields.dart';
@@ -24,6 +24,20 @@ class EditEasterEggPage extends ConsumerStatefulWidget {
 
   @override
   ConsumerState<EditEasterEggPage> createState() => _EditEasterEggPageState();
+
+  static void openForEdit(
+    BuildContext context,
+    EasterEgg easterEgg,
+  ) {
+    var page = MaterialPageRoute(
+      builder: (context) {
+        return EditEasterEggPage(
+          easterEgg: easterEgg,
+        );
+      },
+    );
+    Navigator.of(context).push(page);
+  }
 }
 
 class _EditEasterEggPageState extends ConsumerState<EditEasterEggPage> {

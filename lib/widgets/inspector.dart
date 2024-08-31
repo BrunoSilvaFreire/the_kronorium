@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:the_kronorium/easter_eggs.dart';
+import 'package:the_kronorium/providers/easter_eggs.dart';
 import 'package:the_kronorium/utils.dart';
 
 class Inspector extends ConsumerStatefulWidget {
@@ -51,7 +51,7 @@ class _InspectorState extends ConsumerState<Inspector> {
       children: [
         ListTile(
           leading: step.tryFindIcon()?.asIcon(),
-          title: Text(step?.summary ?? "Inspector"),
+          title: Text(step.summary),
         ),
         ...children,
         if (widget.bottom.isNotEmpty) ...[
