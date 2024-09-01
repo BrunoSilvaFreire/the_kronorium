@@ -63,6 +63,7 @@ class _EasterEggFieldsEditorState extends ConsumerState<EasterEggFieldsEditor> {
         setState(() {});
       },
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TextFormField(
             decoration: const InputDecoration(
@@ -116,34 +117,37 @@ class _EasterEggFieldsEditorState extends ConsumerState<EasterEggFieldsEditor> {
           games.maybeWhen(
             orElse: () => const CircularProgressIndicator(),
             data: (data) {
-              return DropdownMenu<ZombiesEdition>(
-                label: const Text("Game"),
-                initialSelection: edition,
-                leadingIcon: Image.asset(
-                  data[edition]!.thumbnail,
-                  height: 24,
-                  width: 24,
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: DropdownMenu<ZombiesEdition>(
+                  label: const Text("Game"),
+                  initialSelection: edition,
+                  leadingIcon: Image.asset(
+                    data[edition]!.thumbnail,
+                    height: 24,
+                    width: 24,
+                  ),
+                  onSelected: (value) {
+                    if (value != null) {
+                      ref.read(widget.primaryEdition.notifier).state = value;
+                    }
+                  },
+                  dropdownMenuEntries: [
+                    for (var MapEntry(
+                          key: edition,
+                          value: gameData,
+                        ) in data.entries)
+                      DropdownMenuEntry(
+                        value: edition,
+                        leadingIcon: Image.asset(
+                          gameData.thumbnail,
+                          height: 32,
+                          width: 32,
+                        ),
+                        label: gameData.title,
+                      )
+                  ],
                 ),
-                onSelected: (value) {
-                  if (value != null) {
-                    ref.read(widget.primaryEdition.notifier).state = value;
-                  }
-                },
-                dropdownMenuEntries: [
-                  for (var MapEntry(
-                        key: edition,
-                        value: gameData,
-                      ) in data.entries)
-                    DropdownMenuEntry(
-                      value: edition,
-                      leadingIcon: Image.asset(
-                        gameData.thumbnail,
-                        height: 32,
-                        width: 32,
-                      ),
-                      label: gameData.title,
-                    )
-                ],
               );
             },
           ),
