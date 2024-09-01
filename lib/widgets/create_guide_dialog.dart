@@ -13,13 +13,16 @@ class CreateGuideDialog extends ConsumerWidget {
     required StateProvider<String> name,
     required StateProvider<String> map,
     required StateProvider<String> thumbnail,
+    required StateProvider<ZombiesEdition> zombiesEdition,
   })  : _key = formKey,
         _name = name,
         _map = map,
-        _thumbnail = thumbnail;
+        _thumbnail = thumbnail,
+        _zombiesEdition = zombiesEdition;
 
   final GlobalKey<FormState> _key;
   final StateProvider<String> _name;
+  final StateProvider<ZombiesEdition> _zombiesEdition;
   final StateProvider<String> _map;
   final StateProvider<String> _thumbnail;
 
@@ -28,7 +31,7 @@ class CreateGuideDialog extends ConsumerWidget {
     var name = ref.watch(_name);
     var map = ref.watch(_map);
     var thumbnail = ref.watch(_thumbnail);
-
+    var zombiesEdition = ref.watch(_zombiesEdition);
     return Dialog(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -44,6 +47,7 @@ class CreateGuideDialog extends ConsumerWidget {
               name: _name,
               map: _map,
               thumbnail: _thumbnail,
+              primaryEdition: _zombiesEdition,
             ),
           ),
           Padding(
@@ -60,6 +64,7 @@ class CreateGuideDialog extends ConsumerWidget {
                             name,
                             map,
                             thumbnail,
+                            zombiesEdition,
                             context,
                             registry,
                           );
@@ -79,6 +84,7 @@ class CreateGuideDialog extends ConsumerWidget {
     String name,
     String map,
     String thumbnail,
+    ZombiesEdition primaryEdition,
     BuildContext context,
     LocalEasterEggRegistry registry,
   ) {
@@ -87,6 +93,7 @@ class CreateGuideDialog extends ConsumerWidget {
       name: name,
       map: map,
       thumbnailURL: thumbnail,
+      primaryEdition: primaryEdition,
       color: Theme.of(context).primaryColor,
     );
     registry.saveEasterEgg(easterEgg);
@@ -116,6 +123,9 @@ class _CreateGuideFormState extends State<CreateGuideForm> {
   late final _thumbnail = StateProvider<String>(
     (ref) => "",
   );
+  late final _zombiesEdition = StateProvider<ZombiesEdition>(
+    (ref) => ZombiesEdition.blackOps3,
+  );
   late final _key = GlobalKey<FormState>();
 
   @override
@@ -136,6 +146,7 @@ class _CreateGuideFormState extends State<CreateGuideForm> {
           name: _name,
           map: _map,
           thumbnail: _thumbnail,
+          zombiesEdition: _zombiesEdition,
         ),
       );
     });

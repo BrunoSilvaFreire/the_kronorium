@@ -6,7 +6,7 @@ part of 'kronorium.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$appInitializationHash() => r'cda323c71bf4aff19c6476c523d52d29b0bf146c';
+String _$appInitializationHash() => r'9a15af47580fe639ecdf409cfb66237ac4a32617';
 
 /// See also [AppInitialization].
 @ProviderFor(AppInitialization)

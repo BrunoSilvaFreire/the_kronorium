@@ -1,0 +1,280 @@
+{
+  "name": "Tin Man Heart",
+  "map": "Mauer Der Toten",
+  "color": "purple",
+  "edition": "blackOpsColdWar",
+  "thumbnail": "https://static.wikia.nocookie.net/callofduty/images/9/9a/MauerDerToten_Promo2_BOCW.jpg/revision/latest/scale-to-width-down/1000",
+  "steps": [
+    {
+      "name": "turnOnPower",
+      "summary": "Turn on the power by activating both switches and linking the power grid.",
+      "icon": "power",
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/5/5c/Mauer_der_Toten_Power_Switch.png/revision/latest/scale-to-width-down/1000",
+          "notes": [
+            "The power switches are located in the Power Room."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "getBrainRot",
+      "summary": "Obtain any weapon with the Brain Rot ammo upgrade",
+      "dependencies": [
+        "turnOnPower"
+      ]
+    },
+    {
+      "name": "openHotelRoom",
+      "summary": "Shoot a zombies with the Brain Rot weapon to make it open up Hotel Room 305",
+      "dependencies": [
+        "getBrainRot"
+      ]
+    },
+    {
+      "name": "obtainMicrowaveDish",
+      "summary": "Obtain Microwave Dish",
+      "dependencies": [
+        "turnOnPower"
+      ]
+    },
+    {
+      "name": "obtainRoboticHands",
+      "summary": "Obtain Robotic Hands",
+      "dependencies": [
+        "openHotelRoom"
+      ]
+    },
+    {
+      "name": "obtainBattery",
+      "summary": "Obtain Battery by killing the Krazny Soldat at round 11",
+      "dependencies": [
+        "turnOnPower"
+      ]
+    },
+    {
+      "name": "buildKlaus",
+      "summary": "Assemble Klaus.",
+      "icon": "robot",
+      "dependencies": [
+        "obtainMicrowaveDish",
+        "obtainRoboticHands",
+        "obtainBattery"
+      ],
+      "notes": [
+        "Klaus is essential for completing many steps of the Easter egg."
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/4/42/Klaus_HUD_Mauer_der_Toten_BOCW.png/revision/latest"
+        }
+      ]
+    },
+    {
+      "name": "getKillsWithKlaus1",
+      "summary": "Get approximately 45 kills with Klaus",
+      "dependencies": [
+        "buildKlaus"
+      ]
+    },
+    {
+      "name": "weakenTheLabBrickWall",
+      "summary": "Bring Klaus to the Lab's secret location so that he punches and weakens it.",
+      "dependencies": [
+        "buildKlaus"
+      ]
+    },
+    {
+      "name": "obtainWonderWeapon",
+      "summary": "Obtain the CRBR-S Wonder Weapon.",
+      "icon": "gun",
+      "dependencies": [
+        "turnOnPower"
+      ],
+      "notes": [
+        "The Wonder Weapon is crucial for completing later steps."
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/1/16/CRBR-S_Intel_BOCW.png/revision/latest/scale-to-width-down/1000"
+        }
+      ]
+    },
+    {
+      "name": "obtainCRBRBlazer",
+      "summary": "Obtain the CRBR-S Blazer upgrade",
+      "dependencies": [
+        "obtainWonderWeapon"
+      ]
+    },
+    {
+      "name": "meltLab",
+      "summary": "Shoot the CRBR-S at the now exposed metal wall to open up the Lab",
+      "dependencies": [
+        "weakenTheLabBrickWall",
+        "obtainCRBRBlazer"
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/6/62/ProjektEndstation_Berlin_Lab_BOCW.png/revision/latest/scale-to-width-down/1000?cb=20220703194401"
+        }
+      ]
+    },
+    {
+      "name": "upgradeKlaus",
+      "summary": "Upgrade Klaus to level 1 by guiding him to the Upgrade Station and protecting him during the process.",
+      "icon": "arrowUp",
+      "dependencies": [
+        "buildKlaus",
+        "getKillsWithKlaus1"
+      ],
+      "notes": [
+        "Upgrading Klaus allows access to specific areas required for the Easter egg."
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/1/1e/Mauer_der_Toten_Upgrade_Station.png/revision/latest/scale-to-width-down/1000"
+        }
+      ]
+    },
+    {
+      "name": "getTheBlacklight",
+      "summary": "Bring Klaus near the Locker to obtain the Blacklight",
+      "dependencies": [
+        "buildKlaus"
+      ]
+    },
+    {
+      "name": "blackLightNumber1",
+      "summary": "Use the Blacklight to obtain the first number of the safe",
+      "dependencies": [
+        "getTheBlacklight"
+      ]
+    },
+    {
+      "name": "blackLightNumber2",
+      "summary": "Use the Blacklight to obtain the second number of the safe",
+      "dependencies": [
+        "getTheBlacklight"
+      ]
+    },
+    {
+      "name": "blackLightNumber3",
+      "summary": "Use the Blacklight to obtain the third number of the safe",
+      "dependencies": [
+        "getTheBlacklight"
+      ]
+    },
+    {
+      "name": "retrieveIDCard",
+      "summary": "Retrieve the ID Card from the Safe in the Hotel Room 305.",
+      "icon": "cardAccountDetails",
+      "dependencies": [
+        "blackLightNumber1",
+        "blackLightNumber2",
+        "blackLightNumber3"
+      ],
+      "notes": [
+        "Use Klaus to open the Safe in Room 305."
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/4/4f/Mauer_der_Toten_Safe.png/revision/latest/scale-to-width-down/1000"
+        }
+      ]
+    },
+    {
+      "name": "retrieveWarhead",
+      "summary": "Retrieve the Warhead by placing the ID Card into the secret lab terminal.",
+      "icon": "nuke",
+      "dependencies": [
+        "meltLab",
+        "retrieveIDCard"
+      ],
+      "notes": [
+        "This step triggers a special wave of zombies."
+      ]
+    },
+    {
+      "name": "neutralizeWarhead",
+      "summary": "Neutralize the Warhead by completing the lockdown event.",
+      "icon": "shieldAlert",
+      "dependencies": [
+        "retrieveWarhead"
+      ],
+      "notes": [
+        "Protect the Warhead from zombies during the lockdown."
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/2/24/Mauer_der_Toten_Lockdown.png/revision/latest/scale-to-width-down/1000"
+        }
+      ]
+    },
+    {
+      "name": "chargeWarhead",
+      "summary": "Charge the Warhead by collecting Aetherium Crystals and placing them in the reactor.",
+      "icon": "lightningBolt",
+      "dependencies": [
+        "neutralizeWarhead"
+      ],
+      "notes": [
+        "The Aetherium Crystals are dropped by Elite enemies."
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/5/59/Mauer_der_Toten_Crystal.png/revision/latest/scale-to-width-down/1000"
+        }
+      ]
+    },
+    {
+      "name": "launchWarhead",
+      "summary": "Launch the Warhead to destroy the Omega Outpost.",
+      "icon": "rocketLaunch",
+      "dependencies": [
+        "chargeWarhead"
+      ],
+      "notes": [
+        "Launching the Warhead triggers the final boss fight."
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/a/a6/Mauer_der_Toten_Warhead.png/revision/latest/scale-to-width-down/1000"
+        }
+      ]
+    },
+    {
+      "name": "defeatValentina",
+      "summary": "Defeat Valentina, the final boss, and stop the outbreak.",
+      "icon": "skull",
+      "dependencies": [
+        "launchWarhead"
+      ],
+      "notes": [
+        "Valentina has multiple phases, each with unique attacks."
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/9/91/Mauer_der_Toten_Valentina.png/revision/latest/scale-to-width-down/1000"
+        }
+      ]
+    },
+    {
+      "name": "escapeMauerDerToten",
+      "summary": "Escape Mauer Der Toten after defeating Valentina.",
+      "icon": "doorOpen",
+      "dependencies": [
+        "defeatValentina"
+      ],
+      "notes": [
+        "This concludes the Easter egg and triggers the ending cutscene."
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/2/29/Mauer_der_Toten_Escape.png/revision/latest/scale-to-width-down/1000"
+        }
+      ]
+    }
+  ]
+}

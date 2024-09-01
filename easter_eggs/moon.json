@@ -2,6 +2,7 @@
   "name": "Richtofen's Grand Scheme",
   "map": "Moon",
   "color": "deepPurple",
+  "edition": "blackOps1",
   "thumbnail": "https://static.wikia.nocookie.net/callofduty/images/4/4a/Moon_Menu_Selection_BO3.png/revision/latest/scale-to-width-down/1000",
   "steps": [
     {

@@ -1,6 +1,7 @@
 {
   "name": "Tower of Babble",
   "map": "TranZit",
+  "edition": "blackOps2",
   "thumbnail": "https://static.wikia.nocookie.net/callofduty/images/f/f9/TranZit_lobby_BOII.png/revision/latest?cb=20161102222339",
   "steps": [
     {

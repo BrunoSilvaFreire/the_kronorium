@@ -12,11 +12,15 @@ part 'easter_eggs.g.dart';
 
 abstract class AbstractEasterEggRegistry
     extends AsyncNotifier<List<EasterEgg>> {
-
   Future<List<EasterEgg>> loadEasterEggsFrom(
     Stream<Map<String, dynamic>> streams,
+    bool editable,
   ) async {
-    return streams.map(EasterEgg.fromMap).toList();
+    return streams.map(
+      (event) {
+        return EasterEgg.fromMap(event, editable);
+      },
+    ).toList();
   }
 }
 
@@ -39,7 +43,7 @@ class EasterEggRegistry extends AbstractEasterEggRegistry {
 
   @override
   FutureOr<List<EasterEgg>> build() {
-    return loadEasterEggsFrom(loadEasterEggStreams());
+    return loadEasterEggsFrom(loadEasterEggStreams(), false);
   }
 }
 
@@ -57,6 +61,8 @@ class EasterEgg {
   final List<EasterEggStep> steps;
   final Color color;
   EasterEggStepGraph? _cachedGraph;
+  final bool editable;
+  ZombiesEdition primaryEdition;
 
   EasterEgg({
     required this.name,
@@ -64,6 +70,8 @@ class EasterEgg {
     required this.thumbnailURL,
     required this.steps,
     required this.color,
+    required this.primaryEdition,
+    this.editable = false,
   });
 
   EasterEggStepGraph asGraph() {
@@ -102,10 +110,14 @@ class EasterEgg {
           )
           .toList(),
       'color': color.value.toRadixString(16).padLeft(8, '0'),
+      'edition': primaryEdition.name
     };
   }
 
-  factory EasterEgg.fromMap(Map<String, dynamic> map) {
+  factory EasterEgg.fromMap(
+    Map<String, dynamic> map,
+    bool editable,
+  ) {
     var serializedSteps = map.requireList<Map<String, dynamic>>("steps");
 
     var steps = serializedSteps.map((serialized) {
@@ -127,6 +139,8 @@ class EasterEgg {
         Colors.red,
       ),
       steps: steps,
+      editable: editable,
+      primaryEdition: map.requireEnum("edition", ZombiesEdition.values),
     );
   }
 
@@ -181,13 +195,14 @@ class EasterEgg {
     return indexWhere;
   }
 
-  EasterEgg copy() {
+  EasterEgg copy(String newName) {
     return EasterEgg(
-      name: name,
+      name: newName,
       map: map,
       thumbnailURL: thumbnailURL,
       steps: steps.map((e) => e.copy()).toList(),
       color: color,
+      primaryEdition: primaryEdition,
     );
   }
 
@@ -235,7 +250,22 @@ class EasterEgg {
   }
 }
 
-enum ZombiesEdition { all, blackOps1, blackOps3 }
+enum ZombiesEdition {
+  all,
+  worldAtWar,
+  blackOps1,
+  blackOps2,
+  ghosts,
+  advancedWarfare,
+  blackOps3,
+  infiniteWarfare,
+  blackOps4,
+  worldWar2,
+  blackOpsColdWar,
+  vanguard,
+  modernWarfare,
+  blackOps6
+}
 
 enum EasterEggStepKind { requirement, suggestion }
 

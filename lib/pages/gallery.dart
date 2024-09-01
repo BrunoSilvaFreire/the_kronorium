@@ -5,6 +5,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:the_kronorium/pages/edit_graph_page.dart';
 import 'package:the_kronorium/providers/easter_eggs.dart';
 import 'package:the_kronorium/pages/easter_egg_page.dart';
+import 'package:the_kronorium/providers/game_registry.dart';
 import 'package:the_kronorium/providers/local_easter_eggs.dart';
 import 'package:the_kronorium/widgets/container_card.dart';
 import 'package:the_kronorium/widgets/create_guide_dialog.dart';
@@ -21,6 +22,9 @@ class EasterEggGallery extends ConsumerStatefulWidget {
 
 class _EasterEggGalleryState extends ConsumerState<EasterEggGallery> {
   final _searchController = TextEditingController();
+  final _gameFilterProvider = StateProvider(
+    (ref) => <ZombiesEdition>{},
+  );
 
   @override
   void dispose() {
@@ -32,6 +36,9 @@ class _EasterEggGalleryState extends ConsumerState<EasterEggGallery> {
   Widget build(BuildContext context) {
     var bundledEasterEggs = ref.watch(easterEggRegistryProvider);
     var localEasterEggs = ref.watch(localEasterEggRegistryProvider);
+    var filtered = ref.watch(_gameFilterProvider);
+    var games = ref.watch(gameManifestProvider);
+
     ref.watch(ChangeNotifierProvider(
       (ref) => _searchController,
     ));
@@ -81,6 +88,47 @@ class _EasterEggGalleryState extends ConsumerState<EasterEggGallery> {
                 ),
               ),
               SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Wrap(
+                    spacing: 8,
+                    children: [
+                      ...games.maybeWhen(
+                        orElse: () {
+                          return const <Widget>[];
+                        },
+                        data: (data) {
+                          return [
+                            for (var MapEntry(key: edition, value: game)
+                                in data.entries)
+                              FilterChip(
+                                avatar: Image.asset(game.thumbnail),
+                                label: Text(game.title),
+                                selected: filtered.contains(edition),
+                                onSelected: (bool value) {
+                                  var newSet = {...filtered};
+                                  if (value) {
+                                    newSet.add(edition);
+                                  } else {
+                                    newSet.remove(edition);
+                                  }
+                                  ref.read(_gameFilterProvider.notifier).state =
+                                      newSet;
+                                },
+                              ),
+                          ];
+                        },
+                        loading: () {
+                          return const <Widget>[
+                            CircularProgressIndicator(),
+                          ];
+                        },
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              SliverToBoxAdapter(
                 child: ListTile(
                   title: const Text("Bundled Guides"),
                   subtitle: const Text(
@@ -106,36 +154,24 @@ class _EasterEggGalleryState extends ConsumerState<EasterEggGallery> {
                 easterEggs: localEasterEggs,
                 predicate: shouldShow,
                 badgeBuilder: (easterEgg) {
-                  return OverflowBar(
-                    spacing: 8,
-                    children: [
-                      IconButton(
-                        icon: Icon(MdiIcons.trashCan),
-                        onPressed: () async {
-                          var shouldDelete = await showModal(
-                            context: context,
-                            configuration:
-                            const FadeScaleTransitionConfiguration(
-                              barrierDismissible: false,
-                            ),
-                            builder: (context) {
-                              return const ConfirmationDialog();
-                            },
-                          );
-                          if (shouldDelete == true) {
-                            ref
-                                .read(localEasterEggRegistryProvider.notifier)
-                                .deleteEasterEgg(easterEgg);
-                          }
+                  return IconButton.filledTonal(
+                    icon: Icon(MdiIcons.trashCan),
+                    onPressed: () async {
+                      var shouldDelete = await showModal(
+                        context: context,
+                        configuration: const FadeScaleTransitionConfiguration(
+                          barrierDismissible: false,
+                        ),
+                        builder: (context) {
+                          return const ConfirmationDialog();
                         },
-                      ),
-                      IconButton(
-                        icon: Icon(MdiIcons.bookEdit),
-                        onPressed: () async {
-                          EditEasterEggPage.openForEdit(context, easterEgg);
-                        },
-                      ),
-                    ],
+                      );
+                      if (shouldDelete == true) {
+                        ref
+                            .read(localEasterEggRegistryProvider.notifier)
+                            .deleteEasterEgg(easterEgg);
+                      }
+                    },
                   );
                 },
               ),
@@ -147,6 +183,13 @@ class _EasterEggGalleryState extends ConsumerState<EasterEggGallery> {
   }
 
   bool shouldShow(EasterEgg easterEgg) {
+    var validEntries = ref.read(_gameFilterProvider);
+    if (validEntries.isNotEmpty) {
+      if (!validEntries.contains(easterEgg.primaryEdition)) {
+        return false;
+      }
+    }
+
     var query = _searchController.text;
     if (query.isEmpty) {
       return true;
@@ -184,80 +227,6 @@ class ConfirmationDialog extends StatelessWidget {
           },
           icon: Icon(MdiIcons.delete),
           label: const Text("Yes, delete it"),
-        ),
-      ],
-    );
-  }
-}
-
-class EasterEggCard extends StatelessWidget {
-  const EasterEggCard({super.key, required this.easterEgg, this.badge});
-
-  final EasterEgg easterEgg;
-  final Widget? badge;
-
-  @override
-  Widget build(BuildContext context) {
-    var theme = Theme.of(context);
-    return Card(
-      clipBehavior: Clip.antiAlias,
-      child: Stack(
-        children: [
-          Positioned.fill(
-            child: Image(
-              image: NetworkImage(easterEgg.thumbnailURL),
-              fit: BoxFit.cover,
-            ),
-          ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              color: Colors.black87,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: buildTitle(theme),
-              ),
-            ),
-          ),
-          Positioned.fill(
-            child: Material(
-              color: Colors.transparent,
-              child: InkWell(
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) {
-                      return EasterEggPage(easterEgg);
-                    },
-                  ));
-                },
-              ),
-            ),
-          ),
-          if (badge != null)
-            Positioned(
-              top: 8,
-              right: 8,
-              child: badge!,
-            ),
-        ],
-      ),
-    );
-  }
-
-  Column buildTitle(ThemeData theme) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          easterEgg.name,
-          style: theme.textTheme.titleSmall,
-        ),
-        Text(
-          easterEgg.map,
-          style: theme.textTheme.headlineLarge,
         ),
       ],
     );

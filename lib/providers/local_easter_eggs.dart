@@ -57,7 +57,7 @@ class LocalEasterEggRegistry extends AbstractEasterEggRegistry {
 
   @override
   FutureOr<List<EasterEgg>> build() {
-    return loadEasterEggsFrom(loadEasterEggStreams());
+    return loadEasterEggsFrom(loadEasterEggStreams(), true);
   }
 
   void deleteEasterEgg(EasterEgg easterEgg) {

@@ -1,0 +1,69 @@
+{
+  "games": [
+    {
+      "game": "worldAtWar",
+      "title": "World At War",
+      "thumbnail": "assets/games/world_at_war.png"
+    },
+    {
+      "game": "blackOps1",
+      "title":  "Black Ops 1",
+      "thumbnail": "assets/games/blackops_1.png"
+    },
+    {
+      "game": "blackOps2",
+      "title":  "Black Ops 2",
+      "thumbnail": "assets/games/blackops_2.png"
+    },
+    {
+      "game": "ghosts",
+      "title":  "Ghosts",
+      "thumbnail": "assets/games/ghosts.png"
+    },
+    {
+      "game": "advancedWarfare",
+      "title":  "Advanced Warfare",
+      "thumbnail": "assets/games/advanced_warfare.png"
+    },
+    {
+      "game": "blackOps3",
+      "title":  "Black Ops 3",
+      "thumbnail": "assets/games/blackops_3.png"
+    },
+    {
+      "game": "infiniteWarfare",
+      "title":  "Infinite Warfare",
+      "thumbnail": "assets/games/infinite_warfare.png"
+    },
+    {
+      "game": "blackOps4",
+      "title":  "Black Ops 4",
+      "thumbnail": "assets/games/blackops_4.png"
+    },
+    {
+      "game": "worldWar2",
+      "title":  "World War 2",
+      "thumbnail": "assets/games/world_war_2.png"
+    },
+    {
+      "game": "blackOpsColdWar",
+      "title":  "Black Ops Cold War",
+      "thumbnail": "assets/games/blackops_coldwar.png"
+    },
+    {
+      "game": "vanguard",
+      "title":  "Vanguard",
+      "thumbnail": "assets/games/vanguard.png"
+    },
+    {
+      "game": "modernWarfare",
+      "title":  "Modern Warfare",
+      "thumbnail": "assets/games/modern_warfare_zombies.png"
+    },
+    {
+      "game": "blackOps6",
+      "title":  "Black Ops 6",
+      "thumbnail": "assets/games/blackops_6.png"
+    }
+  ]
+}

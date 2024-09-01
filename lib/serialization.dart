@@ -7,6 +7,11 @@ extension Requirements on Map<String, dynamic> {
     return found;
   }
 
+  T requireEnum<T extends Enum>(String key, List<T> values) {
+    var enumName = require<String>(key);
+    return values.byName(enumName);
+  }
+
   List<T> requireList<T>(String key) {
     List<dynamic>? found = this[key] as List<dynamic>?;
     if (found == null) {

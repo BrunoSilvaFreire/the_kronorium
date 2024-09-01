@@ -142,6 +142,9 @@ class _EditEasterEggPageState extends ConsumerState<EditEasterEggPage> {
                         map: StateProvider((ref) => widget.easterEgg.map),
                         thumbnail: StateProvider(
                             (ref) => widget.easterEgg.thumbnailURL),
+                        primaryEdition: StateProvider(
+                          (ref) => widget.easterEgg.primaryEdition,
+                        ),
                       ),
                       const Divider(),
                       for (var (index, command) in _commander.commands.indexed)

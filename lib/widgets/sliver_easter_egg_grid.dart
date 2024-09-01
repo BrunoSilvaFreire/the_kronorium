@@ -1,8 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:the_kronorium/pages/gallery.dart';
 import 'package:the_kronorium/providers/easter_eggs.dart';
+import 'package:the_kronorium/widgets/easter_egg_card.dart';
 
 class SliverEasterEggGrid extends StatelessWidget {
   final AsyncValue<List<EasterEgg>> easterEggs;
