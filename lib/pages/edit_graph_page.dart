@@ -27,8 +27,9 @@ class EditEasterEggPage extends ConsumerStatefulWidget {
 
   static void openForEdit(
     BuildContext context,
-    EasterEgg easterEgg,
-  ) {
+    EasterEgg easterEgg, {
+    bool asReplacement = false,
+  }) {
     var page = MaterialPageRoute(
       builder: (context) {
         return EditEasterEggPage(
@@ -36,7 +37,12 @@ class EditEasterEggPage extends ConsumerStatefulWidget {
         );
       },
     );
-    Navigator.of(context).push(page);
+    var navigator = Navigator.of(context);
+    if (asReplacement) {
+      navigator.pushReplacement(page);
+    } else {
+      navigator.push(page);
+    }
   }
 }
 

@@ -38,7 +38,11 @@ class _EasterEggPageState extends ConsumerState<EasterEggPage> {
             icon: Icon(MdiIcons.fileEdit),
             label: const Text("Edit"),
             onPressed: () async {
-              EditEasterEggPage.openForEdit(context, easterEgg);
+              EditEasterEggPage.openForEdit(
+                context,
+                easterEgg,
+                asReplacement: true
+              );
             },
           ),
         TextButton.icon(
