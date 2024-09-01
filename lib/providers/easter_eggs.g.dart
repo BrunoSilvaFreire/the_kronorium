@@ -6,7 +6,7 @@ part of 'easter_eggs.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$easterEggRegistryHash() => r'81783ac69656c62fc76f0ef60e1d4e003a8c2b64';
+String _$easterEggRegistryHash() => r'3bedaf75cbac08270177992f68a2c5aba7b91589';
 
 /// See also [EasterEggRegistry].
 @ProviderFor(EasterEggRegistry)

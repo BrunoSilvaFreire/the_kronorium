@@ -37,7 +37,13 @@ class EasterEggRegistry extends AbstractEasterEggRegistry {
         .toList();
 
     for (var value in easterEggs) {
-      yield json.decode(await rootBundle.loadString(value, cache: false));
+      Map<String, dynamic> entry = json.decode(
+        await rootBundle.loadString(value, cache: false),
+      );
+      if(entry.optional<bool>("hidden") ?? false) {
+        continue;
+      }
+      yield entry;
     }
   }
 
