@@ -43,14 +43,15 @@ class LocalEasterEggRegistry extends AbstractEasterEggRegistry {
         easterEgg.toMap(),
       ),
     );
-
     var names = loadEasterEggList();
+    var newNames = {
+      ...names,
+      easterEgg.name,
+    };
+
     localStorage.setItem(
       "easter_eggs",
-      jsonEncode([
-        ...names,
-        easterEgg.name,
-      ]),
+      jsonEncode(newNames.toList()),
     );
     ref.invalidateSelf();
   }

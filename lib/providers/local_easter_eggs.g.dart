@@ -7,7 +7,7 @@ part of 'local_easter_eggs.dart';
 // **************************************************************************
 
 String _$localEasterEggRegistryHash() =>
-    r'a9082cfb9d938179297f425df99cd7945a0b7165';
+    r'e37bed80d8cd4de96d15640e47e1846898b8cf4c';
 
 /// See also [LocalEasterEggRegistry].
 @ProviderFor(LocalEasterEggRegistry)

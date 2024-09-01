@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:the_kronorium/providers/easter_eggs.dart';
 import 'package:the_kronorium/graphs/graph_layout.dart';
 import 'package:the_kronorium/graphs/layered_graph_layout.dart';
+import 'package:the_kronorium/providers/local_easter_eggs.dart';
 import 'package:the_kronorium/widgets/interactive_easter_egg_map.dart';
 
-class GraphPage extends StatefulWidget {
+class GraphPage extends ConsumerStatefulWidget {
   final EasterEgg easterEgg;
   final Widget Function(
     BuildContext context,
@@ -24,10 +26,10 @@ class GraphPage extends StatefulWidget {
       this.mapMargin = const EdgeInsets.all(8)});
 
   @override
-  State<GraphPage> createState() => _BaseGraphPageState();
+  ConsumerState<GraphPage> createState() => _BaseGraphPageState();
 }
 
-class _BaseGraphPageState extends State<GraphPage> {
+class _BaseGraphPageState extends ConsumerState<GraphPage> {
   @override
   Widget build(BuildContext context) {
     var baseTheme = Theme.of(context);
@@ -71,6 +73,16 @@ class _BaseGraphPageState extends State<GraphPage> {
 
   AppBar _buildAppBar() {
     return AppBar(
+      leading: BackButton(
+        onPressed: () {
+          if (widget.easterEgg.editable) {
+            var localEasterEggRegistry =
+                ref.read(localEasterEggRegistryProvider.notifier);
+            localEasterEggRegistry.saveEasterEgg(widget.easterEgg);
+          }
+          Navigator.of(context).pop();
+        },
+      ),
       flexibleSpace: FlexibleSpaceBar(
         title: Text("${widget.easterEgg.map} - ${widget.easterEgg.name}"),
         background: Stack(

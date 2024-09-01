@@ -112,15 +112,7 @@ class _EditEasterEggPageState extends ConsumerState<EditEasterEggPage> {
                         backgroundColor: theme.colorScheme.primary,
                         foregroundColor: theme.colorScheme.onPrimary,
                         onPressed: () {
-                          showModal(
-                              context: context,
-                              builder: (context) {
-                                return CreateStepDialog(
-                                  onCreated: (EasterEggStep step) {
-                                    doCommand(CreateStepCommand(step));
-                                  },
-                                );
-                              });
+                          _onCreateStepClicked(context);
                         },
                         icon: Icon(MdiIcons.plusCircle),
                         label: const Text("Add Step"),
@@ -130,10 +122,7 @@ class _EditEasterEggPageState extends ConsumerState<EditEasterEggPage> {
                         child: _buildButtonBar(selected),
                       ),
                       TextButton.icon(
-                        onPressed: () async {
-                          var content = jsonEncode(widget.easterEgg.toMap());
-                          await Clipboard.setData(ClipboardData(text: content));
-                        },
+                        onPressed: _copyGuideJSONToClipboard,
                         icon: Icon(MdiIcons.contentCopy),
                         label: const Text("Copy JSON"),
                       ),
@@ -147,7 +136,8 @@ class _EditEasterEggPageState extends ConsumerState<EditEasterEggPage> {
                         name: StateProvider((ref) => widget.easterEgg.name),
                         map: StateProvider((ref) => widget.easterEgg.map),
                         thumbnail: StateProvider(
-                            (ref) => widget.easterEgg.thumbnailURL),
+                          (ref) => widget.easterEgg.thumbnailURL,
+                        ),
                         primaryEdition: StateProvider(
                           (ref) => widget.easterEgg.primaryEdition,
                         ),
@@ -196,6 +186,23 @@ class _EditEasterEggPageState extends ConsumerState<EditEasterEggPage> {
         );
       },
     );
+  }
+
+  void _copyGuideJSONToClipboard() async {
+    var content = jsonEncode(widget.easterEgg.toMap());
+    await Clipboard.setData(ClipboardData(text: content));
+  }
+
+  void _onCreateStepClicked(BuildContext context) {
+    showModal(
+        context: context,
+        builder: (context) {
+          return CreateStepDialog(
+            onCreated: (EasterEggStep step) {
+              doCommand(CreateStepCommand(step));
+            },
+          );
+        });
   }
 
   OverflowBar _buildButtonBar(Set<int> selected) {
