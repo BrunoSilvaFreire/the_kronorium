@@ -12,13 +12,17 @@ class EasterEggFieldsEditor extends ConsumerStatefulWidget {
   final StateProvider<String> thumbnail;
   final StateProvider<ZombiesEdition> primaryEdition;
 
-  const EasterEggFieldsEditor(
-      {super.key,
-      required this.formKey,
-      required this.name,
-      required this.map,
-      required this.thumbnail,
-      required this.primaryEdition});
+  final bool allowChangeName;
+
+  const EasterEggFieldsEditor({
+    super.key,
+    required this.formKey,
+    required this.name,
+    required this.map,
+    required this.thumbnail,
+    required this.primaryEdition,
+    required this.allowChangeName,
+  });
 
   @override
   ConsumerState<EasterEggFieldsEditor> createState() =>
@@ -65,28 +69,29 @@ class _EasterEggFieldsEditorState extends ConsumerState<EasterEggFieldsEditor> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          TextFormField(
-            decoration: const InputDecoration(
-              labelText: "Easter Egg Name",
-            ),
-            validator: (name) => FormValidators.notEmpty(name, () {
-              if (name != null) {
-                var hasWithSameName = easterEggs.maybeWhen(
-                  data: (data) =>
-                      data.any((easterEgg) => easterEgg.name == name),
-                  orElse: () => false,
-                );
-                if (hasWithSameName) {
-                  return "A local easter egg with this name already exists.";
+          if (widget.allowChangeName)
+            TextFormField(
+              decoration: const InputDecoration(
+                labelText: "Easter Egg Name",
+              ),
+              validator: (name) => FormValidators.notEmpty(name, () {
+                if (name != null) {
+                  var hasWithSameName = easterEggs.maybeWhen(
+                    data: (data) =>
+                        data.any((easterEgg) => easterEgg.name == name),
+                    orElse: () => false,
+                  );
+                  if (hasWithSameName) {
+                    return "A local easter egg with this name already exists.";
+                  }
                 }
-              }
-              return null;
-            }),
-            onChanged: (value) {
-              ref.read(widget.name.notifier).state = value;
-            },
-            controller: name,
-          ),
+                return null;
+              }),
+              onChanged: (value) {
+                ref.read(widget.name.notifier).state = value;
+              },
+              controller: name,
+            ),
           TextFormField(
             decoration: const InputDecoration(
               labelText: "Map Name",

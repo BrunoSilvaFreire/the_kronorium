@@ -59,7 +59,7 @@ class EasterEgg {
   String map;
   String thumbnailURL;
   final List<EasterEggStep> steps;
-  final Color color;
+  Color color;
   EasterEggStepGraph? _cachedGraph;
   final bool editable;
   ZombiesEdition primaryEdition;

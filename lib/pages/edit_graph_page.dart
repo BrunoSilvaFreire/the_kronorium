@@ -76,12 +76,68 @@ class _EditEasterEggPageState extends ConsumerState<EditEasterEggPage> {
     });
   }
 
+  static List<(String, Color)> colorSuggestions = [
+    ("Red Accent", Colors.redAccent),
+    ("Pink Accent", Colors.pinkAccent),
+    ("Purple Accent", Colors.purpleAccent),
+    ("Deep Purple Accent", Colors.deepPurpleAccent),
+    ("Indigo Accent", Colors.indigoAccent),
+    ("Blue Accent", Colors.blueAccent),
+    ("Light Blue Accent", Colors.lightBlueAccent),
+    ("Cyan Accent", Colors.cyanAccent),
+    ("Teal Accent", Colors.tealAccent),
+    ("Green Accent", Colors.greenAccent),
+    ("Light Green Accent", Colors.lightGreenAccent),
+    ("Lime Accent", Colors.limeAccent),
+    ("Yellow Accent", Colors.yellowAccent),
+    ("Amber Accent", Colors.amberAccent),
+    ("Orange Accent", Colors.orangeAccent),
+    ("Deep Orange Accent", Colors.deepOrangeAccent),
+    ("Red", Colors.red),
+    ("Pink", Colors.pink),
+    ("Purple", Colors.purple),
+    ("Deep Purple", Colors.deepPurple),
+    ("Indigo", Colors.indigo),
+    ("Blue", Colors.blue),
+    ("Light Blue", Colors.lightBlue),
+    ("Cyan", Colors.cyan),
+    ("Teal", Colors.teal),
+    ("Green", Colors.green),
+    ("Light Green", Colors.lightGreen),
+    ("Lime", Colors.lime),
+    ("Yellow", Colors.yellow),
+    ("Amber", Colors.amber),
+    ("Orange", Colors.orange),
+    ("Deep Orange", Colors.deepOrange),
+    ("Brown", Colors.brown),
+    ("Blue Grey", Colors.blueGrey),
+  ];
+
+  late final _nameProvider = StateProvider(
+    (ref) => widget.easterEgg.name,
+  );
+  late final _mapProvider = StateProvider(
+    (ref) => widget.easterEgg.map,
+  );
+  late final _thumbnailProvider = StateProvider(
+    (ref) => widget.easterEgg.thumbnailURL,
+  );
+  late final _editionProvider = StateProvider(
+    (ref) => widget.easterEgg.primaryEdition,
+  );
+
   @override
   Widget build(BuildContext context) {
     const leftContainerWidth = 352.0;
     const rightContainerWidth = 512.0;
     const marginSpacing = 32.0;
+
     var selected = ref.watch(_selected);
+    widget.easterEgg.name = ref.watch(_nameProvider);
+    widget.easterEgg.map = ref.watch(_mapProvider);
+    widget.easterEgg.thumbnailURL = ref.watch(_thumbnailProvider);
+    widget.easterEgg.primaryEdition = ref.watch(_editionProvider);
+
     return GraphPage(
       easterEgg: widget.easterEgg,
       selectedProvider: _selected,
@@ -93,6 +149,7 @@ class _EditEasterEggPageState extends ConsumerState<EditEasterEggPage> {
       ),
       builder: (context, map) {
         var theme = Theme.of(context);
+
         return Stack(
           children: [
             Positioned.fill(
@@ -133,14 +190,40 @@ class _EditEasterEggPageState extends ConsumerState<EditEasterEggPage> {
                       ),
                       EasterEggFieldsEditor(
                         formKey: _key,
-                        name: StateProvider((ref) => widget.easterEgg.name),
-                        map: StateProvider((ref) => widget.easterEgg.map),
-                        thumbnail: StateProvider(
-                          (ref) => widget.easterEgg.thumbnailURL,
+                        name: _nameProvider,
+                        map: _mapProvider,
+                        thumbnail: _thumbnailProvider,
+                        primaryEdition: _editionProvider,
+                        allowChangeName: false,
+                      ),
+                      const Divider(),
+                      DropdownMenu(
+                        // We need to find the actual color in the list in order
+                        // for flutter to pick up the correct label
+                        initialSelection: findExistingSuggestionForColor(
+                          widget.easterEgg.color,
                         ),
-                        primaryEdition: StateProvider(
-                          (ref) => widget.easterEgg.primaryEdition,
+                        hintText: "Easter Egg Color Theme",
+                        leadingIcon: CircleAvatar(
+                          backgroundColor: widget.easterEgg.color,
                         ),
+                        onSelected: (value) {
+                          if (value != null) {
+                            setState(() {
+                              widget.easterEgg.color = value;
+                            });
+                          }
+                        },
+                        dropdownMenuEntries: [
+                          for (var (name, accent) in colorSuggestions)
+                            DropdownMenuEntry(
+                              leadingIcon: CircleAvatar(
+                                backgroundColor: accent,
+                              ),
+                              value: accent,
+                              label: name,
+                            )
+                        ],
                       ),
                       const Divider(),
                       for (var (index, command) in _commander.commands.indexed)
@@ -266,5 +349,14 @@ class _EditEasterEggPageState extends ConsumerState<EditEasterEggPage> {
         ),
       ],
     );
+  }
+
+  Color? findExistingSuggestionForColor(Color color) {
+    for (var (_, existing) in colorSuggestions) {
+      if (existing.value == color.value) {
+        return existing;
+      }
+    }
+    return null;
   }
 }

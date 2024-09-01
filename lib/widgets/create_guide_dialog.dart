@@ -48,6 +48,7 @@ class CreateGuideDialog extends ConsumerWidget {
               map: _map,
               thumbnail: _thumbnail,
               primaryEdition: _zombiesEdition,
+              allowChangeName: true,
             ),
           ),
           Padding(

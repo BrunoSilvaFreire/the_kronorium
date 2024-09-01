@@ -106,7 +106,7 @@ class _EasterEggPageState extends ConsumerState<EasterEggPage> {
       newName = "${easterEgg.name} copy (${iteration++})";
     }
     var copy = easterEgg.copy(newName);
-    ref.read(localEasterEggRegistryProvider.notifier).saveEasterEgg(easterEgg);
+    ref.read(localEasterEggRegistryProvider.notifier).saveEasterEgg(copy);
     return copy;
   }
 }
