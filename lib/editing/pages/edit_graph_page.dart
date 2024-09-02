@@ -5,13 +5,16 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:the_kronorium/editing/create_step_command.dart';
+import 'package:the_kronorium/editing/delete_steps_command.dart';
+import 'package:the_kronorium/editing/widgets/edit_step_card.dart';
 import 'package:the_kronorium/providers/easter_eggs.dart';
 import 'package:the_kronorium/editing/command.dart';
 import 'package:the_kronorium/editing/commander.dart';
 import 'package:the_kronorium/editing/editing_fields.dart';
 import 'package:the_kronorium/pages/graph_page.dart';
 import 'package:the_kronorium/widgets/container_card.dart';
-import 'package:the_kronorium/widgets/create_step_dialog.dart';
+import 'package:the_kronorium/editing/widgets/create_step_dialog.dart';
 import 'package:the_kronorium/widgets/editor.dart';
 
 class EditEasterEggPage extends ConsumerStatefulWidget {
@@ -138,137 +141,150 @@ class _EditEasterEggPageState extends ConsumerState<EditEasterEggPage> {
     widget.easterEgg.thumbnailURL = ref.watch(_thumbnailProvider);
     widget.easterEgg.primaryEdition = ref.watch(_editionProvider);
 
-    return GraphPage(
-      easterEgg: widget.easterEgg,
-      selectedProvider: _selected,
-      mapMargin: const EdgeInsets.only(
-        left: leftContainerWidth + marginSpacing,
-        top: marginSpacing,
-        bottom: marginSpacing,
-        right: rightContainerWidth + marginSpacing,
-      ),
-      builder: (context, map) {
-        var theme = Theme.of(context);
-
-        return Stack(
-          children: [
-            Positioned.fill(
-              child: map,
+    return ListenableBuilder(
+        listenable: Listenable.merge(widget.easterEgg.steps),
+        builder: (context, child) {
+          return GraphPage(
+            easterEgg: widget.easterEgg,
+            selectedProvider: _selected,
+            mapMargin: const EdgeInsets.only(
+              left: leftContainerWidth + marginSpacing,
+              top: marginSpacing,
+              bottom: marginSpacing,
+              right: rightContainerWidth + marginSpacing,
             ),
-            Positioned(
-              top: 8,
-              bottom: 8,
-              left: 0,
-              width: leftContainerWidth,
-              child: Column(
+            builder: (context, map) {
+              var theme = Theme.of(context);
+              return Stack(
                 children: [
-                  ContainerCard.leftSideContainer(
-                    children: [
-                      FloatingActionButton.extended(
-                        elevation: 0,
-                        backgroundColor: theme.colorScheme.primary,
-                        foregroundColor: theme.colorScheme.onPrimary,
-                        onPressed: () {
-                          _onCreateStepClicked(context);
-                        },
-                        icon: Icon(MdiIcons.plusCircle),
-                        label: const Text("Add Step"),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: _buildButtonBar(selected),
-                      ),
-                      TextButton.icon(
-                        onPressed: _copyGuideJSONToClipboard,
-                        icon: Icon(MdiIcons.contentCopy),
-                        label: const Text("Copy JSON"),
-                      ),
-                      const Divider(),
-                      ListTile(
-                        leading: Icon(MdiIcons.counter),
-                        title: Text("Steps: ${widget.easterEgg.steps.length}"),
-                      ),
-                      EasterEggFieldsEditor(
-                        formKey: _key,
-                        name: _nameProvider,
-                        map: _mapProvider,
-                        thumbnail: _thumbnailProvider,
-                        primaryEdition: _editionProvider,
-                        allowChangeName: false,
-                      ),
-                      const Divider(),
-                      DropdownMenu(
-                        // We need to find the actual color in the list in order
-                        // for flutter to pick up the correct label
-                        initialSelection: findExistingSuggestionForColor(
-                          widget.easterEgg.color,
-                        ),
-                        hintText: "Easter Egg Color Theme",
-                        leadingIcon: CircleAvatar(
-                          backgroundColor: widget.easterEgg.color,
-                        ),
-                        onSelected: (value) {
-                          if (value != null) {
-                            setState(() {
-                              widget.easterEgg.color = value;
-                            });
-                          }
-                        },
-                        dropdownMenuEntries: [
-                          for (var (name, accent) in colorSuggestions)
-                            DropdownMenuEntry(
-                              leadingIcon: CircleAvatar(
-                                backgroundColor: accent,
-                              ),
-                              value: accent,
-                              label: name,
-                            )
-                        ],
-                      ),
-                      const Divider(),
-                      for (var (index, command) in _commander.commands.indexed)
-                        ListTile(
-                          selected: index == _commander.index,
-                          leading: Icon(command.getLabel().icon),
-                          title: Text(command.getLabel().label),
-                          onTap: index == _commander.index
-                              ? null
-                              : () {
-                                  setState(() {
-                                    _commander.goTo(index, widget.easterEgg);
-                                  });
-                                },
-                        )
-                    ],
+                  Positioned.fill(
+                    child: map,
                   ),
-                ],
-              ),
-            ),
-            Positioned(
-              top: 0,
-              bottom: 0,
-              right: 0,
-              width: 512,
-              child: ListView(
-                children: [
-                  for (var sel in selected)
-                    ContainerCard(
-                      child: Editor(
-                        selected: Provider(
-                          (ref) {
-                            return widget.easterEgg.steps[sel];
-                          },
+                  Positioned(
+                    top: 8,
+                    bottom: 8,
+                    left: 0,
+                    width: leftContainerWidth,
+                    child: ListView(
+                      shrinkWrap: true,
+                      children: [
+                        ContainerCard.leftSideContainer(
+                          children: [
+                            FloatingActionButton.extended(
+                              elevation: 0,
+                              backgroundColor: theme.colorScheme.primary,
+                              foregroundColor: theme.colorScheme.onPrimary,
+                              onPressed: () {
+                                _onCreateStepClicked(context);
+                              },
+                              icon: Icon(MdiIcons.plusCircle),
+                              label: const Text("Add Step"),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: _buildButtonBar(selected),
+                            ),
+                            TextButton.icon(
+                              onPressed: _copyGuideJSONToClipboard,
+                              icon: Icon(MdiIcons.contentCopy),
+                              label: const Text("Copy JSON"),
+                            ),
+                            const Divider(),
+                            ListTile(
+                              leading: Icon(MdiIcons.counter),
+                              title: Text(
+                                  "Steps: ${widget.easterEgg.steps.length}"),
+                            ),
+                            EasterEggFieldsEditor(
+                              formKey: _key,
+                              name: _nameProvider,
+                              map: _mapProvider,
+                              thumbnail: _thumbnailProvider,
+                              primaryEdition: _editionProvider,
+                              allowChangeName: false,
+                            ),
+                            const Divider(),
+                            DropdownMenu(
+                              // We need to find the actual color in the list in order
+                              // for flutter to pick up the correct label
+                              initialSelection: findExistingSuggestionForColor(
+                                widget.easterEgg.color,
+                              ),
+                              hintText: "Easter Egg Color Theme",
+                              leadingIcon: CircleAvatar(
+                                backgroundColor: widget.easterEgg.color,
+                              ),
+                              onSelected: (value) {
+                                if (value != null) {
+                                  setState(() {
+                                    widget.easterEgg.color = value;
+                                  });
+                                }
+                              },
+                              dropdownMenuEntries: [
+                                for (var (name, accent) in colorSuggestions)
+                                  DropdownMenuEntry(
+                                    leadingIcon: CircleAvatar(
+                                      backgroundColor: accent,
+                                    ),
+                                    value: accent,
+                                    label: name,
+                                  )
+                              ],
+                            ),
+                            const Divider(),
+                            for (var (index, command)
+                                in _commander.commands.indexed)
+                              ListTile(
+                                selected: index == _commander.index,
+                                leading: Icon(command.getLabel().icon),
+                                title: Text(command.getLabel().label),
+                                onTap: index == _commander.index
+                                    ? null
+                                    : () {
+                                        setState(() {
+                                          _commander.goTo(
+                                              index, widget.easterEgg);
+                                        });
+                                      },
+                              )
+                          ],
                         ),
-                        onDelete: (EasterEggStep step) {},
-                      ),
+                        for (var stepIndex in selected)
+                          EditStepCard(
+                            easterEgg: widget.easterEgg,
+                            step: widget.easterEgg.steps[stepIndex],
+                            commander: _commander,
+                          )
+                      ],
                     ),
+                  ),
+                  Positioned(
+                    top: 0,
+                    bottom: 0,
+                    right: 0,
+                    width: 512,
+                    child: ListView(
+                      children: [
+                        for (var sel in selected)
+                          ContainerCard(
+                            child: Editor(
+                              selected: Provider(
+                                (ref) {
+                                  return widget.easterEgg.steps[sel];
+                                },
+                              ),
+                              onDelete: (EasterEggStep step) {},
+                            ),
+                          ),
+                      ],
+                    ),
+                  )
                 ],
-              ),
-            )
-          ],
-        );
-      },
-    );
+              );
+            },
+          );
+        });
   }
 
   void _copyGuideJSONToClipboard() async {

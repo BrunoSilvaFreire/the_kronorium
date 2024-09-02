@@ -28,6 +28,8 @@ class EasterEggStepCard extends StatelessWidget {
     if (step.validIn.isNotEmpty) {
       var applicableIn = step.validIn.map((e) => e.name).join(", ");
       subtitle = Text("Only applicable in: $applicableIn");
+    } else if (step.kind == EasterEggStepKind.suggestion){
+      subtitle = const Text("This step is not required");
     }
 
     Widget? image;
@@ -41,26 +43,41 @@ class EasterEggStepCard extends StatelessWidget {
       );
     }
 
-    return Card.filled(
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: onTap,
-        child: Column(
-          children: [
-            ListTile(
-              title: Text(step.summary),
-              leading: leading,
-              subtitle: subtitle,
-              selected: isSelected,
-            ),
-            if (image != null)
-              ConstrainedBox(
-                constraints: BoxConstraints(maxHeight: maxImageHeight),
-                child: image,
-              )
-          ],
-        ),
-      ),
+    return ListenableBuilder(
+      builder: (BuildContext context, Widget? child) {
+        var children = [
+              ListTile(
+                title: Text(step.summary),
+                leading: leading,
+                subtitle: subtitle,
+                selected: isSelected,
+              ),
+              if (image != null)
+                ConstrainedBox(
+                  constraints: BoxConstraints(maxHeight: maxImageHeight),
+                  child: image,
+                )
+            ];
+        var content = InkWell(
+          onTap: onTap,
+          child: Column(
+            children: children,
+          ),
+        );
+        switch (step.kind) {
+          case EasterEggStepKind.requirement:
+            return Card.filled(
+              clipBehavior: Clip.antiAlias,
+              child: content,
+            );
+          case EasterEggStepKind.suggestion:
+            return Card.outlined(
+              clipBehavior: Clip.antiAlias,
+              child: content,
+            );
+        }
+      },
+      listenable: step,
     );
   }
 }

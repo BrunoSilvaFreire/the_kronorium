@@ -40,7 +40,7 @@ class EasterEggRegistry extends AbstractEasterEggRegistry {
       Map<String, dynamic> entry = json.decode(
         await rootBundle.loadString(value, cache: false),
       );
-      if(entry.optional<bool>("hidden") ?? false) {
+      if (entry.optional<bool>("hidden") ?? false) {
         continue;
       }
       yield entry;
@@ -254,6 +254,10 @@ class EasterEgg {
     _cachedGraph = null;
     return index;
   }
+
+  void invalidateCache(){
+    _cachedGraph = null;
+  }
 }
 
 enum ZombiesEdition {
@@ -303,26 +307,29 @@ class EasterEggGalleryEntry {
   }
 }
 
-class EasterEggStep {
+class EasterEggStep with ChangeNotifier {
   final String name;
-  final String summary;
-  final String? iconName;
   List<int> dependencies;
   final List<String> notes;
   final List<EasterEggGalleryEntry> gallery;
   final List<ZombiesEdition> validIn;
-  final EasterEggStepKind kind;
+
+  String _summary;
+  String? _iconName;
+  EasterEggStepKind _kind;
 
   EasterEggStep({
     required this.name,
-    required this.summary,
-    required this.iconName,
+    required String summary,
+    required String? iconName,
     required this.dependencies,
     required this.notes,
     required this.gallery,
     required this.validIn,
-    required this.kind,
-  });
+    required EasterEggStepKind kind,
+  })  : _summary = summary,
+        _iconName = iconName,
+        _kind = kind;
 
   factory EasterEggStep.fromMap(
     Map<String, dynamic> map,
@@ -353,13 +360,40 @@ class EasterEggStep {
     return EasterEggStep(
       name: map.require("name"),
       summary: map.require("summary"),
-      iconName: map.optional("icon"),
+      iconName: map.optional("iconName"),
       notes: map.optionalList("notes") ?? [],
       gallery: gallery,
       validIn: validIn,
       dependencies: dependencies,
       kind: kind,
     );
+  }
+
+  String get summary {
+    return _summary;
+  }
+
+  String? get iconName {
+    return _iconName;
+  }
+
+  EasterEggStepKind get kind {
+    return _kind;
+  }
+
+  set summary(String value) {
+    _summary = value;
+    notifyListeners();
+  }
+
+  set iconName(String? value) {
+    _iconName = value;
+    notifyListeners();
+  }
+
+  set kind(EasterEggStepKind value) {
+    _kind = value;
+    notifyListeners();
   }
 
   Map<String, dynamic> toMap(EasterEgg easterEgg) {
@@ -399,5 +433,15 @@ class EasterEggStep {
   @override
   String toString() {
     return 'EasterEggStep{name: $name, summary: $summary}';
+  }
+
+  void removeDependency(int dependencyIndex) {
+    dependencies.remove(dependencyIndex);
+    notifyListeners();
+  }
+
+  void addDependency(int value) {
+    dependencies.add(value);
+    notifyListeners();
   }
 }
