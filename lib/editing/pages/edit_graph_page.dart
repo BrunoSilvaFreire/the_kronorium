@@ -5,12 +5,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:the_kronorium/editing/create_step_command.dart';
-import 'package:the_kronorium/editing/delete_steps_command.dart';
+import 'package:the_kronorium/editing/commands/commander.dart';
+import 'package:the_kronorium/editing/commands/create_step_command.dart';
+import 'package:the_kronorium/editing/commands/delete_steps_command.dart';
 import 'package:the_kronorium/editing/widgets/edit_step_card.dart';
 import 'package:the_kronorium/providers/easter_eggs.dart';
-import 'package:the_kronorium/editing/command.dart';
-import 'package:the_kronorium/editing/commander.dart';
+import 'package:the_kronorium/editing/commands/command.dart';
 import 'package:the_kronorium/editing/editing_fields.dart';
 import 'package:the_kronorium/pages/graph_page.dart';
 import 'package:the_kronorium/widgets/container_card.dart';
@@ -233,21 +233,21 @@ class _EditEasterEggPageState extends ConsumerState<EditEasterEggPage> {
                               ],
                             ),
                             const Divider(),
-                            for (var (index, command)
-                                in _commander.commands.indexed)
-                              ListTile(
-                                selected: index == _commander.index,
-                                leading: Icon(command.getLabel().icon),
-                                title: Text(command.getLabel().label),
-                                onTap: index == _commander.index
-                                    ? null
-                                    : () {
-                                        setState(() {
-                                          _commander.goTo(
-                                              index, widget.easterEgg);
-                                        });
-                                      },
-                              )
+                            // for (var (index, command)
+                            //     in _commander.commands.indexed)
+                            //   ListTile(
+                            //     selected: index == _commander.index,
+                            //     leading: Icon(command.getLabel().icon),
+                            //     title: Text(command.getLabel().label),
+                            //     onTap: index == _commander.index
+                            //         ? null
+                            //         : () {
+                            //             setState(() {
+                            //               _commander.goTo(
+                            //                   index, widget.easterEgg);
+                            //             });
+                            //           },
+                            //   )
                           ],
                         ),
                         for (var stepIndex in selected)
@@ -326,11 +326,7 @@ class _EditEasterEggPageState extends ConsumerState<EditEasterEggPage> {
         Tooltip(
           message: "Redo",
           child: IconButton.filled(
-            onPressed: _commander.canRedoCommand()
-                ? () {
-                    redoCommand();
-                  }
-                : null,
+            onPressed: _commander.canRedoCommand() ? redoCommand : null,
             icon: Icon(MdiIcons.redo),
           ),
         ),

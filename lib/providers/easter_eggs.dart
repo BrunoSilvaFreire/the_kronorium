@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:the_kronorium/editing/editable_object.dart';
 import 'package:the_kronorium/graphs/adjacency_list.dart';
 import 'package:the_kronorium/serialization.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -307,8 +308,7 @@ class EasterEggGalleryEntry {
   }
 }
 
-class EasterEggStep with ChangeNotifier {
-  final String name;
+class EasterEggStep extends EditableObject {
   List<int> dependencies;
   final List<String> notes;
   final List<EasterEggGalleryEntry> gallery;
@@ -319,7 +319,7 @@ class EasterEggStep with ChangeNotifier {
   EasterEggStepKind _kind;
 
   EasterEggStep({
-    required this.name,
+    required super.name,
     required String summary,
     required String? iconName,
     required this.dependencies,
@@ -443,5 +443,10 @@ class EasterEggStep with ChangeNotifier {
   void addDependency(int value) {
     dependencies.add(value);
     notifyListeners();
+  }
+
+  @override
+  void notifyListeners() {
+    super.notifyListeners();
   }
 }

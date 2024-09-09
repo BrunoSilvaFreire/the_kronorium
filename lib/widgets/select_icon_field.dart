@@ -6,12 +6,15 @@ class IconPicker extends StatefulWidget {
   final int maxNumIcons;
   final void Function(String? icon) onPicked;
   final String? initialIcon;
+  final String? label;
+  final double? width;
 
   const IconPicker({
     super.key,
     required this.onPicked,
     required this.initialIcon,
     required this.maxNumIcons,
+    this.label, this.width,
   });
 
   @override
@@ -37,17 +40,23 @@ class _IconPickerState extends State<IconPicker> {
     return ListenableBuilder(
       listenable: _iconSearchController,
       builder: (context, _) {
+        var label = widget.label;
         return Container(
           margin: const EdgeInsets.only(top: 8),
           child: DropdownMenu<String?>(
+            inputDecorationTheme: Theme.of(context).inputDecorationTheme.copyWith(
+              border: InputBorder.none,
+            ),
             dropdownMenuEntries: _getIconSuggestions(),
-            label: const Text("Icon"),
+            label: label == null ? null : Text(label),
+            hintText: initialIcon,
             initialSelection: initialIcon,
             leadingIcon: icon == null ? null : Icon(icon),
             onSelected: (value) {
               widget.onPicked(value);
             },
             controller: _iconSearchController,
+            width: widget.width,
           ),
         );
       },

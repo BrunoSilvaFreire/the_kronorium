@@ -1,7 +1,7 @@
 import 'dart:collection';
 
+import 'package:the_kronorium/editing/commands/command.dart';
 import 'package:the_kronorium/providers/easter_eggs.dart';
-import 'package:the_kronorium/editing/command.dart';
 
 class Commander {
   int? _commandPointer;
