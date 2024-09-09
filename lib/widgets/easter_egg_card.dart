@@ -111,22 +111,24 @@ class EasterEggCard extends ConsumerWidget {
             ),
           ),
         ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              easterEgg.name,
-              style: theme.textTheme.titleSmall,
-              overflow: TextOverflow.fade,
-            ),
-            FittedBox(
-              child: Text(
-                easterEgg.map,
-                style: theme.textTheme.headlineSmall,
+        Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                easterEgg.name,
+                style: theme.textTheme.titleSmall,
+                overflow: TextOverflow.fade,
               ),
-            ),
-          ],
+              FittedBox(
+                child: Text(
+                  easterEgg.map,
+                  style: theme.textTheme.headlineSmall,
+                ),
+              ),
+            ],
+          ),
         ),
       ],
     );
