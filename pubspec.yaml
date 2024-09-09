@@ -41,8 +41,9 @@ dependencies:
   url_launcher: ^6.2.5
   localstorage: ^5.0.0
   logging: ^1.2.0
-  async_searchable_dropdown: ^0.0.7+4
 dev_dependencies:
+  integration_test:
+    sdk: flutter
   flutter_test:
     sdk: flutter
 
