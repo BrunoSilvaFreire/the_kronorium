@@ -210,6 +210,7 @@ class EasterEgg {
       steps: steps.map((e) => e.copy()).toList(),
       color: color,
       primaryEdition: primaryEdition,
+      editable: true
     );
   }
 
