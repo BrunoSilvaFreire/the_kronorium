@@ -4,5 +4,6 @@
   "edition": "blackOps3",
   "thumbnail": "https://static.wikia.nocookie.net/callofduty/images/e/e4/Der_Eisendrache_Menu_Selection_BO3.png/revision/latest",
   "steps": [],
+  "hidden": true,
   "color": "ff1a1110"
 }

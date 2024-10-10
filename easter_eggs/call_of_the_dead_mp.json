@@ -4,6 +4,7 @@
   "color": "blueGrey",
   "edition": "blackOps1",
   "thumbnail": "https://static.wikia.nocookie.net/callofduty/images/7/78/Call_of_the_Dead_Menu_Selection_BO.png/revision/latest",
+  "hidden": true,
   "steps": [
     {
       "name": "turnOnPower",
