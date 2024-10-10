@@ -3,7 +3,7 @@ Making your easter egg life easier
 This project is in a very early stage of life.
 
 Quick preview of the idea:
-![](assets/super_very_early_prototype.gif)
+![](docs/early_prototype.gif)
 
 # Contributing
 The project is built using Flutter and will currently target only flutter web for actual releases. However, building
