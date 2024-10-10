@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:the_kronorium/pages/easter_egg_page.dart';
 import 'package:the_kronorium/providers/easter_eggs.dart';
 import 'package:the_kronorium/providers/game_registry.dart';
+import 'package:the_kronorium/widgets/image_download_error_indicator.dart';
 
 class EasterEggCard extends ConsumerWidget {
   const EasterEggCard({super.key, required this.easterEgg, this.badge});
@@ -76,21 +77,7 @@ class EasterEggCard extends ConsumerWidget {
         },
         errorBuilder: (context, error, stackTrace) {
           ThemeData theme = Theme.of(context);
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Error loading image",
-                style: theme.textTheme.labelLarge
-                    ?.copyWith(color: theme.colorScheme.error.withOpacity(0.5)),
-              ),
-              Text(
-                error.toString(),
-                style: theme.textTheme.bodySmall
-                    ?.copyWith(color: theme.colorScheme.error.withOpacity(0.5)),
-              ),
-            ],
-          );
+          return const ImageDownloadErrorIndicator();
         },
         fit: BoxFit.cover,
       ),

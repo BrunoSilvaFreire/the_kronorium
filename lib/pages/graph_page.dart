@@ -5,6 +5,7 @@ import 'package:the_kronorium/providers/easter_eggs.dart';
 import 'package:the_kronorium/graphs/graph_layout.dart';
 import 'package:the_kronorium/graphs/layered_graph_layout.dart';
 import 'package:the_kronorium/providers/local_easter_eggs.dart';
+import 'package:the_kronorium/widgets/image_download_error_indicator.dart';
 import 'package:the_kronorium/widgets/interactive_easter_egg_map.dart';
 
 class GraphPage extends ConsumerStatefulWidget {
@@ -88,8 +89,16 @@ class _BaseGraphPageState extends ConsumerState<GraphPage> {
         background: Stack(
           children: [
             Positioned.fill(
-                child: Image.network(widget.easterEgg.thumbnailURL,
-                    fit: BoxFit.cover)),
+              child: Image.network(
+                widget.easterEgg.thumbnailURL,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return const ImageDownloadErrorIndicator(
+                    axis: Axis.horizontal,
+                  );
+                },
+              ),
+            ),
             const Positioned.fill(
                 child: DecoratedBox(
               decoration: BoxDecoration(

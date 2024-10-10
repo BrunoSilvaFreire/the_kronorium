@@ -1,5 +1,4 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'dart:io';
 
 extension Interleave<T> on Iterable<T> {
   Iterable<T> interleave(T Function(T element) selector) sync* {
@@ -41,13 +40,13 @@ var _defaultColors = {
 };
 
 Color parseColor(String string) {
-  var predefined=_defaultColors[string];
+  var predefined = _defaultColors[string];
   if (predefined == null) {
     int value = int.parse(string, radix: 16);
     return Color(value);
   } else {
     return Colors.primaries[predefined];
-    }
+  }
 }
 
 String clipString(
@@ -59,4 +58,8 @@ String clipString(
     return string.substring(0, string.length - suffix.length) + suffix;
   }
   return string;
+}
+
+bool isDesktop() {
+  return Platform.isWindows || Platform.isLinux || Platform.isMacOS;
 }

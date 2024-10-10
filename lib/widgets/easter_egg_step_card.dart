@@ -1,7 +1,9 @@
+
 import 'package:flutter/material.dart';
 import 'package:the_kronorium/providers/easter_eggs.dart';
+import 'package:the_kronorium/widgets/image_download_error_indicator.dart';
 
-class EasterEggStepCard extends StatelessWidget {
+class EasterEggStepCard extends StatefulWidget {
   final EasterEggStep step;
   final bool isSelected;
   final VoidCallback onTap;
@@ -16,55 +18,73 @@ class EasterEggStepCard extends StatelessWidget {
   });
 
   @override
+  State<EasterEggStepCard> createState() => _EasterEggStepCardState();
+}
+
+class _EasterEggStepCardState extends State<EasterEggStepCard> {
+  dynamic _imageError;
+  @override
   Widget build(BuildContext context) {
     Widget? leading;
     Widget? subtitle;
 
-    var icon = step.tryFindIcon();
+    var icon = widget.step.tryFindIcon();
     if (icon != null) {
       leading = Icon(icon);
     }
 
-    if (step.validIn.isNotEmpty) {
-      var applicableIn = step.validIn.map((e) => e.name).join(", ");
+    if (widget.step.validIn.isNotEmpty) {
+      var applicableIn = widget.step.validIn.map((e) => e.name).join(", ");
       subtitle = Text("Only applicable in: $applicableIn");
-    } else if (step.kind == EasterEggStepKind.suggestion){
+    } else if (widget.step.kind == EasterEggStepKind.suggestion) {
       subtitle = const Text("This step is not required");
     }
 
     Widget? image;
-    if (step.gallery.isNotEmpty) {
-      var thumbnail = step.gallery.first;
-      image = Ink.image(
-        fit: BoxFit.cover,
-        image: NetworkImage(
-          thumbnail.image.toString(),
-        ),
-      );
+    if (widget.step.gallery.isNotEmpty) {
+      var thumbnail = widget.step.gallery.first;
+      if (_imageError != null) {
+        image = ImageDownloadErrorIndicator();
+      } else {
+        image = Ink.image(
+          fit: BoxFit.cover,
+          onImageError: (exception, stackTrace) {
+            setState(() {
+              _imageError = exception;
+            });
+          },
+          image: NetworkImage(
+            thumbnail.image.toString(),
+          ),
+        );
+      }
     }
 
     return ListenableBuilder(
       builder: (BuildContext context, Widget? child) {
         var children = [
-              ListTile(
-                title: Text(step.summary),
-                leading: leading,
-                subtitle: subtitle,
-                selected: isSelected,
+          ListTile(
+            title: Text(widget.step.summary),
+            leading: leading,
+            subtitle: subtitle,
+            selected: widget.isSelected,
+          ),
+          if (image != null)
+            ConstrainedBox(
+              constraints: BoxConstraints(
+                maxHeight: widget.maxImageHeight,
+                minHeight: widget.maxImageHeight / 2,
               ),
-              if (image != null)
-                ConstrainedBox(
-                  constraints: BoxConstraints(maxHeight: maxImageHeight),
-                  child: image,
-                )
-            ];
+              child: image,
+            )
+        ];
         var content = InkWell(
-          onTap: onTap,
+          onTap: widget.onTap,
           child: Column(
             children: children,
           ),
         );
-        switch (step.kind) {
+        switch (widget.step.kind) {
           case EasterEggStepKind.requirement:
             return Card.filled(
               clipBehavior: Clip.antiAlias,
@@ -77,7 +97,8 @@ class EasterEggStepCard extends StatelessWidget {
             );
         }
       },
-      listenable: step,
+      listenable: widget.step,
     );
   }
+
 }
