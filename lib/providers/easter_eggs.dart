@@ -204,14 +204,13 @@ class EasterEgg {
 
   EasterEgg copy(String newName) {
     return EasterEgg(
-      name: newName,
-      map: map,
-      thumbnailURL: thumbnailURL,
-      steps: steps.map((e) => e.copy()).toList(),
-      color: color,
-      primaryEdition: primaryEdition,
-      editable: true
-    );
+        name: newName,
+        map: map,
+        thumbnailURL: thumbnailURL,
+        steps: steps.map((e) => e.copy()).toList(),
+        color: color,
+        primaryEdition: primaryEdition,
+        editable: true);
   }
 
   void removeStep(EasterEggStep step) {
@@ -223,7 +222,7 @@ class EasterEgg {
 
   void removeByIndex(int index) {
     steps.removeAt(index);
-    for (var (i, step) in steps.indexed) {
+    for (var step in steps) {
       var patchedDependencies = <int>[];
       for (var dependency in step.dependencies) {
         if (dependency == index) {
@@ -257,7 +256,7 @@ class EasterEgg {
     return index;
   }
 
-  void invalidateCache(){
+  void invalidateCache() {
     _cachedGraph = null;
   }
 }

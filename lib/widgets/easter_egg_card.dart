@@ -76,7 +76,6 @@ class EasterEggCard extends ConsumerWidget {
           );
         },
         errorBuilder: (context, error, stackTrace) {
-          ThemeData theme = Theme.of(context);
           return const ImageDownloadErrorIndicator();
         },
         fit: BoxFit.cover,
