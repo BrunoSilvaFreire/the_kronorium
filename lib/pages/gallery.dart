@@ -167,7 +167,7 @@ class _EasterEggGalleryState extends ConsumerState<EasterEggGallery> {
                             },
                           );
                           if (shouldDelete == true) {
-                            ref
+                            await ref
                                 .read(localEasterEggRegistryProvider.notifier)
                                 .deleteEasterEgg(easterEgg);
                           }

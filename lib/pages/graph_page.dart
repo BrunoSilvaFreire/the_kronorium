@@ -74,13 +74,15 @@ class _BaseGraphPageState extends ConsumerState<GraphPage> {
   AppBar _buildAppBar() {
     return AppBar(
       leading: BackButton(
-        onPressed: () {
+        onPressed: () async {
           if (widget.easterEgg.editable) {
             var localEasterEggRegistry =
                 ref.read(localEasterEggRegistryProvider.notifier);
-            localEasterEggRegistry.saveEasterEgg(widget.easterEgg);
+            await localEasterEggRegistry.saveEasterEgg(widget.easterEgg);
           }
-          Navigator.of(context).pop();
+          if (mounted) {
+            Navigator.of(context).pop();
+          }
         },
       ),
       flexibleSpace: FlexibleSpaceBar(

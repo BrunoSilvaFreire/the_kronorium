@@ -1,181 +1,509 @@
 {
-  "name": "For The Good Of All",
+  "name": "A Better Tomorrow",
   "map": "Revelations",
-  "color": "cyan",
+  "color": "purple",
   "edition": "blackOps3",
   "thumbnail": "https://static.wikia.nocookie.net/callofduty/images/d/de/Revelations_Menu_Selection_BO3.png/revision/latest/scale-to-width-down/1000",
   "steps": [
     {
-      "name": "step1",
-      "summary": "Tombstones - Shoot the tombstones in the correct order.",
+      "name": "activateCorruptionEngines",
+      "summary": "Activate all four Corruption Engines to unlock Pack-a-Punch and open the map.",
+      "icon": "power",
       "dependencies": [],
       "notes": [
-        "Sequence is 2-3-1-4, representing each character's death.",
-        "Reset by starting from Richtofen's tombstone if the sequence is incorrect.",
-        "Listen for the thunder sound as confirmation of completion."
+        "Activate the Corruption Engines in each area: Spawn, Der Eisendrache, Verrückt, and Mob of the Dead.",
+        "This allows access to the Pack-a-Punch machine and other areas."
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/9/9b/CorruptionEngine_BO3.png",
+          "notes": [
+            "Corruption Engine in Revelations."
+          ]
+        }
       ]
     },
-
     {
-      "name": "getApothiconServant",
+      "name": "buildSummoningAltar",
+      "summary": "Build the Summoning Altar to make the Keeper Protector available for use.",
+      "icon": "altar",
+      "dependencies": [
+        "activateCorruptionEngines"
+      ],
+      "notes": [
+        "Collect the three parts scattered around the map to build the Summoning Altar.",
+        "Parts are located in Verrückt, Der Eisendrache, and Kino der Toten."
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/e/e0/KeeperProtectorBuilding_BO3.png",
+          "notes": [
+            "Keeper Protector building location."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "obtainApothiconServant",
       "summary": "Obtain the Apothicon Servant from the Mystery Box.",
-      "dependencies": [],
-      "notes": [
-        "May require multiple Mystery Box uses. Plan for potential high expense.",
-        "Crucial for several Easter Egg steps, especially for dealing with zombies."
-      ]
-    },
-    {
-      "name": "audioReel1",
-      "summary": "Collect the first Audio Reel after completing the tombstone step.",
+      "icon": "weapon",
       "dependencies": [
-        "step1"
+        "activateCorruptionEngines"
       ],
       "notes": [
-        "The Keeper Protector needs to chant for three minutes at a specific Jump Pad.",
-        "Protect the Keeper Protector from zombies during the ritual.",
-        "The first Audio Reel appears near the Jump Pad after the ritual."
-      ]
-    },
-    {
-      "name": "audioReel2",
-      "summary": "Obtain the second Audio Reel by using Li'l Arnies in the Apothicon.",
-      "dependencies": [
-        "audioReel1",
-        "getLilArnies"
+        "Spin the Mystery Box to obtain the Apothicon Servant.",
+        "Only one player can have it at a time.",
+        "Consider using GobbleGums or strategies to increase chances."
       ],
-      "notes": [
-        "Throw Li'l Arnies into holes within the Apothicon to summon Margwas.",
-        "Each set of three holes used spawns a different type of Margwa.",
-        "The second Audio Reel spawns after defeating all summoned Margwas."
-      ]
-    },
-    {
-      "name": "audioReel3",
-      "summary": "Collect the third Audio Reel by gathering skeleton parts around the map.",
-      "dependencies": [
-        "audioReel2",
-        "upgradeApothiconServant"
-      ],
-      "notes": [
-        "Shoot specific rocks with a Pack-a-Punched weapon to reveal skeleton parts.",
-        "Use the upgraded Apothicon Servant to collect the parts.",
-        "The third Audio Reel appears after collecting all skeleton parts."
-      ]
-    },
-    {
-      "name": "step3",
-      "summary": "Materializing S.O.P.H.I.A - Use turrets at the Corruption Engines to shoot four floating blue 115 rocks.",
-      "dependencies": [
-        "audioReel3"
-      ],
-      "notes": [
-        "Each turret activation costs 2000 points. Plan your finances.",
-        "Shoot the left-side rock from each turret's perspective towards Nacht der Untoten.",
-        "S.O.P.H.I.A becomes fully visible after all four rocks are hit."
-      ]
-    },
-    {
-      "name": "step4",
-      "summary": "Obtaining the Kronorium - Teleport to Samantha's bedroom and pick up the Kronorium.",
-      "dependencies": [
-        "step3"
-      ],
-      "notes": [
-        "All players must be in the teleporter to initiate the teleport.",
-        "Kronorium is placed on the podium in Kino der Toten upon return.",
-        "This step is crucial for narrative progression."
-      ]
-    },
-    {
-      "name": "step5",
-      "summary": "Acquiring the Apothicon Eggs - Find and fill Apothicon Eggs with zombie souls.",
-      "dependencies": [
-        "step4"
-      ],
-      "notes": [
-        "Eggs are spread across the map. Each has multiple spawn points.",
-        "Killing zombies near the Eggs will fill them up.",
-        "Filled Eggs turn into Gateworms, needed for later steps."
-      ]
-    },
-    {
-      "name": "step6",
-      "summary": "Retrieving the Runes of Creation - Use the Gateworms to find Runes of Creation.",
-      "dependencies": [
-        "step5"
-      ],
-      "notes": [
-        "Listen for the beeping noise to find the Runes' invisible spawn points.",
-        "Gateworms are used to reveal and collect the Runes of Creation.",
-        "The beeping gets faster as you approach the correct location."
-      ]
-    },
-    {
-      "name": "step7",
-      "summary": "Recovering the Summoning Key - Complete the challenges in the boss arena.",
-      "dependencies": [
-        "step6",
-        "getHelmetOfTheKing"
-      ],
-      "notes": [
-        "Prepare for intense combat—bring powerful weapons and ammo.",
-        "The Helmet of the King provides extra protection against enemies.",
-        "Completing the symbol sequence correctly is crucial to progress."
-      ]
-    },
-    {
-      "name": "step8",
-      "summary": "Gathering the Objects - Throw the Summoning Key at several items related to previous Easter Eggs.",
-      "dependencies": [
-        "step7"
-      ],
-      "notes": [
-        "Be cautious of the Summoning Key's glitches; follow suggested precautions.",
-        "Each successful hit is indicated by an audio cue and visual effect.",
-        "Collecting all objects progresses the Easter Egg towards the final battle."
-      ]
-    },
-    {
-      "name": "step9",
-      "summary": "Defeating the Shadowman - Final battle against the Shadowman.",
-      "dependencies": [
-        "step8"
-      ],
-      "notes": [
-        "Use the charged Summoning Key on S.O.P.H.I.A to break the Shadowman's shield.",
-        "Concentrate fire on the Shadowman when his shield is down.",
-        "Success unlocks significant rewards and concludes the Easter Egg."
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/f/f1/ApothiconServant_BO3.png",
+          "notes": [
+            "Apothicon Servant Wonder Weapon."
+          ]
+        }
       ]
     },
     {
       "name": "upgradeApothiconServant",
       "summary": "Upgrade the Apothicon Servant via the Pack-a-Punch.",
+      "icon": "weapon",
       "dependencies": [
-        "getApothiconServant"
+        "obtainApothiconServant"
       ],
       "notes": [
-        "The upgrade enhances its effectiveness significantly.",
-        "Necessary for completing specific Easter Egg steps."
+        "Shoot five hidden Pack-a-Punch stones around the map with the Apothicon Servant.",
+        "The stones are located in: Spawn, Der Eisendrache, Verrückt, Mob of the Dead, and Nacht der Untoten.",
+        "After shooting all stones, you can Pack-a-Punch the Apothicon Servant."
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/3/38/Upgraded_Apothicon_Servant_BO3.png",
+          "notes": [
+            "Upgraded Apothicon Servant (Estoom-oth)."
+          ]
+        }
       ]
     },
     {
-      "name": "getLilArnies",
+      "name": "obtainLilArnies",
       "summary": "Obtain the Li'l Arnies from the Mystery Box.",
-      "dependencies": [],
+      "icon": "tactical",
+      "dependencies": [
+        "activateCorruptionEngines"
+      ],
       "notes": [
-        "Useful for distracting zombies and managing large groups.",
-        "Required for collecting the second Audio Reel."
+        "Spin the Mystery Box to obtain the Li'l Arnies.",
+        "At least one player must have them, but multiple is recommended."
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/2/29/LilArnies_BO3.png",
+          "notes": [
+            "Li'l Arnies equipment."
+          ]
+        }
       ]
     },
     {
-      "name": "getHelmetOfTheKing",
-      "summary": "Obtain the Helmet of the King for extra protection.",
-      "dependencies": [],
+      "name": "shootTombstones",
+      "summary": "Shoot the tombstones in the correct order outside the spawn area.",
+      "dependencies": [
+        "activateCorruptionEngines"
+      ],
       "notes": [
-        "Provides a significant defensive boost.",
-        "Highly recommended for surviving in later steps."
+        "The tombstones are outside the map in the Spawn Room on two floating islands on the left side.",
+        "Shoot them in the order: Richtofen (second tombstone), Dempsey (third tombstone), Takeo (first tombstone), Nikolai (fourth tombstone).",
+        "If done correctly, red lights will emit from the graves."
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/5/5f/Revelations_Tombstones_BO3.png",
+          "notes": [
+            "Locations of the tombstones in the Spawn area."
+          ]
+        }
       ]
+    },
+    {
+      "name": "startKeeperRitual",
+      "summary": "Use the Keeper Protector to perform a ritual at a specific location.",
+      "icon": "ritual",
+      "dependencies": [
+        "buildSummoningAltar",
+        "shootTombstones"
+      ],
+      "notes": [
+        "Find the triangular stone on one of the three Jump Pads: Shangri-La to Spawn, Mob of the Dead to Verrückt, or Verrückt to Kino der Toten.",
+        "Crouch on the triangular stone to lure the Keeper Protector.",
+        "The Keeper will start a ritual; protect it for 3 minutes."
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/6/6e/Revelations_KeeperProtector_Ritual_BO3.png",
+          "notes": [
+            "Keeper Protector performing the ritual."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "collectAudioReel1",
+      "summary": "Collect the first Audio Reel and place it in Nacht der Untoten.",
+      "icon": "audio",
+      "dependencies": [
+        "startKeeperRitual"
+      ],
+      "notes": [
+        "After the ritual, the Keeper Protector will drop an Audio Reel.",
+        "Pick it up and place it in the playback device upstairs in Nacht der Untoten near Juggernog."
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/1/1b/AudioReel1_Revelations_BO3.png",
+          "notes": [
+            "First Audio Reel location."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "throwLilArnies",
+      "summary": "Throw Li'l Arnies into the nine holes inside the Giant Apothicon.",
+      "icon": "tactical",
+      "dependencies": [
+        "collectAudioReel1",
+        "obtainLilArnies"
+      ],
+      "notes": [
+        "Inside the Giant Apothicon, throw Li'l Arnies into the nine small holes where zombies spawn.",
+        "Every three holes will spawn three Margwas (Regular, Fire, Void).",
+        "Defeat all Margwas before proceeding."
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/4/4f/Revelations_GiantApothicon_LilArnies_BO3.png",
+          "notes": [
+            "Throw Li'l Arnies into the holes inside the Giant Apothicon."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "collectAudioReel2",
+      "summary": "Collect the second Audio Reel and place it in Kino der Toten.",
+      "icon": "audio",
+      "dependencies": [
+        "throwLilArnies"
+      ],
+      "notes": [
+        "After defeating all Margwas, the Audio Reel will spawn on the bridge inside the Giant Apothicon.",
+        "Pick it up and place it in the playback device on the Kino der Toten stage."
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/1/13/AudioReel2_Revelations_BO3.png",
+          "notes": [
+            "Second Audio Reel location."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "collectBoneParts",
+      "summary": "Collect bone parts around the map using the upgraded Apothicon Servant.",
+      "icon": "bones",
+      "dependencies": [
+        "collectAudioReel2",
+        "upgradeApothiconServant"
+      ],
+      "notes": [
+        "Shoot rocks containing bone parts with any Pack-a-Punched weapon (except the Apothicon Servant).",
+        "Then extract the bones by shooting them with the upgraded Apothicon Servant.",
+        "There are six locations to find."
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/e/e5/Revelations_BoneParts_BO3.png",
+          "notes": [
+            "Locations of the bone parts around the map."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "reassembleSophia",
+      "summary": "Reassemble Sophia's body in Nacht der Untoten and collect the third Audio Reel.",
+      "icon": "robot",
+      "dependencies": [
+        "collectBoneParts"
+      ],
+      "notes": [
+        "Go to the top level of Nacht der Untoten.",
+        "Shoot the pile of bones with the upgraded Apothicon Servant.",
+        "Shoot Sophia's body that appears with the upgraded Apothicon Servant.",
+        "Collect the Audio Reel left behind.",
+        "Place it in the recording device on top of the mound in Origins."
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/9/91/Revelations_Sophia_Body_BO3.png",
+          "notes": [
+            "Reassembling Sophia's body."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "shootBlueRocks",
+      "summary": "Use the Corruption Turrets to shoot four blue floating rocks.",
+      "icon": "turret",
+      "dependencies": [
+        "reassembleSophia"
+      ],
+      "notes": [
+        "Use the turrets at each Corruption Engine to shoot the blue rocks to the left when facing the Nacht der Untoten portal.",
+        "Each turret costs 2000 points to use.",
+        "After shooting a rock, the turret will remain active and kick you off."
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/8/8e/Revelations_BlueRocks_BO3.png",
+          "notes": [
+            "Shooting the blue rocks with the turrets."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "materializeSophia",
+      "summary": "Materialize Sophia and follow her to the teleporter in Kino der Toten.",
+      "icon": "robot",
+      "dependencies": [
+        "shootBlueRocks"
+      ],
+      "notes": [
+        "Return to Nacht der Untoten and interact with Sophia's ghost.",
+        "She will materialize and start moving.",
+        "Follow her to the teleporter in Kino der Toten."
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/b/b0/Revelations_Sophia_Materialize_BO3.png",
+          "notes": [
+            "Materializing Sophia in Nacht der Untoten."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "obtainKronorium",
+      "summary": "Teleport to Samantha's bedroom and obtain the Kronorium.",
+      "icon": "book",
+      "dependencies": [
+        "materializeSophia"
+      ],
+      "notes": [
+        "All players stand in the teleporter to go to Samantha's bedroom.",
+        "Pick up the Kronorium on the edge of the bed.",
+        "You will be teleported back to Kino der Toten.",
+        "Place the Kronorium on the podium on the stage."
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/d/db/Revelations_Kronorium_BO3.png",
+          "notes": [
+            "The Kronorium in Samantha's bedroom."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "collectApothiconEggs",
+      "summary": "Find and incubate the four Apothicon Eggs.",
+      "icon": "egg",
+      "dependencies": [
+        "obtainKronorium"
+      ],
+      "notes": [
+        "Locate the four Apothicon Eggs around the map. Each egg has four possible spawn locations.",
+        "Only one egg per area (Kino der Toten, Shangri-La/Spawn, Verrückt, Mob of the Dead/Origins).",
+        "Bring them to the Giant Apothicon and place them in the yellow pustules.",
+        "Kill 10 zombies near each egg until it becomes a Gateworm."
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/0/0f/Revelations_ApothiconEggs_BO3.png",
+          "notes": [
+            "Locations of the Apothicon Eggs."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "findRunesOfCreation",
+      "summary": "Use the Gateworms to locate and collect the Runes of Creation.",
+      "icon": "rune",
+      "dependencies": [
+        "collectApothiconEggs"
+      ],
+      "notes": [
+        "Each player takes a Gateworm and searches for the hidden Rune in one of the map's areas.",
+        "Listen for a beeping noise that gets louder as you get closer.",
+        "Interact with the correct spot to reveal the Rune and pick it up.",
+        "Repeat for all four Runes."
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/a/a6/Revelations_RunesOfCreation_BO3.png",
+          "notes": [
+            "Rune of Creation locations."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "enterBossArena",
+      "summary": "Teleport to the boss arena and memorize the Apothicon symbols.",
+      "icon": "portal",
+      "dependencies": [
+        "findRunesOfCreation"
+      ],
+      "notes": [
+        "All players stand on the glowing purple rift in the Kino der Toten Projector Room.",
+        "You will be teleported to the boss arena.",
+        "Interact with the Kronorium and memorize the four Apothicon symbols displayed."
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/7/70/Revelations_BossArena_BO3.png",
+          "notes": [
+            "Entering the boss arena."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "inputSymbols",
+      "summary": "Input the Apothicon symbols in the correct order.",
+      "icon": "puzzle",
+      "dependencies": [
+        "enterBossArena"
+      ],
+      "notes": [
+        "Go to the shifting purple symbols near the spawn point.",
+        "Interact with the symbols in the order shown in the Kronorium.",
+        "If done correctly, the symbols will turn gold.",
+        "Failing the sequence will reset the step for the next round."
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/6/64/Revelations_Symbols_BO3.png",
+          "notes": [
+            "Inputting the Apothicon symbols."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "defeatMargwaWaves",
+      "summary": "Defeat the waves of Margwas in the boss arena.",
+      "icon": "boss",
+      "dependencies": [
+        "inputSymbols"
+      ],
+      "notes": [
+        "Four waves of Margwas will spawn, each with different elemental types.",
+        "Each wave corresponds to a terrain shift in the arena.",
+        "Use powerful weapons like the Thundergun to defeat them.",
+        "Collect the Max Ammos that spawn if needed."
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/f/fb/Revelations_SummoningKey_BO3.png",
+          "notes": [
+            "Recovering the Summoning Key after defeating Margwas."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "recoverSummoningKey",
+      "summary": "Grab the Summoning Key from the center of the arena.",
+      "icon": "key",
+      "dependencies": [
+        "defeatMargwaWaves"
+      ],
+      "notes": [
+        "After defeating all Margwas, the Summoning Key will appear in the center.",
+        "Pick it up to be teleported back to the map."
+      ],
+      "gallery": []
+    },
+    {
+      "name": "collectObjectsWithKey",
+      "summary": "Use the Summoning Key to collect specific objects around the map.",
+      "icon": "collect",
+      "dependencies": [
+        "recoverSummoningKey"
+      ],
+      "notes": [
+        "Throw the Summoning Key at the following objects:",
+        "Radio in Kino der Toten chandelier.",
+        "Clock over the Undercroft in Der Eisendrache.",
+        "Focusing Crystal in Shangri-La.",
+        "Tombstone in Origins.",
+        "Poster in Mob of the Dead.",
+        "Mounted MG42 in Verrückt.",
+        "Red Barrel in Nacht der Untoten.",
+        "Be cautious of glitches; if the Summoning Key disappears, locate it via the beam of light."
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/3/35/Revelations_SummoningKeyObjects_BO3.png",
+          "notes": [
+            "Locations of the objects to collect with the Summoning Key."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "defeatShadowman",
+      "summary": "Teleport to the boss arena and defeat the Shadowman.",
+      "icon": "skull",
+      "dependencies": [
+        "collectObjectsWithKey"
+      ],
+      "notes": [
+        "Teleport to the boss arena again via the teleporter in Kino der Toten.",
+        "Place the Summoning Key on a green pedestal and kill 10 zombies near it to charge it.",
+        "Throw the charged Summoning Key at Sophia.",
+        "Shoot the Shadowman to break his shield.",
+        "Force him into the Apothicon's mouth.",
+        "Interact with the Kronorium to finish him off.",
+        "Beware of enemy spawns and use powerful weapons."
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/6/66/Revelations_Shadowman_BossFight_BO3.png",
+          "notes": [
+            "Defeating the Shadowman in the boss arena."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "enjoyEndingCutscene",
+      "summary": "Watch the ending cutscene and complete the Easter Egg.",
+      "icon": "cutscene",
+      "dependencies": [
+        "defeatShadowman"
+      ],
+      "notes": [
+        "Congratulations! You've completed the Revelations Easter Egg.",
+        "Enjoy the ending cutscene."
+      ],
+      "gallery": []
     }
   ]
 }

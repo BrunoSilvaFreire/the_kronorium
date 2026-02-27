@@ -6,176 +6,543 @@
   "thumbnail": "https://static.wikia.nocookie.net/callofduty/images/1/14/Shadows_of_Evil_Menu_Selection_BO3.png/revision/latest/scale-to-width-down/1000",
   "steps": [
     {
-      "name": "activateBeastMode",
-      "summary": "Activate Beast Mode.",
-      "icon": "jellyfish"
+      "name": "collectSummoningKey",
+      "summary": "Obtain the Summoning Key from the spawn area.",
+      "icon": "key",
+      "dependencies": [],
+      "notes": [
+        "In the spawn area, become the Beast by using a purple Flame Fountain.",
+        "Melee the wooden crate on the truck to reveal the Summoning Key.",
+        "Return to human form and pick up the Summoning Key."
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/5/5b/Summoning_Key_Shadows_of_Evil_BO3.png",
+          "notes": ["The Summoning Key in the spawn area."]
+        }
+      ]
     },
     {
-      "name": "getTheSummoningKey",
-      "summary": "Get The Summoning Key.",
-      "icon": "sphere",
-      "dependencies": [
-        "activateBeastMode"
-      ]
+      "name": "openRift",
+      "summary": "Open access to the Rift area by breaking the glowing doors.",
+      "icon": "portal",
+      "dependencies": ["collectSummoningKey"],
+      "notes": [
+        "Use Beast Mode to break the glowing doors with the Mark of the Beast around the map.",
+        "There are three doors: one in each district (Canals, Waterfront, Footlight).",
+        "Breaking at least one door allows access to the Rift."
+      ],
+      "gallery": []
     },
     {
       "name": "theMagicianItem",
-      "summary": "Obtain the Lawyer's Pen by using Beast Mode to electrify the meter and drop the crate on Easy Street.",
+      "summary": "Obtain The Magician's ritual item: The Lawyer's Pen.",
       "icon": "pen",
-      "dependencies": [
-        "activateBeastMode"
-      ]
+      "dependencies": ["collectSummoningKey"],
+      "notes": [
+        "In Beast Mode, shock the crane's electrical box near Easy Street to lower the crate.",
+        "The crate will drop and break, revealing the Lawyer's Pen.",
+        "Return to human form and pick up the Pen."
+      ],
+      "gallery": []
     },
     {
-      "name": "theMagician",
-      "summary": "Complete the Magician's ritual in his apartment above Easy Street.",
-      "icon": "autoFix",
-      "dependencies": [
-        "getTheSummoningKey",
-        "theMagicianItem"
-      ]
+      "name": "theMagicianRitualSiteAccess",
+      "summary": "Open access to The Magician's ritual site.",
+      "icon": "ritual",
+      "dependencies": ["theMagicianItem"],
+      "notes": [
+        "Use Beast Mode to grapple up to the ledge above Easy Street.",
+        "Melee the door to open the ritual site."
+      ],
+      "gallery": []
     },
     {
-      "name": "theBoxerItem",
-      "icon": "trophyAward",
-      "summary": "Obtain the Championship Belt by using Beast Mode to knock down the crate in the Waterfront District.",
-      "dependencies": [
-        "activateBeastMode"
-      ]
-    },
-    {
-      "name": "theBoxer",
-      "icon": "boxingGlove",
-      "summary": "Complete the Boxer's ritual in the Waterfront District.",
-      "dependencies": [
-        "getTheSummoningKey",
-        "theBoxerItem"
-      ]
+      "name": "theMagicianRitual",
+      "summary": "Complete The Magician's ritual to obtain the Gateworm.",
+      "icon": "ritual",
+      "dependencies": ["theMagicianRitualSiteAccess"],
+      "notes": [
+        "Go to the ritual site above Easy Street.",
+        "Place the Lawyer's Pen and the Summoning Key on the altar to start the ritual.",
+        "Survive until the ritual is complete to obtain the Gateworm."
+      ],
+      "gallery": []
     },
     {
       "name": "theDetectiveItem",
-      "icon": "badgeAccount",
-      "summary": "Obtain the Detective's Badge by using Beast Mode to access the crate behind the locked grate in the Canals District.",
-      "dependencies": [
-        "activateBeastMode"
-      ]
+      "summary": "Obtain The Detective's ritual item: The Detective's Badge.",
+      "icon": "badge",
+      "dependencies": ["collectSummoningKey"],
+      "notes": [
+        "In the Canal District, enter Beast Mode.",
+        "Melee the box behind the grate in the canal to reveal the Badge.",
+        "Shock the electrical box hidden behind a breakable wall to open the grate.",
+        "Return to human form and pick up the Badge."
+      ],
+      "gallery": []
     },
     {
-      "name": "theDetective",
-      "summary": "Complete the Detective's ritual in the Ruby Rabbit.",
-      "icon": "policeBadge",
-      "dependencies": [
-        "getTheSummoningKey",
-        "theDetectiveItem"
-      ]
+      "name": "theDetectiveRitualSiteAccess",
+      "summary": "Open access to The Detective's ritual site.",
+      "icon": "ritual",
+      "dependencies": ["theDetectiveItem"],
+      "notes": [
+        "Use Beast Mode to lower the stairs to the Ruby Rabbit nightclub.",
+        "Shock the electrical box to open the door."
+      ],
+      "gallery": []
+    },
+    {
+      "name": "theDetectiveRitual",
+      "summary": "Complete The Detective's ritual to obtain the Gateworm.",
+      "icon": "ritual",
+      "dependencies": ["theDetectiveRitualSiteAccess"],
+      "notes": [
+        "Go to the Ruby Rabbit nightclub.",
+        "Place the Detective's Badge and the Summoning Key on the altar.",
+        "Survive the ritual to obtain the Gateworm."
+      ],
+      "gallery": []
+    },
+    {
+      "name": "theBoxerItem",
+      "summary": "Obtain The Boxer's ritual item: The Championship Belt.",
+      "icon": "belt",
+      "dependencies": ["collectSummoningKey"],
+      "notes": [
+        "In the Waterfront District, enter Beast Mode.",
+        "Grapple to the walkway above and melee the crate hanging from the chain.",
+        "The crate will fall, revealing the Championship Belt.",
+        "Return to human form and pick up the Belt."
+      ],
+      "gallery": []
+    },
+    {
+      "name": "theBoxerRitualSiteAccess",
+      "summary": "Open access to The Boxer's ritual site.",
+      "icon": "ritual",
+      "dependencies": ["theBoxerItem"],
+      "notes": [
+        "Use Beast Mode to open the door to The Anvil Boxing Gym.",
+        "Shock the electrical box to power the door."
+      ],
+      "gallery": []
+    },
+    {
+      "name": "theBoxerRitual",
+      "summary": "Complete The Boxer's ritual to obtain the Gateworm.",
+      "icon": "ritual",
+      "dependencies": ["theBoxerRitualSiteAccess"],
+      "notes": [
+        "Go to The Anvil Boxing Gym.",
+        "Place the Championship Belt and the Summoning Key on the altar.",
+        "Survive the ritual to obtain the Gateworm."
+      ],
+      "gallery": []
     },
     {
       "name": "theFemmeFataleItem",
-      "summary": "Obtain the Producer's Toupee by using Beast Mode to cross the gap and drop the crate in the Footlight District.",
-      "icon": "hairDryer",
+      "summary": "Obtain The Femme Fatale's ritual item: The Producer's Toupee.",
+      "icon": "toupee",
+      "dependencies": ["collectSummoningKey"],
+      "notes": [
+        "In the Footlight District, enter Beast Mode.",
+        "Grapple across the gap to the ledge and melee the crate.",
+        "The crate will fall, revealing the Producer's Toupee.",
+        "Return to human form and pick up the Toupee."
+      ],
+      "gallery": []
+    },
+    {
+      "name": "theFemmeFataleRitualSiteAccess",
+      "summary": "Open access to The Femme Fatale's ritual site.",
+      "icon": "ritual",
+      "dependencies": ["theFemmeFataleItem"],
+      "notes": [
+        "Use Beast Mode to open the door to The Black Lace Burlesque.",
+        "Shock the electrical box to power the door."
+      ],
+      "gallery": []
+    },
+    {
+      "name": "theFemmeFataleRitual",
+      "summary": "Complete The Femme Fatale's ritual to obtain the Gateworm.",
+      "icon": "ritual",
+      "dependencies": ["theFemmeFataleRitualSiteAccess"],
+      "notes": [
+        "Go to The Black Lace Burlesque.",
+        "Place the Producer's Toupee and the Summoning Key on the altar.",
+        "Survive the ritual to obtain the Gateworm."
+      ],
+      "gallery": []
+    },
+    {
+      "name": "accessSacredPlace",
+      "summary": "Open the Sacred Place in the Rift area.",
+      "icon": "portal",
+      "dependencies": ["openRift"],
+      "notes": [
+        "Enter the Rift area through any of the broken doors.",
+        "Clear out the Keepers that spawn upon first entry.",
+        "The wall to the Sacred Place will be open after clearing the Keepers."
+      ],
+      "gallery": []
+    },
+    {
+      "name": "placeGateworms",
+      "summary": "Place the Gateworms on the pedestals in the Sacred Place.",
+      "icon": "gateworm",
       "dependencies": [
-        "activateBeastMode"
-      ]
+        "theMagicianRitual",
+        "theDetectiveRitual",
+        "theBoxerRitual",
+        "theFemmeFataleRitual",
+        "accessSacredPlace"
+      ],
+      "notes": [
+        "Place the Gateworms on the two pedestals accessible on the main floor.",
+        "Walls will rise, allowing you to wall-run to the other side.",
+        "Place the remaining two Gateworms on the other pedestals."
+      ],
+      "gallery": []
     },
     {
-      "name": "theFemmeFatale",
-      "summary": "Complete the Femme Fatale's ritual in the Black Lace Burlesque.",
-      "icon": "faceWoman",
-      "dependencies": [
-        "getTheSummoningKey",
-        "theFemmeFataleItem"
-      ]
+      "name": "completeFinalRitual",
+      "summary": "Complete the final ritual to unlock Pack-a-Punch.",
+      "icon": "ritual",
+      "dependencies": ["placeGateworms"],
+      "notes": [
+        "Place the Summoning Key on the central altar in the Sacred Place.",
+        "Survive the ritual; the Shadowman will reveal his true intentions.",
+        "The Pack-a-Punch machine will become available.",
+        "The skybox will change, and a giant Apothicon will appear over the city."
+      ],
+      "gallery": []
     },
     {
-      "name": "collectGateworms",
-      "summary": "Collect the Gateworms from each completed ritual site.",
-      "icon": "worm",
-      "dependencies": [
-        "theMagician",
-        "theBoxer",
-        "theDetective",
-        "theFemmeFatale"
-      ]
+      "name": "rideTramForSymbols",
+      "summary": "Ride the Tram to find the three symbols for unlocking the Apothicon Egg.",
+      "icon": "tram",
+      "dependencies": [],
+      "notes": [
+        "Ride the Tram to different districts and look out the windows for hidden symbols.",
+        "Symbols are visible through red backlit windows.",
+        "Note the symbols and their patterns."
+      ],
+      "gallery": []
     },
     {
-      "name": "ascendingTheApocalypse",
-      "summary": "Place the Gateworms in the Sacred Place to access the Pack-a-Punch.",
-      "icon": "gateway",
-      "dependencies": [
-        "unlockTheSacredPlace",
-        "collectGateworms"
-      ]
-    },
-    {
-      "name": "unlockTheSacredPlace",
-      "summary": "Unlock the sacred place by opening a rift.",
-      "icon": "selectPlace",
-      "dependencies": [
-        "activateBeastMode"
-      ]
-    },
-    {
-      "name": "rideTheTram",
-      "summary": "Ride the Tram to spot the three symbols through the windows, necessary for the Apothicon Sword.",
-      "icon": "tram"
-    },
-    {
-      "name": "obtainingTheApothiconEggs",
-      "summary": "Use the spotted symbols to open a wall and get an Apothicon Egg in the Sacred Place.",
+      "name": "unlockApothiconEgg",
+      "summary": "Unlock the Apothicon Egg by zapping the correct symbols in Beast Mode.",
       "icon": "egg",
-      "dependencies": [
-        "rideTheTram",
-        "unlockTheSacredPlace"
-      ]
+      "dependencies": ["rideTramForSymbols", "accessSacredPlace"],
+      "notes": [
+        "In the Rift area, enter Beast Mode.",
+        "Zap the three symbols on the wall that match those seen from the Tram.",
+        "If done correctly, the wall will dissolve, revealing the Apothicon Egg."
+      ],
+      "gallery": []
     },
     {
-      "name": "chargeApothiconEggs",
-      "summary": "Place and charge the Apothicon Eggs at each the four statue by killing zombies.",
-      "icon": "eggEaster",
-      "dependencies": [
-        "obtainingTheApothiconEggs"
-      ]
+      "name": "collectApothiconEgg",
+      "summary": "Collect the Apothicon Egg from the statue in the Rift.",
+      "icon": "egg",
+      "dependencies": ["unlockApothiconEgg"],
+      "notes": [
+        "Interact with the statue to take one of the Eggs.",
+        "Each player can take an Egg."
+      ],
+      "gallery": []
     },
     {
-      "name": "getTheApothiconSwords",
-      "summary": "Get Apothicon Sword by returning the charged egg to the statue at The Crazy Place.",
+      "name": "findApothiconStatues",
+      "summary": "Locate the four Apothicon statues for charging the Egg.",
+      "icon": "statue",
+      "dependencies": [],
+      "notes": [
+        "Statue Locations:",
+        "- Footlight District alleyway under the Perk Machine.",
+        "- Canals District behind Ruby Rabbit stairs.",
+        "- Waterfront District in the destroyed building.",
+        "- Rift area opposite the Egg statue."
+      ],
+      "gallery": []
+    },
+    {
+      "name": "chargeEggAtStatue1",
+      "summary": "Charge the Apothicon Egg at Statue 1.",
+      "icon": "egg",
+      "dependencies": ["collectApothiconEgg", "findApothiconStatues"],
+      "notes": [
+        "Place the Egg on one of the statues.",
+        "Kill 12 zombies nearby to charge it.",
+        "The Egg will glow white when charged."
+      ],
+      "gallery": []
+    },
+    {
+      "name": "chargeEggAtStatue2",
+      "summary": "Charge the Apothicon Egg at Statue 2.",
+      "icon": "egg",
+      "dependencies": ["chargeEggAtStatue1"],
+      "notes": [
+        "Repeat the process at a different statue.",
+        "Place the Egg and kill 12 zombies nearby."
+      ],
+      "gallery": []
+    },
+    {
+      "name": "chargeEggAtStatue3",
+      "summary": "Charge the Apothicon Egg at Statue 3.",
+      "icon": "egg",
+      "dependencies": ["chargeEggAtStatue2"],
+      "notes": [
+        "Repeat the process at another statue.",
+        "Place the Egg and kill 12 zombies nearby."
+      ],
+      "gallery": []
+    },
+    {
+      "name": "chargeEggAtStatue4",
+      "summary": "Charge the Apothicon Egg at Statue 4.",
+      "icon": "egg",
+      "dependencies": ["chargeEggAtStatue3"],
+      "notes": [
+        "Repeat the process at the final statue.",
+        "Place the Egg and kill 12 zombies nearby.",
+        "The Egg will glow blue when fully charged."
+      ],
+      "gallery": []
+    },
+    {
+      "name": "obtainApothiconSword",
+      "summary": "Return the charged Egg to obtain the Apothicon Sword.",
       "icon": "sword",
-      "dependencies": [
-        "chargeApothiconEggs"
-      ]
-    },
-
-    {
-      "name": "upgradingTheApothiconSwords",
-      "summary": "Use the Eggs to complete rituals around the map, upgrading the Apothicon Swords.",
-      "icon": "swordUpgrade",
-      "dependencies": [
-        "getTheApothiconSwords"
-      ]
+      "dependencies": ["chargeEggAtStatue4"],
+      "notes": [
+        "Go back to the statue in the Rift where you got the Egg.",
+        "Place the charged Egg to receive the Apothicon Sword."
+      ],
+      "gallery": []
     },
     {
-      "name": "captureTheFlag",
-      "summary": "Interact with the book in Nero's ritual area, then defend the flag at specific locations.",
+      "name": "meetKeeperForArchOvum",
+      "summary": "Receive the Arch-Ovum from your character's Keeper.",
+      "icon": "ovum",
+      "dependencies": ["obtainApothiconSword"],
+      "notes": [
+        "Go to your character's ritual site.",
+        "Interact with the ghostly Keeper to receive the Arch-Ovum."
+      ],
+      "gallery": []
+    },
+    {
+      "name": "findArchOvumCircle1",
+      "summary": "Locate and complete Arch-Ovum ritual at Circle 1.",
+      "icon": "ritual",
+      "dependencies": ["meetKeeperForArchOvum"],
+      "notes": [
+        "Circle Locations:",
+        "- Footlight District in front of the Burlesque.",
+        "- Canals District near Ruby Rabbit.",
+        "- Waterfront District in front of The Anvil Gym.",
+        "- Junction near Easy Street entrance.",
+        "Place the Arch-Ovum on a red ritual circle.",
+        "Defeat the Margwas that spawn."
+      ],
+      "gallery": []
+    },
+    {
+      "name": "findArchOvumCircle2",
+      "summary": "Complete Arch-Ovum ritual at Circle 2.",
+      "icon": "ritual",
+      "dependencies": ["findArchOvumCircle1"],
+      "notes": [
+        "Repeat the process at a different circle.",
+        "Place the Arch-Ovum and defeat the Margwas."
+      ],
+      "gallery": []
+    },
+    {
+      "name": "findArchOvumCircle3",
+      "summary": "Complete Arch-Ovum ritual at Circle 3.",
+      "icon": "ritual",
+      "dependencies": ["findArchOvumCircle2"],
+      "notes": [
+        "Repeat the process at another circle.",
+        "Place the Arch-Ovum and defeat the Margwas."
+      ],
+      "gallery": []
+    },
+    {
+      "name": "findArchOvumCircle4",
+      "summary": "Complete Arch-Ovum ritual at Circle 4.",
+      "icon": "ritual",
+      "dependencies": ["findArchOvumCircle3"],
+      "notes": [
+        "Repeat the process at the final circle.",
+        "Place the Arch-Ovum and defeat the Margwas."
+      ],
+      "gallery": []
+    },
+    {
+      "name": "upgradeApothiconSword",
+      "summary": "Upgrade your Apothicon Sword to the Reborn Sword.",
+      "icon": "sword",
+      "dependencies": ["findArchOvumCircle4"],
+      "notes": [
+        "Return to your character's ritual site.",
+        "Interact with the Keeper to exchange your sword for the upgraded Reborn Sword."
+      ],
+      "gallery": []
+    },
+    {
+      "name": "activateFlagStep",
+      "summary": "Begin the 'Capture the Flag' step.",
       "icon": "flag",
-      "dependencies": [
-        "upgradingTheApothiconSwords"
-      ]
+      "dependencies": ["upgradeApothiconSword"],
+      "notes": [
+        "Go to Nero's ritual site and interact with the open book on the ground.",
+        "A flag will appear near the portal to the Rift.",
+        "Pick up the flag; zombies will temporarily despawn."
+      ],
+      "gallery": []
     },
     {
-      "name": "capturingTheShadowman",
-      "summary": "Use the Keeper protectors to remove the Shadowman's shield, then capture him in the Summoning Key.",
-      "icon": "shadowman",
-      "dependencies": [
-        "captureTheFlag"
-      ]
+      "name": "defendFlagInJunction",
+      "summary": "Defend the flag at two spots in the Junction.",
+      "icon": "defend",
+      "dependencies": ["activateFlagStep"],
+      "notes": [
+        "Carry the flag to the purple circle near Stamin-Up in the Junction.",
+        "Place and defend the flag from Insanity Elementals and the Shadowman.",
+        "After the chime, pick up the flag and move to the next circle near Easy Street.",
+        "Defend the flag again, then take it to Nero's ritual site."
+      ],
+      "gallery": []
     },
     {
-      "name": "avertingTheApocalypse",
-      "summary": "Kill Margwas to reactivate Beast Mode pedestals, then use them to disrupt the giant Apothicon's attack.",
+      "name": "defendFlagInCanals",
+      "summary": "Defend the flag at two spots in the Canals District.",
+      "icon": "defend",
+      "dependencies": ["defendFlagInJunction"],
+      "notes": [
+        "Repeat the process in the Canals District.",
+        "Carry the flag to the purple circles and defend it.",
+        "After defending both spots, take the flag to the ritual site."
+      ],
+      "gallery": []
+    },
+    {
+      "name": "defendFlagInFootlight",
+      "summary": "Defend the flag at two spots in the Footlight District.",
+      "icon": "defend",
+      "dependencies": ["defendFlagInCanals"],
+      "notes": [
+        "Repeat the process in the Footlight District.",
+        "Defend the flag at both purple circles.",
+        "Deliver the flag to the ritual site afterward."
+      ],
+      "gallery": []
+    },
+    {
+      "name": "defendFlagInWaterfront",
+      "summary": "Defend the flag at two spots in the Waterfront District.",
+      "icon": "defend",
+      "dependencies": ["defendFlagInFootlight"],
+      "notes": [
+        "Repeat the process in the Waterfront District.",
+        "Defend the flag at both purple circles.",
+        "Take the flag to the ritual site when done."
+      ],
+      "gallery": []
+    },
+    {
+      "name": "trapShadowman",
+      "summary": "Trap the Shadowman during the final ritual in the Sacred Place.",
+      "icon": "boss",
+      "dependencies": ["defendFlagInWaterfront"],
+      "notes": [
+        "Go to the Sacred Place in the Rift area.",
+        "Each player interacts with their pedestal to summon the Keepers.",
+        "The Keepers will remove the Shadowman's shield.",
+        "Shoot the Shadowman as he teleports.",
+        "When he's near the altar, interact with it to trap him."
+      ],
+      "gallery": []
+    },
+    {
+      "name": "startFinalStep",
+      "summary": "Begin the final step to avert the apocalypse.",
       "icon": "apocalypse",
-      "dependencies": [
-        "capturingTheShadowman"
-      ]
+      "dependencies": ["trapShadowman"],
+      "notes": [
+        "A giant Gateworm appears in the sky.",
+        "Kill purple Margwas to reactivate Beast Mode pedestals.",
+        "Players will frequently become 'infected'; cleanse by touching white wisps."
+      ],
+      "gallery": []
+    },
+    {
+      "name": "enterBeastMode",
+      "summary": "Enter Beast Mode after reactivating pedestals.",
+      "icon": "beast",
+      "dependencies": ["startFinalStep"],
+      "notes": [
+        "Kill Margwas until enough pedestals are active.",
+        "Enter Beast Mode using the pedestals with blue flames.",
+        "Beast Mode is infinite during this step but can be depleted by hazards."
+      ],
+      "gallery": []
+    },
+    {
+      "name": "shockElectricalBoxes",
+      "summary": "In Beast Mode, shock the electrical boxes in the Tram Stations.",
+      "icon": "shock",
+      "dependencies": ["enterBeastMode"],
+      "notes": [
+        "Three players in Beast Mode need to shock the electrical boxes in each Tram Station:",
+        "- Waterfront District.",
+        "- Footlight District.",
+        "- Canals District.",
+        "This electrifies the Tram rails."
+      ],
+      "gallery": []
+    },
+    {
+      "name": "callAndRideTram",
+      "summary": "Call the Tram to run over the Giant Gateworm.",
+      "icon": "tram",
+      "dependencies": ["shockElectricalBoxes"],
+      "notes": [
+        "A player calls the Tram at any station.",
+        "The Tram hits the Gateworm, temporarily removing it."
+      ],
+      "gallery": []
+    },
+    {
+      "name": "shockKeepers",
+      "summary": "In Beast Mode, shock the Keepers in the Junction.",
+      "icon": "shock",
+      "dependencies": ["callAndRideTram"],
+      "notes": [
+        "With the Gateworm gone, quickly go to the Junction.",
+        "Shock the three Keepers around the summoning table.",
+        "If successful, a cutscene will play."
+      ],
+      "gallery": []
+    },
+    {
+      "name": "enjoyEndingCutscene",
+      "summary": "Watch the ending cutscene and complete the Easter Egg.",
+      "icon": "cutscene",
+      "dependencies": ["shockKeepers"],
+      "notes": [
+        "Congratulations! You've completed the Shadows of Evil Easter Egg.",
+        "Enjoy the ending cutscene."
+      ],
+      "gallery": []
     }
   ]
 }

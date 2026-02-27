@@ -1,0 +1,448 @@
+{
+  "name": "No Mo' Modi",
+  "map": "Terminus",
+  "thumbnail": "https://static.wikia.nocookie.net/callofduty/images/6/6e/Terminus_AARSummary_Background_BO6.png/revision/latest/scale-to-width-down/1000?cb=20241028192737",
+  "steps": [
+    {
+      "name": "activateAmpUnits",
+      "summary": "Turn on the power by activating all three AMP units",
+      "iconName": "power",
+      "dependencies": [],
+      "notes": [
+        "Three AMP units located in Bio Lab, Mess Hall, and Reactor Control",
+        "Each unit requires holding the button for 3 seconds"
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/AMP_Unit_Terminus_BO6.png/revision/latest",
+          "notes": [
+            "AMP unit console in Bio Lab"
+          ]
+        }
+      ],
+      "validIn": [
+        "blackOps6"
+      ],
+      "kind": "requirement"
+    },
+    {
+      "name": "raisePackAPunchElevator",
+      "summary": "Raise the Pack‑a‑Punch elevator from underwater using the power switch",
+      "iconName": "waterBoiler",
+      "dependencies": [
+        "activateAmpUnits"
+      ],
+      "notes": [
+        "Head to the flooded section under the elevator",
+        "Flip the valve on the right-side pump station"
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/PackAPunchElevator_BO6.png/revision/latest",
+          "notes": [
+            "Valve location to raise elevator"
+          ]
+        }
+      ],
+      "validIn": [],
+      "kind": "requirement"
+    },
+    {
+      "name": "openTheLabDoor",
+      "summary": "Open the Research Office door via Dead Wire ammo mod",
+      "iconName": "powerPlug",
+      "dependencies": [
+        "activateAmpUnits"
+      ],
+      "notes": [
+        "Equip Dead Wire mod",
+        "Shoot the three electrical boxes in sequence along the incline lift"
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/DeadWireBoxes_BO6.png/revision/latest",
+          "notes": [
+            "Electrical boxes on incline lift"
+          ]
+        }
+      ],
+      "validIn": [],
+      "kind": "requirement"
+    },
+    {
+      "name": "killAnya",
+      "summary": "Kill zombified Anya Tonovsky to retrieve her fob",
+      "iconName": "skull",
+      "dependencies": [
+        "openTheLabDoor"
+      ],
+      "notes": [
+        "Anya spawns amid Vermin",
+        "Stay mobile to avoid melee grabs"
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/AnyaTonovskyZombified_BO6.png/revision/latest",
+          "notes": [
+            "Zombified Anya encounter"
+          ]
+        }
+      ],
+      "validIn": [],
+      "kind": "requirement"
+    },
+    {
+      "name": "obtainMultiphasicResonator",
+      "summary": "Open Anna's briefcase in the Sea Tower to collect the Multiphasic Resonator",
+      "iconName": "briefcase",
+      "dependencies": [
+        "killAnya"
+      ],
+      "notes": [
+        "Briefcase is on the balcony outside Elemental Pop",
+        "Opening spawns Vermin"
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/MP_ResonatorBriefcase_BO6.png/revision/latest",
+          "notes": [
+            "Anna's briefcase location"
+          ]
+        }
+      ],
+      "validIn": [],
+      "kind": "requirement"
+    },
+    {
+      "name": "turnOnXLaptop",
+      "summary": "Turn on the X-axis laptop in the Docks area",
+      "iconName": "laptop",
+      "dependencies": [],
+      "notes": [
+        "Laptop marked with X axis symbol",
+        "Found near staircase to Armory"
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/LaptopX_BO6.png/revision/latest",
+          "notes": [
+            "X Laptop location"
+          ]
+        }
+      ],
+      "validIn": [],
+      "kind": "requirement"
+    },
+    {
+      "name": "turnOnYLaptop",
+      "summary": "Turn on the Y-axis laptop in the Storage Area",
+      "iconName": "laptop",
+      "dependencies": [],
+      "notes": [
+        "Located right of Interrogation exit",
+        "Marked with Y axis symbol"
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/LaptopY_BO6.png/revision/latest",
+          "notes": [
+            "Y Laptop location"
+          ]
+        }
+      ],
+      "validIn": [],
+      "kind": "requirement"
+    },
+    {
+      "name": "turnOnZLaptop",
+      "summary": "Turn on the Z-axis laptop outside the Control Center",
+      "iconName": "laptop",
+      "dependencies": [],
+      "notes": [
+        "Found near Inclined Lift in Communications",
+        "Z axis symbol on desk"
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/LaptopZ_BO6.png/revision/latest",
+          "notes": [
+            "Z Laptop location"
+          ]
+        }
+      ],
+      "validIn": [],
+      "kind": "requirement"
+    },
+    {
+      "name": "calibrateResonator",
+      "summary": "Calibrate the Resonator using the three laptops and symbol equations",
+      "iconName": "cog",
+      "dependencies": [
+        "obtainMultiphasicResonator",
+        "turnOnXLaptop",
+        "turnOnYLaptop",
+        "turnOnZLaptop"
+      ],
+      "notes": [
+        "Use symbol chart in Research Office",
+        "Enter correct X, Y, Z values at calibrator",
+        "Press confirm when values flash green"
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/DRI11Beamsmasher_Blueprint_BO6.png/revision/latest",
+          "notes": [
+            "Blueprint for calibration"
+          ]
+        }
+      ],
+      "validIn": [
+        "blackOps6"
+      ],
+      "kind": "requirement"
+    },
+    {
+      "name": "powerResonator",
+      "summary": "Feed energy balls to plasma spheres on Temple, Castle Rock, and Crab Islands",
+      "iconName": "atom",
+      "dependencies": [
+        "calibrateResonator"
+      ],
+      "notes": [
+        "Kill nearby zombies to spawn energy balls",
+        "Hold ball and return to sphere to feed",
+        "Process repeats twice per island"
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/EnergySphere_BO6.png/revision/latest",
+          "notes": [
+            "Feeding energy to sphere"
+          ]
+        }
+      ],
+      "validIn": [
+        "blackOps6"
+      ],
+      "kind": "requirement"
+    },
+    {
+      "name": "assembleBeamsmasher",
+      "summary": "Use the Amp Munition at the workbench to build the DRI‑11 Beamsmasher",
+      "iconName": "wrench",
+      "dependencies": [
+        "powerResonator"
+      ],
+      "notes": [
+        "Workbench in Research Office",
+        "Consume one Amp Munition per build"
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/d/db/DRI11Beamsmasher_Menu_Icon_BO6.png/revision/latest/scale-to-width-down/268",
+          "notes": [
+            "Completed Beamsmasher icon"
+          ]
+        }
+      ],
+      "validIn": [
+        "blackOps6"
+      ],
+      "kind": "requirement"
+    },
+    {
+      "name": "freeNathan",
+      "summary": "Enter the Bio Lab pod code to free Nathan Aguinaldo",
+      "iconName": "door",
+      "dependencies": [
+        "assembleBeamsmasher"
+      ],
+      "notes": [
+        "Code digits sourced from clock, card rank, and incident sign",
+        "Timer resets if door is closed"
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/BioLabPod_BO6.png/revision/latest",
+          "notes": [
+            "Pod interface"
+          ]
+        }
+      ],
+      "validIn": [],
+      "kind": "requirement"
+    },
+    {
+      "name": "defeatNathan_boss",
+      "summary": "Defeat Nathan Aguinaldo boss fight",
+      "iconName": "sword",
+      "dependencies": [
+        "freeNathan"
+      ],
+      "notes": [
+        "Two phases: shielded then enraged",
+        "Aim for glowing core",
+        "Avoid area-of-effect blasts"
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/NathanBossFight_BO6.png/revision/latest",
+          "notes": [
+            "Nathan boss arena"
+          ]
+        }
+      ],
+      "validIn": [],
+      "kind": "requirement"
+    },
+    {
+      "name": "obtainConnectors",
+      "summary": "Collect two Node Connectors from the wrecked ship",
+      "iconName": "shipWheel",
+      "dependencies": [
+        "defeatNathan_boss"
+      ],
+      "notes": [
+        "Connectors glow blue when nearby",
+        "Pick them both up before returning"
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/NodeCollector_BO6.png/revision/latest",
+          "notes": [
+            "Node Collector item"
+          ]
+        }
+      ],
+      "validIn": [],
+      "kind": "requirement"
+    },
+    {
+      "name": "repairConnectorOne",
+      "summary": "Repair the first Node Connector",
+      "iconName": "cableData",
+      "dependencies": [
+        "obtainConnectors"
+      ],
+      "validIn": [],
+      "kind": "requirement"
+    },
+    {
+      "name": "repairConnectorTwo",
+      "summary": "Repair the second Node Connector",
+      "iconName": "cableData",
+      "dependencies": [
+        "obtainConnectors"
+      ],
+      "validIn": [],
+      "kind": "requirement"
+    },
+    {
+      "name": "hackBuoys",
+      "summary": "Hack all three satellite buoys within 2 minutes",
+      "iconName": "terminal",
+      "dependencies": [
+        "repairConnectorOne",
+        "repairConnectorTwo"
+      ],
+      "notes": [
+        "Buoys are in open sky platforms",
+        "Use Hacking Device and watch countdown",
+        "Stay within range"
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/SatelliteBuoy_BO6.png/revision/latest",
+          "notes": [
+            "Example buoy location"
+          ]
+        }
+      ],
+      "validIn": [],
+      "kind": "requirement"
+    },
+    {
+      "name": "disarmNuke1",
+      "summary": "Disarm the first nuclear device in the Bio Lab",
+      "iconName": "nuke",
+      "dependencies": [
+        "hackBuoys"
+      ],
+      "notes": [
+        "60-second timer",
+        "Solve circuit puzzle on console",
+        "Red wires indicate live circuits"
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/Nuke1_BO6.png/revision/latest",
+          "notes": [
+            "Nuke #1 console"
+          ]
+        }
+      ],
+      "validIn": [],
+      "kind": "requirement"
+    },
+    {
+      "name": "disarmNuke2",
+      "summary": "Disarm the second nuclear device in the corridor",
+      "iconName": "nuke",
+      "dependencies": [
+        "hackBuoys"
+      ],
+      "notes": [
+        "Timer resets after last disarm",
+        "Keep an eye on pressure gauge"
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/Nuke2_BO6.png/revision/latest",
+          "notes": [
+            "Nuke #2 location"
+          ]
+        }
+      ],
+      "validIn": [],
+      "kind": "requirement"
+    },
+    {
+      "name": "disarmNuke3",
+      "summary": "Disarm the third nuclear device near Bio Lab exit",
+      "iconName": "nuke",
+      "dependencies": [
+        "hackBuoys"
+      ],
+      "notes": [
+        "Final device ends timer",
+        "Stand clear of blast radius during disarm"
+      ],
+      "gallery": [
+        {
+          "image": "https://static.wikia.nocookie.net/callofduty/images/Nuke3_BO6.png/revision/latest",
+          "notes": [
+            "Nuke #3 console"
+          ]
+        }
+      ],
+      "validIn": [],
+      "kind": "requirement"
+    },
+    {
+      "name": "defeatPatient13",
+      "summary": "Defeat Patient 13",
+      "iconName": "",
+      "dependencies": [
+        "disarmNuke1",
+        "disarmNuke2",
+        "disarmNuke3"
+      ],
+      "notes": [],
+      "gallery": [],
+      "validIn": [],
+      "kind": "requirement"
+    }
+  ],
+  "color": "ff1a1110",
+  "edition": "blackOps6"
+}

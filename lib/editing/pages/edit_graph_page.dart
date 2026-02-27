@@ -1,6 +1,9 @@
+import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';
+import 'dart:io';
 import 'package:animations/animations.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,11 +11,14 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:the_kronorium/editing/commands/commander.dart';
 import 'package:the_kronorium/editing/commands/create_step_command.dart';
 import 'package:the_kronorium/editing/commands/delete_steps_command.dart';
+import 'package:the_kronorium/editing/commands/set_array_element_command.dart';
 import 'package:the_kronorium/editing/widgets/edit_step_card.dart';
 import 'package:the_kronorium/providers/easter_eggs.dart';
 import 'package:the_kronorium/editing/commands/command.dart';
 import 'package:the_kronorium/editing/editing_fields.dart';
 import 'package:the_kronorium/pages/graph_page.dart';
+import 'package:the_kronorium/providers/local_easter_eggs.dart';
+import 'package:the_kronorium/storage/storage.dart';
 import 'package:the_kronorium/widgets/container_card.dart';
 import 'package:the_kronorium/editing/widgets/create_step_dialog.dart';
 import 'package:the_kronorium/widgets/editor.dart';
@@ -49,9 +55,26 @@ class EditEasterEggPage extends ConsumerStatefulWidget {
   }
 }
 
+class DownloadInfo {
+  final Uri uri;
+  final int bytesReceived;
+  final int totalBytes;
+  final String? error;
+
+  DownloadInfo({
+    required this.uri,
+    required this.bytesReceived,
+    required this.totalBytes,
+    this.error,
+  });
+}
+
 class _EditEasterEggPageState extends ConsumerState<EditEasterEggPage> {
   late final _selected = StateProvider<Set<int>>(
     (ref) => {},
+  );
+  late final _downloadingImages = StateProvider<DownloadInfo?>(
+    (ref) => null,
   );
   late final _commander = Commander();
   late final _key = GlobalKey<FormState>();
@@ -140,7 +163,7 @@ class _EditEasterEggPageState extends ConsumerState<EditEasterEggPage> {
     widget.easterEgg.map = ref.watch(_mapProvider);
     widget.easterEgg.thumbnailURL = ref.watch(_thumbnailProvider);
     widget.easterEgg.primaryEdition = ref.watch(_editionProvider);
-
+    var downloadInfo = ref.watch(_downloadingImages);
     return ListenableBuilder(
         listenable: Listenable.merge(widget.easterEgg.steps),
         builder: (context, child) {
@@ -184,6 +207,31 @@ class _EditEasterEggPageState extends ConsumerState<EditEasterEggPage> {
                               padding: const EdgeInsets.all(8.0),
                               child: _buildButtonBar(selected),
                             ),
+                            if (downloadInfo != null) ...[
+                              const Divider(),
+                              ListTile(
+                                leading: Icon(MdiIcons.cloudDownload),
+                                title: Text(
+                                  "Downloading image",
+                                ),
+                                subtitle: Text(downloadInfo.uri.toString()),
+                              ),
+                              if (downloadInfo.error != null)
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    'Error: ${downloadInfo.error}',
+                                    style: TextStyle(color: Colors.red),
+                                  ),
+                                )
+                              else
+                                LinearProgressIndicator(
+                                  value: downloadInfo.totalBytes > 0
+                                      ? downloadInfo.bytesReceived /
+                                          downloadInfo.totalBytes
+                                      : null,
+                                ),
+                            ],
                             TextButton.icon(
                               onPressed: _copyGuideJSONToClipboard,
                               icon: Icon(MdiIcons.contentCopy),
@@ -205,8 +253,6 @@ class _EditEasterEggPageState extends ConsumerState<EditEasterEggPage> {
                             ),
                             const Divider(),
                             DropdownMenu(
-                              // We need to find the actual color in the list in order
-                              // for flutter to pick up the correct label
                               initialSelection: findExistingSuggestionForColor(
                                 widget.easterEgg.color,
                               ),
@@ -233,21 +279,6 @@ class _EditEasterEggPageState extends ConsumerState<EditEasterEggPage> {
                               ],
                             ),
                             const Divider(),
-                            // for (var (index, command)
-                            //     in _commander.commands.indexed)
-                            //   ListTile(
-                            //     selected: index == _commander.index,
-                            //     leading: Icon(command.getLabel().icon),
-                            //     title: Text(command.getLabel().label),
-                            //     onTap: index == _commander.index
-                            //         ? null
-                            //         : () {
-                            //             setState(() {
-                            //               _commander.goTo(
-                            //                   index, widget.easterEgg);
-                            //             });
-                            //           },
-                            //   )
                           ],
                         ),
                         for (var stepIndex in selected)
@@ -264,20 +295,26 @@ class _EditEasterEggPageState extends ConsumerState<EditEasterEggPage> {
                     bottom: 0,
                     right: 0,
                     width: 512,
-                    child: ListView(
-                      children: [
-                        for (var sel in selected)
-                          ContainerCard(
-                            child: Editor(
-                              selected: Provider(
-                                (ref) {
-                                  return widget.easterEgg.steps[sel];
-                                },
+                    child: IntrinsicHeight(
+                      child: Align(
+                        alignment: Alignment.topCenter,
+                        child: ListView(
+                          shrinkWrap: true,
+                          children: [
+                            for (var sel in selected)
+                              ContainerCard(
+                                child: Editor(
+                                  selected: Provider(
+                                    (ref) {
+                                      return widget.easterEgg.steps[sel];
+                                    },
+                                  ),
+                                  onDelete: (EasterEggStep step) {},
+                                ),
                               ),
-                              onDelete: (EasterEggStep step) {},
-                            ),
-                          ),
-                      ],
+                          ],
+                        ),
+                      ),
                     ),
                   )
                 ],
@@ -308,6 +345,7 @@ class _EditEasterEggPageState extends ConsumerState<EditEasterEggPage> {
     var deleteAllLabel = selected.isEmpty
         ? "Delete selected"
         : "Delete selected (${selected.length})";
+    var currentImage = ref.watch(_downloadingImages);
     return OverflowBar(
       alignment: MainAxisAlignment.spaceEvenly,
       spacing: 8,
@@ -359,8 +397,123 @@ class _EditEasterEggPageState extends ConsumerState<EditEasterEggPage> {
             icon: Icon(MdiIcons.nuke),
           ),
         ),
+        Tooltip(
+          message: "Download images locally",
+          child: IconButton.filled(
+            onPressed: currentImage != null
+                ? null
+                : () async {
+                    var steps = widget.easterEgg.steps;
+                    HttpClient client = HttpClient();
+                    try {
+                      for (var value in steps) {
+                        var step = value;
+                        for (var (i, image) in step.gallery.indexed) {
+                          var img = image.image;
+                          switch (img.scheme) {
+                            case "http":
+                            case "https":
+                              ref.read(_downloadingImages.notifier).state =
+                                  DownloadInfo(
+                                uri: img,
+                                bytesReceived: 0,
+                                totalBytes: 0,
+                                error: null,
+                              );
+                              try {
+                                await _downloadImage(client, img, ref, i, step)
+                                    .timeout(const Duration(minutes: 1));
+                              } catch (e) {
+                                String errorMessage;
+                                if (e is TimeoutException) {
+                                  errorMessage =
+                                      'Download timed out after 1 minute';
+                                } else {
+                                  errorMessage = e.toString();
+                                }
+                                ref.read(_downloadingImages.notifier).state =
+                                    DownloadInfo(
+                                  uri: img,
+                                  bytesReceived: 0,
+                                  totalBytes: 0,
+                                  error: errorMessage,
+                                );
+                              }
+                              break;
+                            default:
+                              break;
+                          }
+                        }
+                      }
+                    } finally {
+                      ref.read(_downloadingImages.notifier).state = null;
+                    }
+                  },
+            icon: Icon(MdiIcons.cloudDownload),
+          ),
+        ),
       ],
     );
+  }
+
+  Future<void> _downloadImage(
+    HttpClient client,
+    Uri img,
+    WidgetRef ref,
+    int index,
+    EasterEggStep step,
+  ) async {
+    var request = await client.getUrl(img);
+    var response = await request.close();
+
+    int totalBytes = response.contentLength;
+    int bytesReceived = 0;
+
+    var bytes = await consolidateHttpClientResponseBytes(
+      response,
+      onBytesReceived: (cumulative, total) {
+        bytesReceived = cumulative;
+        if (total != null) {
+          totalBytes = total;
+        }
+        ref.read(_downloadingImages.notifier).state = DownloadInfo(
+          uri: img,
+          bytesReceived: bytesReceived,
+          totalBytes: totalBytes,
+          error: null,
+        );
+      },
+    );
+
+    // If running in debug mode, save to $(RepositoryRoot)/easter_eggs/(easter_egg)/images folder
+    if (kDebugMode) {
+      var storage = ref.read(platformStorageProvider);
+      if (storage is! FileStorage) {
+        return;
+      }
+
+      var storageKey = LocalEasterEggRegistry.getEasterEggKeyForName(
+          widget.easterEgg.name,
+          extraPath: [
+            "images",
+            "${step.name}.$index",
+          ]);
+
+      var file = await storage.saveBinary(storageKey, ".png", bytes);
+      var uri = Uri.file(file.absolute.path, windows: Platform.isWindows);
+
+      doCommand(SetArrayElementCommand(
+        onModified: step.notifyListeners,
+        array: step.gallery,
+        index: index,
+        value: EasterEggGalleryEntry(
+          image: uri,
+          notes: step.gallery[index].notes,
+        ),
+        objectName: step.name,
+        propertyName: "gallery",
+      ));
+    }
   }
 
   Color? findExistingSuggestionForColor(Color color) {

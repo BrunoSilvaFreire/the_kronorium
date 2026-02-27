@@ -1,0 +1,101 @@
+{
+  "name": "No Mo' Modi",
+  "map": "Terminus",
+  "color": "teal",
+  "edition": "blackOps6",
+  "thumbnail": "https://static.wikia.nocookie.net/callofduty/images/e/eb/NoMoModi_Trophy_Icon_BO6.png/revision/latest/scale-to-width-down/1000",
+  "steps": [
+    {
+      "name": "activateAmpUnits",
+      "summary": "Activate all AMP Units leading to the Bio Lab power node",
+      "icon": "power",
+      "validIn": [
+        "blackOps6"
+      ]
+    },
+    {
+      "name": "raisePackAPunchElevator",
+      "summary": "Raise the Pack\u2011a\u2011Punch elevator from underwater",
+      "icon": "elevator",
+      "dependencies": [
+        "activateAmpUnits"
+      ]
+    },
+    {
+      "name": "obtainBeamsmasher",
+      "summary": "Equip the DRI\u201111 Beamsmasher",
+      "icon": "hammer",
+      "dependencies": []
+    },
+    {
+      "name": "grabHardDrive",
+      "summary": "Shoot the activated tentacle trap with the Beamsmasher to drop the Hard Drive and return it to the Security Station",
+      "icon": "driveFileRenameOutline",
+      "dependencies": [
+        "activateAmpUnits",
+        "obtainBeamsmasher"
+      ]
+    },
+    {
+      "name": "freeNathan",
+      "summary": "Enter the three\u2011digit code at the Bio Lab pod to free Nathan",
+      "icon": "lockOpen",
+      "dependencies": [
+        "grabHardDrive"
+      ],
+      "notes": [
+        "First digit: hour hand on the clock in the Interrogation Room",
+        "Second digit: playing card rank in the Mess Hall (Ace = 1)",
+        "Third digit: \"Days Since Last Incident\" on the Engineering sign"
+      ]
+    },
+    {
+      "name": "amalgamNathan",
+      "summary": "Defeat the Amalgam Nathan and pick up the dropped keycard",
+      "icon": "skull",
+      "dependencies": [
+        "freeNathan"
+      ]
+    },
+    {
+      "name": "reEstablishComms",
+      "summary": "Repair two Node Connectors to re-establish communications",
+      "icon": "wifiOff",
+      "dependencies": [
+        "amalgamNathan"
+      ],
+      "notes": [
+        "Each repair spawns Parasites and triggers a defense round"
+      ]
+    },
+    {
+      "name": "hackBuoys",
+      "summary": "Hack all three satellite buoys within 2 minutes using the Hacking Device",
+      "icon": "satellite",
+      "dependencies": [
+        "reEstablishComms"
+      ]
+    },
+    {
+      "name": "disarmNukes",
+      "summary": "Disarm the three nuclear devices in the Bio Lab under a 5-minute timer",
+      "icon": "security",
+      "dependencies": [
+        "hackBuoys"
+      ]
+    },
+    {
+      "name": "defeatPatient13",
+      "summary": "Defeat Owen Guthrie (Patient 13) through all three phases",
+      "icon": "skullCrossbones",
+      "dependencies": [
+        "disarmNukes"
+      ],
+      "notes": [
+        "Phase 1: damage tentacle bulbs, clear zombies \u2192 Max Ammo",
+        "Phase 2: target glowing maw, clear stronger zombies \u2192 Max Ammo",
+        "Phase 3: dodge electrical orb, tentacle grab, and slam attacks"
+      ]
+    }
+  ]
+}

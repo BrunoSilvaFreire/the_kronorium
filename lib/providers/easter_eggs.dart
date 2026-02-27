@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -301,8 +302,24 @@ class EasterEggGalleryEntry {
   }
 
   Map<String, dynamic> toMap() {
+    String imageUri;
+    switch (image.scheme) {
+      case 'http':
+      case 'https':
+        imageUri = image.toString();
+        break;
+      case 'file':
+        if (Platform.isWindows) {
+          imageUri = "file:${image.path.substring(1)}";
+        } else {
+          imageUri = image.toString();
+        }
+        break;
+      default:
+        imageUri = image.toString();
+    }
     return {
-      'image': image.toString(),
+      'image': imageUri,
       'notes': notes,
     };
   }

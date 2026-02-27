@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:the_kronorium/providers/easter_eggs.dart';
+import 'package:the_kronorium/utils/images.dart';
 import 'package:the_kronorium/widgets/image_download_error_indicator.dart';
 
 class EasterEggStepCard extends StatefulWidget {
@@ -44,7 +45,7 @@ class _EasterEggStepCardState extends State<EasterEggStepCard> {
     if (widget.step.gallery.isNotEmpty) {
       var thumbnail = widget.step.gallery.first;
       if (_imageError != null) {
-        image = ImageDownloadErrorIndicator();
+        image = const ImageDownloadErrorIndicator();
       } else {
         image = Ink.image(
           fit: BoxFit.cover,
@@ -53,9 +54,7 @@ class _EasterEggStepCardState extends State<EasterEggStepCard> {
               _imageError = exception;
             });
           },
-          image: NetworkImage(
-            thumbnail.image.toString(),
-          ),
+          image: imageProviderFromUri(thumbnail.image),
         );
       }
     }

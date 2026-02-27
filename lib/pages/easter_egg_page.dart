@@ -46,12 +46,12 @@ class _EasterEggPageState extends ConsumerState<EasterEggPage> {
             },
           ),
         TextButton.icon(
-          onPressed: () {
+          onPressed: () async {
+            EasterEgg copy = await createEasterEggCopy(easterEgg);
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                 builder: (context) {
-                  EasterEgg copy = createEasterEggCopy(easterEgg);
                   return EditEasterEggPage(
                     easterEgg: copy,
                   );
@@ -94,7 +94,7 @@ class _EasterEggPageState extends ConsumerState<EasterEggPage> {
     );
   }
 
-  EasterEgg createEasterEggCopy(EasterEgg easterEgg) {
+  Future<EasterEgg> createEasterEggCopy(EasterEgg easterEgg) async {
     var existingEasterEggs = ref
         .read(
           localEasterEggRegistryProvider,
@@ -106,7 +106,7 @@ class _EasterEggPageState extends ConsumerState<EasterEggPage> {
       newName = "${easterEgg.name} copy (${iteration++})";
     }
     var copy = easterEgg.copy(newName);
-    ref.read(localEasterEggRegistryProvider.notifier).saveEasterEgg(copy);
+    await ref.read(localEasterEggRegistryProvider.notifier).saveEasterEgg(copy);
     return copy;
   }
 }

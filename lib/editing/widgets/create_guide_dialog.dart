@@ -81,14 +81,14 @@ class CreateGuideDialog extends ConsumerWidget {
     );
   }
 
-  void createEasterEgg(
+  Future createEasterEgg(
     String name,
     String map,
     String thumbnail,
     ZombiesEdition primaryEdition,
     BuildContext context,
     LocalEasterEggRegistry registry,
-  ) {
+  ) async {
     var easterEgg = EasterEgg(
       steps: [],
       name: name,
@@ -97,7 +97,7 @@ class CreateGuideDialog extends ConsumerWidget {
       primaryEdition: primaryEdition,
       color: Theme.of(context).primaryColor,
     );
-    registry.saveEasterEgg(easterEgg);
+    await registry.saveEasterEgg(easterEgg);
     // We do a pop instead of replace in order to allow the hero animation of
     // the FAB to work correctly.
     Navigator.pop(context);

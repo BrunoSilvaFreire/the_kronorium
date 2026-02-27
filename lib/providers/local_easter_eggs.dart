@@ -2,56 +2,66 @@ import 'dart:convert';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:the_kronorium/providers/easter_eggs.dart';
-import 'package:localstorage/localstorage.dart';
+import 'package:the_kronorium/storage/storage.dart';
 
 part 'local_easter_eggs.g.dart';
 
 @Riverpod(keepAlive: true)
 class LocalEasterEggRegistry extends AbstractEasterEggRegistry {
-  List<String> loadEasterEggList() {
-    var existingEasterEggs = localStorage.getItem("easter_eggs");
+  static StorageKey<List> easterEggList = StorageKey(
+    namespace: "easter_eggs",
+    path: ["local"],
+  );
+
+  Future<List<String>> loadEasterEggList() async {
+    var storage = ref.watch(platformStorageProvider);
+    var existingEasterEggs = await storage.read(easterEggList);
     if (existingEasterEggs == null) {
       return [];
     }
-    List<dynamic> decoded = jsonDecode(existingEasterEggs);
-    return decoded.cast<String>();
+    return existingEasterEggs.cast<String>();
+  }
+
+  static StorageKey<Map<String, dynamic>> getEasterEggKeyForName(String value, {
+    List<String> extraPath = const [],
+  }) {
+    return StorageKey(
+      namespace: "easter_eggs",
+      path: ["easter_egg", _sanitizeName(value), ...extraPath],
+    );
   }
 
   Stream<Map<String, dynamic>> loadEasterEggStreams() async* {
-    List<String> easterEggs = loadEasterEggList();
-
+    List<String> easterEggs = await loadEasterEggList();
+    var storage = ref.watch(platformStorageProvider);
     for (var value in easterEggs) {
-      var item = localStorage.getItem(getEasterEggKeyForName(value));
+      StorageKey<Map<String, dynamic>> key = getEasterEggKeyForName(value, extraPath: ["meta"]);
+      var item = await storage.read(key);
       if (item == null) {
         continue;
       }
-      yield json.decode(item);
+      yield item;
     }
   }
 
-  String sanitizeName(String name) =>
-      name.replaceAll(RegExp(r"[^a-zA-Z0-9]"), "_");
+  static String _sanitizeName(String name) =>
+      name.replaceAll(RegExp(r"[^a-zA-Z0-9]"), "_").toLowerCase();
 
-  String getEasterEggKeyForName(String value) =>
-      "easter_egg.${sanitizeName(value)}";
+  Future saveEasterEgg(EasterEgg easterEgg) async {
+    var json = easterEgg.toMap();
+    StorageKey<Map<String, dynamic>> key = getEasterEggKeyForName(easterEgg.name, extraPath: ["meta"]);
+    var storage = ref.watch(platformStorageProvider);
+    storage.save(key, json);
 
-  void saveEasterEgg(EasterEgg easterEgg) {
-    var easterEggKeyForName = getEasterEggKeyForName(easterEgg.name);
-    localStorage.setItem(
-      easterEggKeyForName,
-      jsonEncode(
-        easterEgg.toMap(),
-      ),
-    );
-    var names = loadEasterEggList();
+    var names = await loadEasterEggList();
     var newNames = {
       ...names,
       easterEgg.name,
     };
 
-    localStorage.setItem(
-      "easter_eggs",
-      jsonEncode(newNames.toList()),
+    storage.save(
+      easterEggList,
+      newNames.toList(),
     );
     ref.invalidateSelf();
   }
@@ -61,20 +71,18 @@ class LocalEasterEggRegistry extends AbstractEasterEggRegistry {
     return loadEasterEggsFrom(loadEasterEggStreams(), true);
   }
 
-  void deleteEasterEgg(EasterEgg easterEgg) {
-    var easterEggKeyForName = getEasterEggKeyForName(easterEgg.name);
-    localStorage.removeItem(easterEggKeyForName);
+  Future<void> deleteEasterEgg(EasterEgg easterEgg) async {
+    var easterEggKeyForName = getEasterEggKeyForName(easterEgg.name, extraPath:  ["meta"]);
+    var storage = ref.watch(platformStorageProvider);
+    storage.delete(easterEggKeyForName);
 
-    var names = loadEasterEggList();
+    var names = await loadEasterEggList();
     names.removeWhere(
       (element) {
         return element == easterEgg.name;
       },
     );
-    localStorage.setItem(
-      "easter_eggs",
-      jsonEncode(names),
-    );
+    storage.save(easterEggList, names);
     ref.invalidateSelf();
   }
 }
